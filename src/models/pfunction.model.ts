@@ -1,9 +1,9 @@
-import {Entity, Model, model, property} from '@loopback/repository';
+import {Entity, Model, model, property, belongsTo} from '@loopback/repository';
 import {Metadata} from './metadata.model';
 import {SourceByLanguage} from './sources.model';
 import {AbiFunction} from '../interfaces/gapi';
 import {Natspec} from '../interfaces/natspec';
-
+import {Pclass} from './pclass.model';
 
 @model()
 export class PfunctionData extends Model {
@@ -51,13 +51,6 @@ export class Pfunction extends Entity {
     generated: true,
   })
   _id: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  pclassid: string;
-
   @property({
     type: 'string',
     required: true,
@@ -90,6 +83,8 @@ export class Pfunction extends Entity {
   })
   timestamp: string;
 
+  @belongsTo(() => Pclass, {name: 'pclass'})
+  pclassid: string;
 
   constructor(data?: Partial<Pfunction>) {
     super(data);
