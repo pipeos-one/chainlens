@@ -1,9 +1,9 @@
-import {Entity, Model, model, property} from '@loopback/repository';
+import {Entity, Model, model, property, hasMany} from '@loopback/repository';
 import {SourceByLanguage} from './sources.model';
 import {Metadata} from './metadata.model';
 import {AbiFunction} from '../interfaces/gapi';
 import {Natspec} from '../interfaces/natspec';
-
+import {Pfunction} from './pfunction.model';
 
 @model()
 export class PclassData extends Model {
@@ -84,6 +84,8 @@ export class Pclass extends Entity {
   })
   timestamp: string;
 
+  @hasMany(() => Pfunction, {keyTo: 'pclassid'})
+  pfunctions: Pfunction[];
 
   constructor(data?: Partial<Pclass>) {
     super(data);
