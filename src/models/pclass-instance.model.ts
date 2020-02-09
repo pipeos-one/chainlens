@@ -1,7 +1,7 @@
-import {Entity, Model, model, property} from '@loopback/repository';
+import {Entity, Model, model, property, belongsTo} from '@loopback/repository';
 import {Metadata} from './metadata.model';
 import {Compiler, CompilerOutput} from './compiler.model';
-
+import {Pclass} from './pclass.model';
 
 @model()
 export class OApiDeployment extends Model {
@@ -106,13 +106,6 @@ export class PclassInstance extends Entity {
     type: 'string',
   })
   packageid?: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  pclassid: string;
-
   @property({
     type: 'string',
   })
@@ -146,6 +139,8 @@ export class PclassInstance extends Entity {
   })
   timestamp: string;
 
+  @belongsTo(() => Pclass, {name: 'pclass'})
+  pclassid: string;
 
   constructor(data?: Partial<PclassInstance>) {
     super(data);
