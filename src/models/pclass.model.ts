@@ -4,6 +4,7 @@ import {Metadata} from './metadata.model';
 import {AbiFunction} from '../interfaces/gapi';
 import {Natspec} from '../interfaces/natspec';
 import {Pfunction} from './pfunction.model';
+import {PclassInstance} from './pclass-instance.model';
 
 @model()
 export class PclassData extends Model {
@@ -86,6 +87,9 @@ export class Pclass extends Entity {
 
   @hasMany(() => Pfunction, {keyTo: 'pclassid'})
   pfunctions: Pfunction[];
+
+  @hasMany(() => PclassInstance, {keyTo: 'pclassid'})
+  pclassInstances: PclassInstance[];
 
   constructor(data?: Partial<Pclass>) {
     super(data);
