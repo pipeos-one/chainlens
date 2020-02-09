@@ -1,7 +1,7 @@
-import {Entity, Model, model, property} from '@loopback/repository';
+import {Entity, Model, model, property, hasMany} from '@loopback/repository';
 import {Metadata} from './metadata.model';
 import {FilePointer} from './file-pointer.model';
-
+import {Pclass} from './pclass.model';
 
 @model()
 export class PpackageData extends Model {
@@ -60,6 +60,8 @@ export class Ppackage extends Entity {
   })
   timestamp: string;
 
+  @hasMany(() => Pclass, {keyTo: 'ppackageid'})
+  pclasses: Pclass[];
 
   constructor(data?: Partial<Ppackage>) {
     super(data);
