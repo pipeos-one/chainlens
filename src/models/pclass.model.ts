@@ -1,10 +1,11 @@
-import {Entity, Model, model, property, hasMany} from '@loopback/repository';
+import {Entity, Model, model, property, hasMany, belongsTo} from '@loopback/repository';
 import {SourceByLanguage} from './sources.model';
 import {Metadata} from './metadata.model';
 import {AbiFunction} from '../interfaces/gapi';
 import {Natspec} from '../interfaces/natspec';
 import {Pfunction} from './pfunction.model';
 import {PclassInstance} from './pclass-instance.model';
+import {Ppackage} from './ppackage.model';
 
 @model()
 export class PclassData extends Model {
@@ -47,12 +48,6 @@ export class Pclass extends Entity {
     generated: true,
   })
   _id: string;
-
-  @property({
-    type: 'string',
-  })
-  packageid?: string;
-
   @property({
     type: 'string',
   })
@@ -90,6 +85,9 @@ export class Pclass extends Entity {
 
   @hasMany(() => PclassInstance, {keyTo: 'pclassid'})
   pclassInstances: PclassInstance[];
+
+  @belongsTo(() => Ppackage, {name: 'ppackage'})
+  ppackageid?: string;
 
   constructor(data?: Partial<Pclass>) {
     super(data);

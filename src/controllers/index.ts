@@ -8,3 +8,4 @@ export * from './pfunction-pclass.controller';
 export * from './pclass-instance-pclass.controller';
 export * from './pclass-pfunction.controller';
 export * from './pclass-pclass-instance.controller';
+export * from './pclass-ppackage.controller';
