@@ -6,7 +6,7 @@ import {Natspec} from '../interfaces/natspec';
 
 
 @model()
-export class PClassData extends Model {
+export class PclassData extends Model {
   @property({
     type: 'string',
     required: true,
@@ -31,14 +31,14 @@ export class PClassData extends Model {
   })
   sourceByLanguage: SourceByLanguage;
 
-  constructor(data?: Partial<PClassData>) {
+  constructor(data?: Partial<PclassData>) {
     super(data);
   }
 }
 
 
 @model()
-export class PClass extends Entity {
+export class Pclass extends Entity {
   @property({
     type: 'string',
     id: true,
@@ -61,7 +61,7 @@ export class PClass extends Entity {
     type: 'object',
     required: true,
   })
-  data: PClassData;
+  data: PclassData;
 
   @property({
     type: 'object',
@@ -85,13 +85,13 @@ export class PClass extends Entity {
   timestamp: string;
 
 
-  constructor(data?: Partial<PClass>) {
+  constructor(data?: Partial<Pclass>) {
     super(data);
   }
 }
 
-export interface PClassRelations {
+export interface PclassRelations {
   // describe navigational properties here
 }
 
-export type PClassWithRelations = PClass & PClassRelations;
+export type PclassWithRelations = Pclass & PclassRelations;

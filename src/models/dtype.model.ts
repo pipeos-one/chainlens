@@ -1,9 +1,9 @@
 import {Entity, model, property} from '@loopback/repository';
-import {DTypeData} from './dtype-data.model';
+import {DtypeData} from './dtype-data.model';
 import {Metadata} from './metadata.model';
 
 @model({settings: {strict: false}})
-export class DType extends Entity {
+export class Dtype extends Entity {
   @property({
     type: 'string',
     id: true,
@@ -22,7 +22,7 @@ export class DType extends Entity {
     type: 'object',
     required: true,
   })
-  data: DTypeData;
+  data: DtypeData;
 
   @property({
     type: 'date',
@@ -44,13 +44,13 @@ export class DType extends Entity {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [prop: string]: any;
 
-  constructor(data?: Partial<DType>) {
+  constructor(data?: Partial<Dtype>) {
     super(data);
   }
 }
 
-export interface DTypeRelations {
+export interface DtypeRelations {
   // describe navigational properties here
 }
 
-export type DTypeWithRelations = DType & DTypeRelations;
+export type DtypeWithRelations = Dtype & DtypeRelations;

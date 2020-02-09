@@ -17,20 +17,20 @@ import {
   del,
   requestBody,
 } from '@loopback/rest';
-import {PClass} from '../models';
-import {PClassRepository} from '../repositories';
+import {Pclass} from '../models';
+import {PclassRepository} from '../repositories';
 
-export class PClassController {
+export class PclassController {
   constructor(
-    @repository(PClassRepository)
-    public pclassRepository : PClassRepository,
+    @repository(PclassRepository)
+    public pclassRepository : PclassRepository,
   ) {}
 
   @post('/pclass', {
     responses: {
       '200': {
-        description: 'PClass model instance',
-        content: {'application/json': {schema: getModelSchemaRef(PClass)}},
+        description: 'Pclass model instance',
+        content: {'application/json': {schema: getModelSchemaRef(Pclass)}},
       },
     },
   })
@@ -38,28 +38,28 @@ export class PClassController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(PClass, {
-            title: 'NewPClass',
+          schema: getModelSchemaRef(Pclass, {
+            title: 'NewPclass',
             exclude: ['_id'],
           }),
         },
       },
     })
-    pclass: Omit<PClass, '_id'>,
-  ): Promise<PClass> {
+    pclass: Omit<Pclass, '_id'>,
+  ): Promise<Pclass> {
     return this.pclassRepository.create(pclass);
   }
 
   @get('/pclass/count', {
     responses: {
       '200': {
-        description: 'PClass model count',
+        description: 'Pclass model count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(PClass)) where?: Where<PClass>,
+    @param.query.object('where', getWhereSchemaFor(Pclass)) where?: Where<Pclass>,
   ): Promise<Count> {
     return this.pclassRepository.count(where);
   }
@@ -67,12 +67,12 @@ export class PClassController {
   @get('/pclass', {
     responses: {
       '200': {
-        description: 'Array of PClass model instances',
+        description: 'Array of Pclass model instances',
         content: {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(PClass, {includeRelations: true}),
+              items: getModelSchemaRef(Pclass, {includeRelations: true}),
             },
           },
         },
@@ -80,15 +80,15 @@ export class PClassController {
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(PClass)) filter?: Filter<PClass>,
-  ): Promise<PClass[]> {
+    @param.query.object('filter', getFilterSchemaFor(Pclass)) filter?: Filter<Pclass>,
+  ): Promise<Pclass[]> {
     return this.pclassRepository.find(filter);
   }
 
   @patch('/pclass', {
     responses: {
       '200': {
-        description: 'PClass PATCH success count',
+        description: 'Pclass PATCH success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -97,12 +97,12 @@ export class PClassController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(PClass, {partial: true}),
+          schema: getModelSchemaRef(Pclass, {partial: true}),
         },
       },
     })
-    pclass: PClass,
-    @param.query.object('where', getWhereSchemaFor(PClass)) where?: Where<PClass>,
+    pclass: Pclass,
+    @param.query.object('where', getWhereSchemaFor(Pclass)) where?: Where<Pclass>,
   ): Promise<Count> {
     return this.pclassRepository.updateAll(pclass, where);
   }
@@ -110,10 +110,10 @@ export class PClassController {
   @get('/pclass/{id}', {
     responses: {
       '200': {
-        description: 'PClass model instance',
+        description: 'Pclass model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(PClass, {includeRelations: true}),
+            schema: getModelSchemaRef(Pclass, {includeRelations: true}),
           },
         },
       },
@@ -121,15 +121,15 @@ export class PClassController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.query.object('filter', getFilterSchemaFor(PClass)) filter?: Filter<PClass>
-  ): Promise<PClass> {
+    @param.query.object('filter', getFilterSchemaFor(Pclass)) filter?: Filter<Pclass>
+  ): Promise<Pclass> {
     return this.pclassRepository.findById(id, filter);
   }
 
   @patch('/pclass/{id}', {
     responses: {
       '204': {
-        description: 'PClass PATCH success',
+        description: 'Pclass PATCH success',
       },
     },
   })
@@ -138,11 +138,11 @@ export class PClassController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(PClass, {partial: true}),
+          schema: getModelSchemaRef(Pclass, {partial: true}),
         },
       },
     })
-    pclass: PClass,
+    pclass: Pclass,
   ): Promise<void> {
     await this.pclassRepository.updateById(id, pclass);
   }
@@ -150,13 +150,13 @@ export class PClassController {
   @put('/pclass/{id}', {
     responses: {
       '204': {
-        description: 'PClass PUT success',
+        description: 'Pclass PUT success',
       },
     },
   })
   async replaceById(
     @param.path.string('id') id: string,
-    @requestBody() pclass: PClass,
+    @requestBody() pclass: Pclass,
   ): Promise<void> {
     await this.pclassRepository.replaceById(id, pclass);
   }
@@ -164,7 +164,7 @@ export class PClassController {
   @del('/pclass/{id}', {
     responses: {
       '204': {
-        description: 'PClass DELETE success',
+        description: 'Pclass DELETE success',
       },
     },
   })

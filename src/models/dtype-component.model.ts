@@ -1,7 +1,7 @@
 import {Model, model, property} from '@loopback/repository';
 
 @model()
-export class DTypeComponent extends Model {
+export class DtypeComponent extends Model {
   @property({
     type: 'string',
     required: true,
@@ -30,13 +30,13 @@ export class DTypeComponent extends Model {
   relation: number;
 
 
-  constructor(data?: Partial<DTypeComponent>) {
+  constructor(data?: Partial<DtypeComponent>) {
     super(data);
   }
 }
 
-export interface DTypeComponentRelations {
+export interface DtypeComponentRelations {
   // describe navigational properties here
 }
 
-export type DTypeComponentWithRelations = DTypeComponent & DTypeComponentRelations;
+export type DtypeComponentWithRelations = DtypeComponent & DtypeComponentRelations;

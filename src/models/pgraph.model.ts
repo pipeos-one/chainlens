@@ -4,7 +4,7 @@ import {FilePointer} from './file-pointer.model';
 
 
 @model()
-export class PPackageData extends Model {
+export class PgraphData extends Model {
   @property({
     type: 'string',
     required: true,
@@ -15,7 +15,19 @@ export class PPackageData extends Model {
     type: 'object',
     required: true,
   })
-  packageJson: object;
+  shortPgraph: object;
+
+  @property({
+    type: 'object',
+    required: true,
+  })
+  runnablePgraph: object;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  markdown: string;
 
   @property({
     type: 'object',
@@ -23,28 +35,28 @@ export class PPackageData extends Model {
   })
   filePointer: FilePointer;
 
-  constructor(data?: Partial<PPackage>) {
+
+  constructor(data?: Partial<PgraphData>) {
     super(data);
   }
 }
 
 
 @model()
-export class PPackage extends Entity {
+export class Pgraph extends Entity {
   @property({
     type: 'string',
     id: true,
-    required: true,
     generated: true,
   })
-  _id: string;
+  _id?: string;
 
   @property({
     type: 'object',
     required: true,
     default: {},
   })
-  data: PPackageData;
+  data: PgraphData;
 
   @property({
     type: 'object',
@@ -61,13 +73,13 @@ export class PPackage extends Entity {
   timestamp: string;
 
 
-  constructor(data?: Partial<PPackage>) {
+  constructor(data?: Partial<Pgraph>) {
     super(data);
   }
 }
 
-export interface PPackageRelations {
+export interface PgraphRelations {
   // describe navigational properties here
 }
 
-export type PPackageWithRelations = PPackage & PPackageRelations;
+export type PgraphWithRelations = Pgraph & PgraphRelations;

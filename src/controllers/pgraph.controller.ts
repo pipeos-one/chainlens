@@ -17,20 +17,20 @@ import {
   del,
   requestBody,
 } from '@loopback/rest';
-import {Graph} from '../models';
-import {GraphRepository} from '../repositories';
+import {Pgraph} from '../models';
+import {PgraphRepository} from '../repositories';
 
-export class GraphController {
+export class PgraphController {
   constructor(
-    @repository(GraphRepository)
-    public graphRepository : GraphRepository,
+    @repository(PgraphRepository)
+    public graphRepository : PgraphRepository,
   ) {}
 
   @post('/graph', {
     responses: {
       '200': {
-        description: 'Graph model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Graph)}},
+        description: 'Pgraph model instance',
+        content: {'application/json': {schema: getModelSchemaRef(Pgraph)}},
       },
     },
   })
@@ -38,28 +38,28 @@ export class GraphController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Graph, {
-            title: 'NewGraph',
+          schema: getModelSchemaRef(Pgraph, {
+            title: 'NewPgraph',
             exclude: ['_id'],
           }),
         },
       },
     })
-    graph: Omit<Graph, '_id'>,
-  ): Promise<Graph> {
+    graph: Omit<Pgraph, '_id'>,
+  ): Promise<Pgraph> {
     return this.graphRepository.create(graph);
   }
 
   @get('/graph/count', {
     responses: {
       '200': {
-        description: 'Graph model count',
+        description: 'Pgraph model count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(Graph)) where?: Where<Graph>,
+    @param.query.object('where', getWhereSchemaFor(Pgraph)) where?: Where<Pgraph>,
   ): Promise<Count> {
     return this.graphRepository.count(where);
   }
@@ -67,12 +67,12 @@ export class GraphController {
   @get('/graph', {
     responses: {
       '200': {
-        description: 'Array of Graph model instances',
+        description: 'Array of Pgraph model instances',
         content: {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(Graph, {includeRelations: true}),
+              items: getModelSchemaRef(Pgraph, {includeRelations: true}),
             },
           },
         },
@@ -80,15 +80,15 @@ export class GraphController {
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(Graph)) filter?: Filter<Graph>,
-  ): Promise<Graph[]> {
+    @param.query.object('filter', getFilterSchemaFor(Pgraph)) filter?: Filter<Pgraph>,
+  ): Promise<Pgraph[]> {
     return this.graphRepository.find(filter);
   }
 
   @patch('/graph', {
     responses: {
       '200': {
-        description: 'Graph PATCH success count',
+        description: 'Pgraph PATCH success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -97,12 +97,12 @@ export class GraphController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Graph, {partial: true}),
+          schema: getModelSchemaRef(Pgraph, {partial: true}),
         },
       },
     })
-    graph: Graph,
-    @param.query.object('where', getWhereSchemaFor(Graph)) where?: Where<Graph>,
+    graph: Pgraph,
+    @param.query.object('where', getWhereSchemaFor(Pgraph)) where?: Where<Pgraph>,
   ): Promise<Count> {
     return this.graphRepository.updateAll(graph, where);
   }
@@ -110,10 +110,10 @@ export class GraphController {
   @get('/graph/{id}', {
     responses: {
       '200': {
-        description: 'Graph model instance',
+        description: 'Pgraph model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(Graph, {includeRelations: true}),
+            schema: getModelSchemaRef(Pgraph, {includeRelations: true}),
           },
         },
       },
@@ -121,15 +121,15 @@ export class GraphController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.query.object('filter', getFilterSchemaFor(Graph)) filter?: Filter<Graph>
-  ): Promise<Graph> {
+    @param.query.object('filter', getFilterSchemaFor(Pgraph)) filter?: Filter<Pgraph>
+  ): Promise<Pgraph> {
     return this.graphRepository.findById(id, filter);
   }
 
   @patch('/graph/{id}', {
     responses: {
       '204': {
-        description: 'Graph PATCH success',
+        description: 'Pgraph PATCH success',
       },
     },
   })
@@ -138,11 +138,11 @@ export class GraphController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Graph, {partial: true}),
+          schema: getModelSchemaRef(Pgraph, {partial: true}),
         },
       },
     })
-    graph: Graph,
+    graph: Pgraph,
   ): Promise<void> {
     await this.graphRepository.updateById(id, graph);
   }
@@ -150,13 +150,13 @@ export class GraphController {
   @put('/graph/{id}', {
     responses: {
       '204': {
-        description: 'Graph PUT success',
+        description: 'Pgraph PUT success',
       },
     },
   })
   async replaceById(
     @param.path.string('id') id: string,
-    @requestBody() graph: Graph,
+    @requestBody() graph: Pgraph,
   ): Promise<void> {
     await this.graphRepository.replaceById(id, graph);
   }
@@ -164,7 +164,7 @@ export class GraphController {
   @del('/graph/{id}', {
     responses: {
       '204': {
-        description: 'Graph DELETE success',
+        description: 'Pgraph DELETE success',
       },
     },
   })

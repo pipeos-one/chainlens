@@ -70,7 +70,7 @@ export class SolidityDeployment extends Model {
 
 
 @model()
-export class PClassInstanceData extends Model {
+export class PclassInstanceData extends Model {
   @property({
     type: 'object',
   })
@@ -86,14 +86,14 @@ export class PClassInstanceData extends Model {
   })
   deployment: SolidityDeployment | OApiDeployment;
 
-  constructor(data?: Partial<PClassInstanceData>) {
+  constructor(data?: Partial<PclassInstanceData>) {
     super(data);
   }
 }
 
 
 @model()
-export class PClassInstance extends Entity {
+export class PclassInstance extends Entity {
   @property({
     type: 'string',
     id: true,
@@ -123,7 +123,7 @@ export class PClassInstance extends Entity {
     required: true,
     default: {},
   })
-  data: PClassInstanceData;
+  data: PclassInstanceData;
 
   @property({
     type: 'object',
@@ -147,13 +147,13 @@ export class PClassInstance extends Entity {
   timestamp: string;
 
 
-  constructor(data?: Partial<PClassInstance>) {
+  constructor(data?: Partial<PclassInstance>) {
     super(data);
   }
 }
 
-export interface PClassInstanceRelations {
+export interface PclassInstanceRelations {
   // describe navigational properties here
 }
 
-export type PClassInstanceWithRelations = PClassInstance & PClassInstanceRelations;
+export type PclassInstanceWithRelations = PclassInstance & PclassInstanceRelations;

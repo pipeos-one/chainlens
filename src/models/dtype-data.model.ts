@@ -1,8 +1,8 @@
 import {Model, model, property} from '@loopback/repository';
-import {DTypeComponent} from './dtype-component.model';
+import {DtypeComponent} from './dtype-component.model';
 
 @model()
-export class DTypeData extends Model {
+export class DtypeData extends Model {
   @property({
     type: 'string',
     required: true,
@@ -33,7 +33,7 @@ export class DTypeData extends Model {
     required: true,
     default: [],
   })
-  inputs: DTypeComponent[];
+  inputs: DtypeComponent[];
 
   @property({
     type: 'array',
@@ -41,7 +41,7 @@ export class DTypeData extends Model {
     required: true,
     default: [],
   })
-  optionals: DTypeComponent[];
+  optionals: DtypeComponent[];
 
   @property({
     type: 'array',
@@ -49,7 +49,7 @@ export class DTypeData extends Model {
     required: true,
     default: [],
   })
-  outputs: DTypeComponent[];
+  outputs: DtypeComponent[];
 
   @property({
     type: 'array',
@@ -59,13 +59,13 @@ export class DTypeData extends Model {
   })
   synsets: string[];  // bytes32[]
 
-  constructor(data?: Partial<DTypeData>) {
+  constructor(data?: Partial<DtypeData>) {
     super(data);
   }
 }
 
-export interface DTypeDataRelations {
+export interface DtypeDataRelations {
   // describe navigational properties here
 }
 
-export type DTypeDataWithRelations = DTypeData & DTypeDataRelations;
+export type DtypeDataWithRelations = DtypeData & DtypeDataRelations;

@@ -4,7 +4,7 @@ import {FilePointer} from './file-pointer.model';
 
 
 @model()
-export class GraphData extends Model {
+export class PpackageData extends Model {
   @property({
     type: 'string',
     required: true,
@@ -15,19 +15,7 @@ export class GraphData extends Model {
     type: 'object',
     required: true,
   })
-  shortGraph: object;
-
-  @property({
-    type: 'object',
-    required: true,
-  })
-  runnableGraph: object;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  markdown: string;
+  packageJson: object;
 
   @property({
     type: 'object',
@@ -35,28 +23,28 @@ export class GraphData extends Model {
   })
   filePointer: FilePointer;
 
-
-  constructor(data?: Partial<GraphData>) {
+  constructor(data?: Partial<Ppackage>) {
     super(data);
   }
 }
 
 
 @model()
-export class Graph extends Entity {
+export class Ppackage extends Entity {
   @property({
     type: 'string',
     id: true,
+    required: true,
     generated: true,
   })
-  _id?: string;
+  _id: string;
 
   @property({
     type: 'object',
     required: true,
     default: {},
   })
-  data: GraphData;
+  data: PpackageData;
 
   @property({
     type: 'object',
@@ -73,13 +61,13 @@ export class Graph extends Entity {
   timestamp: string;
 
 
-  constructor(data?: Partial<Graph>) {
+  constructor(data?: Partial<Ppackage>) {
     super(data);
   }
 }
 
-export interface GraphRelations {
+export interface PpackageRelations {
   // describe navigational properties here
 }
 
-export type GraphWithRelations = Graph & GraphRelations;
+export type PpackageWithRelations = Ppackage & PpackageRelations;
