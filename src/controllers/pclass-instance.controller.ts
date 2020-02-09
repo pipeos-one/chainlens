@@ -17,20 +17,20 @@ import {
   del,
   requestBody,
 } from '@loopback/rest';
-import {PclassInstance} from '../models';
-import {PclassInstanceRepository} from '../repositories';
+import {PClassInstance} from '../models';
+import {PClassInstanceRepository} from '../repositories';
 
 export class PClassInstanceController {
   constructor(
-    @repository(PclassInstanceRepository)
-    public pclassInstanceRepository : PclassInstanceRepository,
+    @repository(PClassInstanceRepository)
+    public pclassInstanceRepository : PClassInstanceRepository,
   ) {}
 
   @post('/pclassi', {
     responses: {
       '200': {
-        description: 'PclassInstance model instance',
-        content: {'application/json': {schema: getModelSchemaRef(PclassInstance)}},
+        description: 'PClassInstance model instance',
+        content: {'application/json': {schema: getModelSchemaRef(PClassInstance)}},
       },
     },
   })
@@ -38,28 +38,28 @@ export class PClassInstanceController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(PclassInstance, {
-            title: 'NewPclassInstance',
+          schema: getModelSchemaRef(PClassInstance, {
+            title: 'NewPClassInstance',
             exclude: ['_id'],
           }),
         },
       },
     })
-    pclassInstance: Omit<PclassInstance, '_id'>,
-  ): Promise<PclassInstance> {
+    pclassInstance: Omit<PClassInstance, '_id'>,
+  ): Promise<PClassInstance> {
     return this.pclassInstanceRepository.create(pclassInstance);
   }
 
   @get('/pclassi/count', {
     responses: {
       '200': {
-        description: 'PclassInstance model count',
+        description: 'PClassInstance model count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(PclassInstance)) where?: Where<PclassInstance>,
+    @param.query.object('where', getWhereSchemaFor(PClassInstance)) where?: Where<PClassInstance>,
   ): Promise<Count> {
     return this.pclassInstanceRepository.count(where);
   }
@@ -67,12 +67,12 @@ export class PClassInstanceController {
   @get('/pclassi', {
     responses: {
       '200': {
-        description: 'Array of PclassInstance model instances',
+        description: 'Array of PClassInstance model instances',
         content: {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(PclassInstance, {includeRelations: true}),
+              items: getModelSchemaRef(PClassInstance, {includeRelations: true}),
             },
           },
         },
@@ -80,15 +80,15 @@ export class PClassInstanceController {
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(PclassInstance)) filter?: Filter<PclassInstance>,
-  ): Promise<PclassInstance[]> {
+    @param.query.object('filter', getFilterSchemaFor(PClassInstance)) filter?: Filter<PClassInstance>,
+  ): Promise<PClassInstance[]> {
     return this.pclassInstanceRepository.find(filter);
   }
 
   @patch('/pclassi', {
     responses: {
       '200': {
-        description: 'PclassInstance PATCH success count',
+        description: 'PClassInstance PATCH success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -97,12 +97,12 @@ export class PClassInstanceController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(PclassInstance, {partial: true}),
+          schema: getModelSchemaRef(PClassInstance, {partial: true}),
         },
       },
     })
-    pclassInstance: PclassInstance,
-    @param.query.object('where', getWhereSchemaFor(PclassInstance)) where?: Where<PclassInstance>,
+    pclassInstance: PClassInstance,
+    @param.query.object('where', getWhereSchemaFor(PClassInstance)) where?: Where<PClassInstance>,
   ): Promise<Count> {
     return this.pclassInstanceRepository.updateAll(pclassInstance, where);
   }
@@ -110,10 +110,10 @@ export class PClassInstanceController {
   @get('/pclassi/{id}', {
     responses: {
       '200': {
-        description: 'PclassInstance model instance',
+        description: 'PClassInstance model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(PclassInstance, {includeRelations: true}),
+            schema: getModelSchemaRef(PClassInstance, {includeRelations: true}),
           },
         },
       },
@@ -121,15 +121,15 @@ export class PClassInstanceController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.query.object('filter', getFilterSchemaFor(PclassInstance)) filter?: Filter<PclassInstance>
-  ): Promise<PclassInstance> {
+    @param.query.object('filter', getFilterSchemaFor(PClassInstance)) filter?: Filter<PClassInstance>
+  ): Promise<PClassInstance> {
     return this.pclassInstanceRepository.findById(id, filter);
   }
 
   @patch('/pclassi/{id}', {
     responses: {
       '204': {
-        description: 'PclassInstance PATCH success',
+        description: 'PClassInstance PATCH success',
       },
     },
   })
@@ -138,11 +138,11 @@ export class PClassInstanceController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(PclassInstance, {partial: true}),
+          schema: getModelSchemaRef(PClassInstance, {partial: true}),
         },
       },
     })
-    pclassInstance: PclassInstance,
+    pclassInstance: PClassInstance,
   ): Promise<void> {
     await this.pclassInstanceRepository.updateById(id, pclassInstance);
   }
@@ -150,13 +150,13 @@ export class PClassInstanceController {
   @put('/pclassi/{id}', {
     responses: {
       '204': {
-        description: 'PclassInstance PUT success',
+        description: 'PClassInstance PUT success',
       },
     },
   })
   async replaceById(
     @param.path.string('id') id: string,
-    @requestBody() pclassInstance: PclassInstance,
+    @requestBody() pclassInstance: PClassInstance,
   ): Promise<void> {
     await this.pclassInstanceRepository.replaceById(id, pclassInstance);
   }
@@ -164,7 +164,7 @@ export class PClassInstanceController {
   @del('/pclassi/{id}', {
     responses: {
       '204': {
-        description: 'PclassInstance DELETE success',
+        description: 'PClassInstance DELETE success',
       },
     },
   })

@@ -4,6 +4,44 @@ import {SourceByLanguage} from './sources.model';
 import {AbiFunction} from '../interfaces/gapi';
 import {Natspec} from '../interfaces/natspec';
 
+
+@model()
+export class PFunctionData extends Model {
+  @property({
+    type: 'string',
+    required: true,
+  })
+  name: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  signature: string;
+
+  @property({
+    type: 'object',
+  })
+  gapi: AbiFunction;
+
+  @property({
+    type: 'object',
+  })
+  natspec: Natspec;
+
+  @property({
+    type: 'object',
+    required: true,
+    default: {},
+  })
+  sourceByLanguage: SourceByLanguage;
+
+  constructor(data?: Partial<PFunctionData>) {
+    super(data);
+  }
+}
+
+
 @model()
 export class PFunction extends Entity {
   @property({
@@ -63,40 +101,3 @@ export interface PFunctionRelations {
 }
 
 export type PFunctionWithRelations = PFunction & PFunctionRelations;
-
-
-@model()
-export class PFunctionData extends Model {
-  @property({
-    type: 'string',
-    required: true,
-  })
-  name: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  signature: string;
-
-  @property({
-    type: 'object',
-  })
-  gapi: AbiFunction;
-
-  @property({
-    type: 'object',
-  })
-  natspec: Natspec;
-
-  @property({
-    type: 'object',
-    required: true,
-    default: {},
-  })
-  sourceByLanguage: SourceByLanguage;
-
-  constructor(data?: Partial<PFunctionData>) {
-    super(data);
-  }
-}

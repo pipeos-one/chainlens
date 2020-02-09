@@ -4,6 +4,39 @@ import {Metadata} from './metadata.model';
 import {AbiFunction} from '../interfaces/gapi';
 import {Natspec} from '../interfaces/natspec';
 
+
+@model()
+export class PClassData extends Model {
+  @property({
+    type: 'string',
+    required: true,
+  })
+  name: string;
+
+  @property({
+    type: 'array',
+    itemType: 'object',
+  })
+  gapi: AbiFunction[];
+
+  @property({
+    type: 'object',
+  })
+  natspec: Natspec;
+
+  @property({
+    type: 'object',
+    required: true,
+    default: {},
+  })
+  sourceByLanguage: SourceByLanguage;
+
+  constructor(data?: Partial<PClassData>) {
+    super(data);
+  }
+}
+
+
 @model()
 export class PClass extends Entity {
   @property({
@@ -62,35 +95,3 @@ export interface PClassRelations {
 }
 
 export type PClassWithRelations = PClass & PClassRelations;
-
-
-@model()
-export class PClassData extends Model {
-  @property({
-    type: 'string',
-    required: true,
-  })
-  name: string;
-
-  @property({
-    type: 'array',
-    itemType: 'object',
-  })
-  gapi: AbiFunction[];
-
-  @property({
-    type: 'object',
-  })
-  natspec: Natspec;
-
-  @property({
-    type: 'object',
-    required: true,
-    default: {},
-  })
-  sourceByLanguage: SourceByLanguage;
-
-  constructor(data?: Partial<PClassData>) {
-    super(data);
-  }
-}

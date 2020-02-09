@@ -17,20 +17,20 @@ import {
   del,
   requestBody,
 } from '@loopback/rest';
-import {Package} from '../models';
-import {PackageRepository} from '../repositories';
+import {PPackage} from '../models';
+import {PPackageRepository} from '../repositories';
 
-export class PackageController {
+export class PPackageController {
   constructor(
-    @repository(PackageRepository)
-    public packageRepository : PackageRepository,
+    @repository(PPackageRepository)
+    public ppackageRepository : PPackageRepository,
   ) {}
 
-  @post('/package', {
+  @post('/ppackage', {
     responses: {
       '200': {
-        description: 'Package model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Package)}},
+        description: 'PPackage model instance',
+        content: {'application/json': {schema: getModelSchemaRef(PPackage)}},
       },
     },
   })
@@ -38,41 +38,41 @@ export class PackageController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Package, {
-            title: 'NewPackage',
+          schema: getModelSchemaRef(PPackage, {
+            title: 'NewPPackage',
             exclude: ['_id'],
           }),
         },
       },
     })
-    package: Omit<Package, '_id'>,
-  ): Promise<Package> {
-    return this.packageRepository.create(package);
+    ppackage: Omit<PPackage, '_id'>,
+  ): Promise<PPackage> {
+    return this.ppackageRepository.create(ppackage);
   }
 
-  @get('/package/count', {
+  @get('/ppackage/count', {
     responses: {
       '200': {
-        description: 'Package model count',
+        description: 'PPackage model count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(Package)) where?: Where<Package>,
+    @param.query.object('where', getWhereSchemaFor(PPackage)) where?: Where<PPackage>,
   ): Promise<Count> {
-    return this.packageRepository.count(where);
+    return this.ppackageRepository.count(where);
   }
 
-  @get('/package', {
+  @get('/ppackage', {
     responses: {
       '200': {
-        description: 'Array of Package model instances',
+        description: 'Array of PPackage model instances',
         content: {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(Package, {includeRelations: true}),
+              items: getModelSchemaRef(PPackage, {includeRelations: true}),
             },
           },
         },
@@ -80,15 +80,15 @@ export class PackageController {
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(Package)) filter?: Filter<Package>,
-  ): Promise<Package[]> {
-    return this.packageRepository.find(filter);
+    @param.query.object('filter', getFilterSchemaFor(PPackage)) filter?: Filter<PPackage>,
+  ): Promise<PPackage[]> {
+    return this.ppackageRepository.find(filter);
   }
 
-  @patch('/package', {
+  @patch('/ppackage', {
     responses: {
       '200': {
-        description: 'Package PATCH success count',
+        description: 'PPackage PATCH success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -97,23 +97,23 @@ export class PackageController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Package, {partial: true}),
+          schema: getModelSchemaRef(PPackage, {partial: true}),
         },
       },
     })
-    package: Package,
-    @param.query.object('where', getWhereSchemaFor(Package)) where?: Where<Package>,
+    ppackage: PPackage,
+    @param.query.object('where', getWhereSchemaFor(PPackage)) where?: Where<PPackage>,
   ): Promise<Count> {
-    return this.packageRepository.updateAll(package, where);
+    return this.ppackageRepository.updateAll(ppackage, where);
   }
 
-  @get('/package/{id}', {
+  @get('/ppackage/{id}', {
     responses: {
       '200': {
-        description: 'Package model instance',
+        description: 'PPackage model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(Package, {includeRelations: true}),
+            schema: getModelSchemaRef(PPackage, {includeRelations: true}),
           },
         },
       },
@@ -121,15 +121,15 @@ export class PackageController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.query.object('filter', getFilterSchemaFor(Package)) filter?: Filter<Package>
-  ): Promise<Package> {
-    return this.packageRepository.findById(id, filter);
+    @param.query.object('filter', getFilterSchemaFor(PPackage)) filter?: Filter<PPackage>
+  ): Promise<PPackage> {
+    return this.ppackageRepository.findById(id, filter);
   }
 
-  @patch('/package/{id}', {
+  @patch('/ppackage/{id}', {
     responses: {
       '204': {
-        description: 'Package PATCH success',
+        description: 'PPackage PATCH success',
       },
     },
   })
@@ -138,37 +138,37 @@ export class PackageController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Package, {partial: true}),
+          schema: getModelSchemaRef(PPackage, {partial: true}),
         },
       },
     })
-    package: Package,
+    ppackage: PPackage,
   ): Promise<void> {
-    await this.packageRepository.updateById(id, package);
+    await this.ppackageRepository.updateById(id, ppackage);
   }
 
-  @put('/package/{id}', {
+  @put('/ppackage/{id}', {
     responses: {
       '204': {
-        description: 'Package PUT success',
+        description: 'PPackage PUT success',
       },
     },
   })
   async replaceById(
     @param.path.string('id') id: string,
-    @requestBody() package: Package,
+    @requestBody() ppackage: PPackage,
   ): Promise<void> {
-    await this.packageRepository.replaceById(id, package);
+    await this.ppackageRepository.replaceById(id, ppackage);
   }
 
-  @del('/package/{id}', {
+  @del('/ppackage/{id}', {
     responses: {
       '204': {
-        description: 'Package DELETE success',
+        description: 'PPackage DELETE success',
       },
     },
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.packageRepository.deleteById(id);
+    await this.ppackageRepository.deleteById(id);
   }
 }

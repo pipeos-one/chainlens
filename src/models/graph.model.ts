@@ -2,6 +2,46 @@ import {Entity, Model, model, property} from '@loopback/repository';
 import {Metadata} from './metadata.model';
 import {FilePointer} from './file-pointer.model';
 
+
+@model()
+export class GraphData extends Model {
+  @property({
+    type: 'string',
+    required: true,
+  })
+  name: string;
+
+  @property({
+    type: 'object',
+    required: true,
+  })
+  shortGraph: object;
+
+  @property({
+    type: 'object',
+    required: true,
+  })
+  runnableGraph: object;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  markdown: string;
+
+  @property({
+    type: 'object',
+    required: true,
+  })
+  filePointer: FilePointer;
+
+
+  constructor(data?: Partial<GraphData>) {
+    super(data);
+  }
+}
+
+
 @model()
 export class Graph extends Entity {
   @property({
@@ -43,42 +83,3 @@ export interface GraphRelations {
 }
 
 export type GraphWithRelations = Graph & GraphRelations;
-
-
-@model()
-export class GraphData extends Model {
-  @property({
-    type: 'string',
-    required: true,
-  })
-  name: string;
-
-  @property({
-    type: 'object',
-    required: true,
-  })
-  shortGraph: object;
-
-  @property({
-    type: 'object',
-    required: true,
-  })
-  runnableGraph: object;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  markdown: string;
-
-  @property({
-    type: 'object',
-    required: true,
-  })
-  filePointer: FilePointer;
-
-
-  constructor(data?: Partial<GraphData>) {
-    super(data);
-  }
-}

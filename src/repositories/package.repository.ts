@@ -1,16 +1,16 @@
 import {DefaultCrudRepository} from '@loopback/repository';
-import {Package, PackageRelations} from '../models';
+import {PPackage, PPackageRelations} from '../models';
 import {YugabyteDataSource} from '../datasources';
 import {inject} from '@loopback/core';
 
-export class PackageRepository extends DefaultCrudRepository<
-  Package,
-  typeof Package.prototype._id,
-  PackageRelations
+export class PPackageRepository extends DefaultCrudRepository<
+  PPackage,
+  typeof PPackage.prototype._id,
+  PPackageRelations
 > {
   constructor(
     @inject('datasources.yugabyte') dataSource: YugabyteDataSource,
   ) {
-    super(Package, dataSource);
+    super(PPackage, dataSource);
   }
 }

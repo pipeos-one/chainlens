@@ -1,37 +1,5 @@
 import {Model, model, property} from '@loopback/repository';
 
-@model()
-export class FilePointer extends Model {
-  @property({
-    type: 'string',
-    required: true,
-  })
-  name: string;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  extension: number;
-
-  @property({
-    type: 'number',
-    required: true,
-    default: 0,
-  })
-  pointer: SwarmPointer | IpfsPointer | UriPointer;
-
-
-  constructor(data?: Partial<FilePointer>) {
-    super(data);
-  }
-}
-
-export interface FilePointerRelations {
-  // describe navigational properties here
-}
-
-export type FilePointerWithRelations = FilePointer & FilePointerRelations;
 
 @model()
 export class DStoragePointer extends Model {
@@ -81,3 +49,37 @@ export class UriPointer extends Model {
     super(data);
   }
 }
+
+
+@model()
+export class FilePointer extends Model {
+  @property({
+    type: 'string',
+    required: true,
+  })
+  name: string;
+
+  @property({
+    type: 'number',
+    required: true,
+  })
+  extension: number;
+
+  @property({
+    type: 'number',
+    required: true,
+    default: 0,
+  })
+  pointer: SwarmPointer | IpfsPointer | UriPointer;
+
+
+  constructor(data?: Partial<FilePointer>) {
+    super(data);
+  }
+}
+
+export interface FilePointerRelations {
+  // describe navigational properties here
+}
+
+export type FilePointerWithRelations = FilePointer & FilePointerRelations;

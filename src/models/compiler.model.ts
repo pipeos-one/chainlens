@@ -1,6 +1,41 @@
 import {Model, model, property} from '@loopback/repository';
 
 @model()
+export class Bytecode extends Model {
+    @property({
+      type: 'string',
+    })
+    bytecode: string;  // 0x...
+
+    @property({
+      type: 'object',
+    })
+    extra: Object;
+}
+
+// Solidity extra
+// Link References, link values
+
+@model()
+export class CompilerOutput extends Model {
+  @property({
+    type: 'object',
+    required: true,
+  })
+  runtime?: Bytecode;
+
+  @property({
+    type: 'object',
+    required: true,
+  })
+  compiled: Bytecode;
+
+  constructor(data?: Partial<CompilerOutput>) {
+    super(data);
+  }
+}
+
+@model()
 export class Compiler extends Model {
   @property({
     type: 'string',
@@ -25,25 +60,6 @@ export class Compiler extends Model {
   }
 }
 
-@model()
-export class CompilerOutput extends Model {
-  @property({
-    type: 'object',
-    required: true,
-  })
-  runtime?: Bytecode;
-
-  @property({
-    type: 'object',
-    required: true,
-  })
-  compiled: Bytecode;
-
-  constructor(data?: Partial<CompilerOutput>) {
-    super(data);
-  }
-}
-
 
 // Solidity:
 // settings
@@ -57,20 +73,3 @@ export class CompilerOutput extends Model {
 //     runs: number
 //   }
 // }
-
-
-@model()
-export class Bytecode extends Model {
-    @property({
-      type: 'string',
-    })
-    bytecode: string;  // 0x...
-
-    @property({
-      type: 'object',
-    })
-    extra: Object;
-}
-
-// Solidity extra
-// Link References, link values
