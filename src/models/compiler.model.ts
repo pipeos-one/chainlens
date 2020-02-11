@@ -9,6 +9,10 @@ export class Bytecode extends Model {
 
     @property({
       type: 'object',
+      default: {},
+      postgresql: {
+        dataType: "json",
+      },
     })
     extra: Object;
 }
@@ -21,12 +25,18 @@ export class CompilerOutput extends Model {
   @property({
     type: 'object',
     required: true,
+    postgresql: {
+      dataType: "json",
+    },
   })
   runtime?: Bytecode;
 
   @property({
     type: 'object',
     required: true,
+    postgresql: {
+      dataType: "json",
+    },
   })
   compiled: Bytecode;
 
@@ -52,6 +62,9 @@ export class Compiler extends Model {
   @property({
     type: 'object',
     required: true,
+    postgresql: {
+      dataType: "json",
+    },
   })
   settings: object;
 

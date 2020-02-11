@@ -18,11 +18,19 @@ export class PclassData extends Model {
   @property({
     type: 'array',
     itemType: 'object',
+    default: [],
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
   gapi: AbiFunction[];
 
   @property({
     type: 'object',
+    default: {methods: {}},
+    postgresql: {
+      dataType: "json",
+    },
   })
   natspec: Natspec;
 
@@ -30,6 +38,9 @@ export class PclassData extends Model {
     type: 'object',
     required: true,
     default: {},
+    postgresql: {
+      dataType: "json",
+    },
   })
   sourceByLanguage: SourceByLanguage;
 
@@ -56,6 +67,9 @@ export class Pclass extends Entity {
   @property({
     type: 'object',
     required: true,
+    postgresql: {
+      dataType: "json",
+    },
   })
   data: PclassData;
 
@@ -63,6 +77,9 @@ export class Pclass extends Entity {
     type: 'object',
     required: true,
     default: {},
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
   metadata: Metadata;
 
@@ -70,6 +87,9 @@ export class Pclass extends Entity {
     type: 'object',
     required: true,
     default: {},
+    postgresql: {
+      dataType: "json",
+    },
   })
   extra: object;  // freeform; e.g. openapiid
 

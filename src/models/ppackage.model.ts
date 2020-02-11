@@ -14,12 +14,18 @@ export class PpackageData extends Model {
   @property({
     type: 'object',
     required: true,
+    postgresql: {
+      dataType: "json",
+    },
   })
   packageJson: object;
 
   @property({
     type: 'object',
     required: true,
+    postgresql: {
+      dataType: "json",
+    },
   })
   filePointer: FilePointer;
 
@@ -43,6 +49,9 @@ export class Ppackage extends Entity {
     type: 'object',
     required: true,
     default: {},
+    postgresql: {
+      dataType: "json",
+    },
   })
   data: PpackageData;
 
@@ -50,6 +59,9 @@ export class Ppackage extends Entity {
     type: 'object',
     required: true,
     default: {},
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
   metadata: Metadata;
 

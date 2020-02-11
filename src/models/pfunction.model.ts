@@ -21,20 +21,31 @@ export class PfunctionData extends Model {
 
   @property({
     type: 'object',
+    required: true,
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
   gapi: AbiFunction;
 
   @property({
     type: 'object',
+    required: true,
+    default: {},
+    postgresql: {
+      dataType: "json",
+    },
   })
-  natspec: Natspec;
+  natspec: NatspecMethod;
 
   @property({
     type: 'object',
-    required: true,
     default: {},
+    postgresql: {
+      dataType: "json",
+    },
   })
-  sourceByLanguage: SourceByLanguage;
+  sourceByLanguage?: SourceByLanguage;
 
   constructor(data?: Partial<PfunctionData>) {
     super(data);
@@ -65,14 +76,18 @@ export class Pfunction extends Entity {
   @property({
     type: 'object',
     required: true,
-    default: {},
+    postgresql: {
+      dataType: "json",
+    },
   })
   data: PfunctionData;
 
   @property({
     type: 'object',
     required: true,
-    default: {},
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
   metadata: Metadata;
 

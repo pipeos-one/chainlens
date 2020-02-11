@@ -32,6 +32,9 @@ export class DtypeData extends Model {
     itemType: 'object',
     required: true,
     default: [],
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
   inputs: DtypeComponent[];
 
@@ -40,6 +43,9 @@ export class DtypeData extends Model {
     itemType: 'object',
     required: true,
     default: [],
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
   optionals: DtypeComponent[];
 
@@ -48,6 +54,9 @@ export class DtypeData extends Model {
     itemType: 'object',
     required: true,
     default: [],
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
   outputs: DtypeComponent[];
 

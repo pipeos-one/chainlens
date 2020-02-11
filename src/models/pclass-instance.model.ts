@@ -34,7 +34,7 @@ export class SolidityDeployment extends Model {
     @property({
       type: 'string',
     })
-    transaction?: string;  // 0x
+    txhash?: string;  // 0x
 
     @property({
       type: 'string',
@@ -73,16 +73,25 @@ export class SolidityDeployment extends Model {
 export class PclassInstanceData extends Model {
   @property({
     type: 'object',
+    postgresql: {
+      dataType: "json",
+    },
   })
   compiler: Compiler;
 
   @property({
     type: 'object',
+    postgresql: {
+      dataType: "json",
+    },
   })
   compilerOutput: CompilerOutput;
 
   @property({
     type: 'object',
+    postgresql: {
+      dataType: "json",
+    },
   })
   deployment: SolidityDeployment | OApiDeployment;
 
@@ -115,6 +124,9 @@ export class PclassInstance extends Entity {
     type: 'object',
     required: true,
     default: {},
+    postgresql: {
+      dataType: "json",
+    },
   })
   data: PclassInstanceData;
 
@@ -122,6 +134,9 @@ export class PclassInstance extends Entity {
     type: 'object',
     required: true,
     default: {},
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
   metadata: Metadata;
 
@@ -129,6 +144,9 @@ export class PclassInstance extends Entity {
     type: 'object',
     required: true,
     default: {},
+    postgresql: {
+      dataType: "json",
+    },
   })
   extra: object;
 

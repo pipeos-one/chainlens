@@ -14,12 +14,18 @@ export class PgraphData extends Model {
   @property({
     type: 'object',
     required: true,
+    postgresql: {
+      dataType: "json",
+    },
   })
   shortPgraph: object;
 
   @property({
     type: 'object',
     required: true,
+    postgresql: {
+      dataType: "json",
+    },
   })
   runnablePgraph: object;
 
@@ -32,6 +38,9 @@ export class PgraphData extends Model {
   @property({
     type: 'object',
     required: true,
+    postgresql: {
+      dataType: "json",
+    },
   })
   filePointer: FilePointer;
 
@@ -55,6 +64,9 @@ export class Pgraph extends Entity {
     type: 'object',
     required: true,
     default: {},
+    postgresql: {
+      dataType: "json",
+    },
   })
   data: PgraphData;
 
@@ -62,6 +74,9 @@ export class Pgraph extends Entity {
     type: 'object',
     required: true,
     default: {},
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
   metadata: Metadata;
 

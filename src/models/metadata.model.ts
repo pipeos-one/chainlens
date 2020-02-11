@@ -7,32 +7,44 @@ export class Metadata extends Model {
     itemType: 'string',
     required: true,
     default: [],
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
-  categories: string;
+  categories: string[];
 
   @property({
     type: 'array',
     itemType: 'string',
     required: true,
     default: [],
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
-  synsets: object;
+  synsets: string[];
 
   @property({
     type: 'array',
     itemType: 'number',
     required: true,
     default: [],
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
-  chainids: string;
+  chainids: number[];
 
   @property({
     type: 'array',
     itemType: 'number',
     required: true,
     default: [],
+    postgresql: {
+      dataType: "jsonb",
+    },
   })
-  languages: object;
+  languages: number[];
 
   constructor(data?: Partial<Metadata>) {
     super(data);

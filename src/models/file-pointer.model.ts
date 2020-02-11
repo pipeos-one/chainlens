@@ -66,9 +66,12 @@ export class FilePointer extends Model {
   extension: number;
 
   @property({
-    type: 'number',
+    type: 'object',
     required: true,
     default: 0,
+    postgresql: {
+      dataType: "json",
+    },
   })
   pointer: SwarmPointer | IpfsPointer | UriPointer;
 

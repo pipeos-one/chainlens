@@ -19,9 +19,12 @@ export class Source extends Model {
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
+    postgresql: {
+      dataType: "json",
+    },
   })
-  filePointer: FilePointer;
+  filePointer?: FilePointer;
 
   constructor(data?: Partial<Source>) {
     super(data);
@@ -34,23 +37,35 @@ export class SourceData extends Model {
   @property({
     type: 'array',
     itemType: 'object',
+    postgresql: {
+      dataType: "json",
+    },
   })
   sources: Source[];
 
   @property({
     type: 'object',
+    postgresql: {
+      dataType: "json",
+    },
   })
   compiler: Compiler;
 
   @property({
     type: 'object',
+    postgresql: {
+      dataType: "json",
+    },
   })
   compilerOutput: CompilerOutput;
 
   @property({
     type: 'object',
+    postgresql: {
+      dataType: "json",
+    },
   })
-  extra: Object;
+  extra?: Object;
 
   constructor(data?: Partial<SourceData>) {
     super(data);
