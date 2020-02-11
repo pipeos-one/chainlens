@@ -1,8 +1,8 @@
 import {Entity, Model, model, property, belongsTo} from '@loopback/repository';
 import {Metadata} from './metadata.model';
 import {SourceByLanguage} from './sources.model';
-import {AbiFunction} from '../interfaces/gapi';
-import {Natspec} from '../interfaces/natspec';
+import {GapiFunction} from './gapi.model';
+import {NatspecMethod} from './natspec.model';
 import {Pclass} from './pclass.model';
 
 @model()
@@ -26,7 +26,7 @@ export class PfunctionData extends Model {
       dataType: "jsonb",
     },
   })
-  gapi: AbiFunction;
+  gapi: GapiFunction;
 
   @property({
     type: 'object',
@@ -62,11 +62,11 @@ export class Pfunction extends Entity {
     generated: true,
   })
   _id: string;
+
   @property({
     type: 'string',
-    required: true,
   })
-  dtypeid: string;
+  dtypeid?: string;
 
   @property({
     type: 'string',

@@ -1,8 +1,8 @@
 import {Entity, Model, model, property, hasMany, belongsTo} from '@loopback/repository';
 import {SourceByLanguage} from './sources.model';
 import {Metadata} from './metadata.model';
-import {AbiFunction} from '../interfaces/gapi';
-import {Natspec} from '../interfaces/natspec';
+import {GapiFunction} from './gapi.model';
+import {Natspec} from './natspec.model';
 import {Pfunction} from './pfunction.model';
 import {PclassInstance} from './pclass-instance.model';
 import {Ppackage} from './ppackage.model';
@@ -16,6 +16,13 @@ export class PclassData extends Model {
   name: string;
 
   @property({
+    type: 'string',
+    required: false,
+    default: 'None',
+  })
+  license?: string;
+
+  @property({
     type: 'array',
     itemType: 'object',
     default: [],
@@ -23,7 +30,7 @@ export class PclassData extends Model {
       dataType: "jsonb",
     },
   })
-  gapi: AbiFunction[];
+  gapi: GapiFunction[];
 
   @property({
     type: 'object',
