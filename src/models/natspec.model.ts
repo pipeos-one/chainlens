@@ -42,7 +42,8 @@ export class NatspecMethod extends Model {
 // TODO: fix number -> string
 @model()
 export class NatspecMethods extends Model {
-  [prop: number]: NatspecMethod;
+  // [prop: string]: NatspecMethod;
+  [prop: string]: any;
 
   constructor(data?: Partial<NatspecMethods>) {
     super(data);
