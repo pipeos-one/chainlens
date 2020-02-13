@@ -35,7 +35,10 @@ export function gapiFilter(tableName: string, filter: any = {}) {
   if (!containsArrKey) return;
 
   if (filter.limit) {
-    filterData = `LIMIT ${filter.limit}`;
+    filterData += `LIMIT ${filter.limit}`;
+  }
+  if (filter.skip) {
+    filterData += ` OFFSET ${filter.skip}`;
   }
 
   return `SELECT * FROM ${tableName} WHERE ${conditions.join(' AND ')} ${filterData};`;
