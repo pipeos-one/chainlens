@@ -19,6 +19,7 @@ import {
 } from '@loopback/rest';
 import {Pfunction} from '../models';
 import {PfunctionRepository} from '../repositories';
+import {gapiFilter} from '../utils/filter';
 
 export class PfunctionController {
   constructor(
@@ -82,7 +83,11 @@ export class PfunctionController {
   async find(
     @param.query.object('filter', getFilterSchemaFor(Pfunction)) filter?: Filter<Pfunction>,
   ): Promise<Pfunction[]> {
-    return this.pfunctionRepository.find(filter);
+    const lowlevelQuery = gapiFilter('pfunction', filter);
+    if (!lowlevelQuery) {
+      return this.pfunctionRepository.find(filter);
+    }
+    return this.pfunctionRepository.dataSource.execute(lowlevelQuery);
   }
 
   @patch('/pfunction', {

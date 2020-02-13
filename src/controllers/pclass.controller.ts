@@ -19,6 +19,7 @@ import {
 } from '@loopback/rest';
 import {Pclass} from '../models';
 import {PclassRepository} from '../repositories';
+import {gapiFilter} from '../utils/filter';
 
 export class PclassController {
   constructor(
@@ -82,7 +83,11 @@ export class PclassController {
   async find(
     @param.query.object('filter', getFilterSchemaFor(Pclass)) filter?: Filter<Pclass>,
   ): Promise<Pclass[]> {
-    return this.pclassRepository.find(filter);
+    const lowlevelQuery = gapiFilter('pclass', filter);
+    if (!lowlevelQuery) {
+      return this.pclassRepository.find(filter);
+    }
+    return this.pclassRepository.dataSource.execute(lowlevelQuery);
   }
 
   @patch('/pclass', {
