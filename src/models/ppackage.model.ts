@@ -40,8 +40,13 @@ export class Ppackage extends Entity {
   @property({
     type: 'string',
     id: true,
-    required: true,
     generated: true,
+    useDefaultIdType: false,
+    postgresql: {
+      dataType: 'uuid',
+      extension: 'pgcrypto',
+      defaultFn: 'gen_random_uuid()',
+    },
   })
   _id: string;
 

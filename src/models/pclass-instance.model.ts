@@ -106,17 +106,34 @@ export class PclassInstance extends Entity {
   @property({
     type: 'string',
     id: true,
-    required: true,
     generated: true,
+    useDefaultIdType: false,
+    postgresql: {
+      dataType: 'uuid',
+      extension: 'pgcrypto',
+      defaultFn: 'gen_random_uuid()',
+    },
   })
   _id: string;
 
   @property({
-    type: 'string',
+    type: 'number',
   })
-  packageid?: string;
+  id?: number;
+
   @property({
     type: 'string',
+    postgresql: {
+      dataType: 'uuid',
+    },
+  })
+  packageid?: string;
+
+  @property({
+    type: 'string',
+    postgresql: {
+      dataType: 'uuid',
+    },
   })
   dtypeid?: string;
 

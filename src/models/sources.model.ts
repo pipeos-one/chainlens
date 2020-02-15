@@ -37,6 +37,7 @@ export class SourceData extends Model {
   @property({
     type: 'array',
     itemType: 'object',
+    default: [],
     postgresql: {
       dataType: "json",
     },

@@ -7,14 +7,22 @@ export class Dtype extends Entity {
   @property({
     type: 'string',
     id: true,
-    required: true,
     generated: true,
+    useDefaultIdType: false,
+    postgresql: {
+      dataType: 'uuid',
+      extension: 'pgcrypto',
+      defaultFn: 'gen_random_uuid()',
+    },
   })
   _id: string;
 
   @property({
     type: 'string',
     required: true,
+    postgresql: {
+      dataType: 'uuid',
+    },
   })
   pclassid: string;
 

@@ -58,18 +58,29 @@ export class Pfunction extends Entity {
   @property({
     type: 'string',
     id: true,
-    required: true,
     generated: true,
+    useDefaultIdType: false,
+    postgresql: {
+      dataType: 'uuid',
+      extension: 'pgcrypto',
+      defaultFn: 'gen_random_uuid()',
+    },
   })
   _id: string;
 
   @property({
     type: 'string',
+    postgresql: {
+      dataType: 'uuid',
+    },
   })
   dtypeid?: string;
 
   @property({
     type: 'string',
+    postgresql: {
+      dataType: 'uuid',
+    },
   })
   graphid?: string;
 

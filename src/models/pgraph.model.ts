@@ -57,8 +57,14 @@ export class Pgraph extends Entity {
     type: 'string',
     id: true,
     generated: true,
+    useDefaultIdType: false,
+    postgresql: {
+      dataType: 'uuid',
+      extension: 'pgcrypto',
+      defaultFn: 'gen_random_uuid()',
+    },
   })
-  _id?: string;
+  _id: string;
 
   @property({
     type: 'object',
