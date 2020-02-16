@@ -20,14 +20,21 @@ function App() {
 
   console.log('data', data)
   return (
-    <div className="App">
-      <Container>
         <Content>
           <ListExample data={data}/>
         </Content>
+      <Container style={styles.container}>
       </Container>
-    </div>
   );
 }
 
 export default App;
+
+const styles = StyleSheet.create(
+  {
+    container: {
+      width: '100%',
+      height: '100%',
+    },
+  }
+)
