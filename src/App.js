@@ -28,7 +28,7 @@ function SearchComponent(props) {
       <View style={{
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "right",
+        alignItems: "flex-end",
         paddingBottom: 5,
         paddingRight: 5,
       }}>
@@ -44,7 +44,7 @@ function SearchComponent(props) {
 
 function WorkTree(props) {
   return (
-    <View size={100} style={props.styles}>
+    <View style={{...props.styles, flex: 1}}>
       <PclassList data={props.treedata}/>
 
       <View style={{
@@ -72,7 +72,7 @@ function WorkTree(props) {
 
 function SearchList(props) {
   return (
-    <View style={props.styles}>
+    <View style={{...props.styles, flex: 1}}>
       <PclassList data={props.data}/>
 
       <View style={{
@@ -126,6 +126,7 @@ class AppContent extends Component {
         pagingEnabled={true}
         scrollEnabled={true}
         scrollEventThrottle={100}
+        nestedScrollEnabled={true}
         contentContainerStyle={{width: "100%"}}
         onContentSizeChange={this.onContentSizeChange}
       >
