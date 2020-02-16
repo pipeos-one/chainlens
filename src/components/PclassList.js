@@ -92,29 +92,13 @@ export default class PclassList extends Component {
     // this.state.dataset.setReadOffset(currentItemIndex);
   }
 
-  // render() {
-  //   const dataArray = this.props.data;
-  //   return (
-  //     <Content scrollEventThrottle={300} onScroll={this.setCurrentReadOffset} removeClippedSubviews={true}>
-  //     <Accordion
-  //       dataArray={dataArray}
-  //       keyExtractor={item => item._id}
-  //       renderHeader={this._renderHeader}
-  //       renderContent={this._renderContent}
-  //       onEndReached={this._onEndReached}
-  //       onEndReachedThreshold={0.9}
-  //     />
-  //     </Content>
-  //   );
-  // }
-
   render() {
     const dataArray = this.props.data;
     return (
-      <ScrollView
-        scrollEnabled={true}
+      <Content
         scrollEventThrottle={300}
         removeClippedSubviews={true}
+        nestedScrollEnabled={true}
         onScroll={this.setCurrentReadOffset}
         contentContainerStyle={{height: "100%"}}
       >
@@ -125,8 +109,9 @@ export default class PclassList extends Component {
         renderContent={this._renderContent}
         onEndReached={this._onEndReached}
         onEndReachedThreshold={0.9}
+        contentStyle={{ flex: 1 }}
       />
-      </ScrollView>
+      </Content>
     );
   }
 }
