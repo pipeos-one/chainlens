@@ -1,16 +1,9 @@
-import {PIPEOS_SERVER} from './config';
-
-export const pclassApi = () => `${PIPEOS_SERVER.host}${PIPEOS_SERVER.route.pclass}`;
-
-export const pclassWithPfuncApi = (filter = {}) => {
-  filter = {...filter, include: [{relation: 'pfunctions'}]};
-  return `${pclassApi()}?filter=${JSON.stringify(filter)}`;
-}
-
 export const buildWhereQueries = (genQuery) => {
   let pclassWhere = {};
   let pfunctionWhere = {};
   let pclassiWhere = {};
+
+  if (!genQuery.text) return { pclassWhere, pfunctionWhere, pclassiWhere };
 
   switch(genQuery.field) {
     case 'name':
@@ -27,6 +20,7 @@ export const buildWhereQueries = (genQuery) => {
       console.error('Invalid search parameters: ', genQuery);
       break;
   }
+  return { pclassWhere, pfunctionWhere, pclassiWhere };
 }
 
 export const buildWhereFx = (fxQuery) => {

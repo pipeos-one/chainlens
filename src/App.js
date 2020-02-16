@@ -13,7 +13,7 @@ import {
 } from 'native-base';
 import PclassList from './components/PclassList.js';
 import SearchComponent from './components/Search.js';
-import { useSearchResults } from './fetchers.js';
+import { useSearchResults, useSearchCount } from './fetchers.js';
 import { buildWhereQueries, buildWhereFx } from './utils.js';
 
 function getPageSize(noOfPages, {width, height}) {
@@ -49,6 +49,22 @@ function WorkTree(props) {
 }
 
 function SearchList(props) {
+  const { whereFilters } = props;
+  let filter = {limit: 10, skip: 0};
+
+  filter.where = whereFilters.pclassWhere;
+
+  const { data, error } = useSearchResults(filter);
+  const { data: count } = useSearchCount(filter);
+
+  if (error) return <div>failed to load</div>
+  if (!data) return <div>loading...</div>
+
+  const resultsCount = count ? count.count : 0;
+
+  console.log('data', data)
+  console.log('count', count)
+
   return (
     <View style={{ ...props.styles, flex: 1 }}>
       <PclassList data={props.data}/>
@@ -61,7 +77,7 @@ function SearchList(props) {
       }}>
         <Button small rounded style={ styles.buttonStyle }>
           <Icon name='search' />
-          <Text>{100}</Text>
+          <Text>{resultsCount}</Text>
         </Button>
         <Text>
           @{0}
@@ -121,10 +137,11 @@ class AppContent extends Component {
   }
 
   render() {
-    const { data } = this.props;
-    const { width, height } = this.state;
+    const { width, height, treedata } = this.state;
     const pageStyles = getPageSize(3, { width, height });
-    const treedata = data.slice(0, 3);
+
+    const { pclassWhere, pfunctionWhere, pclassiWhere } = this.state;
+    const whereFilters = { pclassWhere, pfunctionWhere, pclassiWhere };
 
     return (
       <ScrollView
@@ -149,18 +166,10 @@ class AppContent extends Component {
 }
 
 function App() {
-  const filter = {limit: 10, skip: 0};
-  const { data, error } = useSearchResults(filter);
-
-  if (error) return <div>failed to load</div>
-  if (!data) return <div>loading...</div>
-
-  console.log('data', data)
-
   return (
-      <Container style={styles.container}>
+      <Container style={ styles.container } >
 
-        <AppContent data={data}/>
+        <AppContent />
 
       </Container>
   );

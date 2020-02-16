@@ -18,16 +18,19 @@ export default class SearchComponent extends Component {
 
     this.onQueryChangeGeneral = this.onQueryChangeGeneral.bind(this);
     this.onQueryChangeFx = this.onQueryChangeFx.bind(this);
+    this.onSearch = this.onSearch.bind(this);
   }
 
   onQueryChangeGeneral(genQuery) {
     this.setState({ genQuery });
-    this.props.onQueryChange({ ...this.state, genQuery });
   }
 
   onQueryChangeFx(fxQuery) {
     this.setState({ fxQuery });
-    this.props.onQueryChange({ ...this.state, fxQuery });
+  }
+
+  onSearch() {
+    this.props.onQueryChange(this.state);
   }
 
   render() {
@@ -53,7 +56,12 @@ export default class SearchComponent extends Component {
           borderTopColor: '#cccccc',
         }}>
           <Left>
-            <Button small rounded style={{backgroundColor: '#cccccc'}}>
+            <Button
+              small
+              rounded
+              style={{backgroundColor: '#cccccc'}}
+              onClick={this.onSearch}
+            >
               <Icon type="MaterialCommunityIcons" name='import' />
             </Button>
           </Left>
