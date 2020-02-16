@@ -61,7 +61,6 @@ export default class SearchIO extends Component {
               placeholder='type: address / uint256 / ...'
               onChangeText={text => this.onChangeText(text)}
             />
-            <Icon type="MaterialCommunityIcons" name='function-variant' />
           </Item>
 
           <Content>

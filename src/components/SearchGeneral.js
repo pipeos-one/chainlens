@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Content, Icon, Item, Input} from "native-base";
+import { Icon, Item, Input} from "native-base";
 // import {debounce} from '../utils.js';
 
 const queryField = (text) => {
@@ -43,17 +43,13 @@ export default class SearchGeneral extends Component {
 
   render() {
     return (
-
-          <Item error={this.state.valid ? false : true}>
-            <Icon name='search'/>
-            <Input
-              placeholder='name / address / signature'
-              onChangeText={text => this.onChangeText(text)}
-            />
-            <Icon style={{ paddingLeft: 15 }} type="MaterialIcons" name='library-books' />
-            <Icon type="MaterialCommunityIcons" name='function-variant' />
-          </Item>
-        
+      <Item error={this.state.valid ? false : true}>
+        <Icon name='search'/>
+        <Input
+          placeholder='name / address / signature'
+          onChangeText={text => this.onChangeText(text)}
+        />
+      </Item>
     );
   }
 }

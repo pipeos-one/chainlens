@@ -10,6 +10,7 @@ import {
   Icon,
   Text,
   Button,
+  Thumbnail,
 } from "native-base";
 
 export default class PclassList extends Component {
@@ -49,8 +50,8 @@ export default class PclassList extends Component {
         <View style={{flexDirection: "row"}}>
           {expanded
             ? <Icon style={{ fontSize: 18 }} name="remove-circle" />
-            : <Icon style={{ fontSize: 18 }} name="add-circle" />}
-          <Icon style={{ paddingLeft: 15 }} type="MaterialIcons" name='library-books' />
+            : <Icon style={{ fontSize: 18 }} name="add-circle" />
+          }
           <Text style={{ fontWeight: "500", paddingLeft: 10 }}>
             {item.data.name}
           </Text>
@@ -73,8 +74,17 @@ export default class PclassList extends Component {
         <ListItem key={pfunction._id}>
           <Left>
             <View style={{flexDirection: "row", alignItems: "center"}}>
-              <Icon type="MaterialCommunityIcons" name='function-variant' />
-              <Text style={{ paddingLeft: 15 }}>{pfunction.data.signature}</Text>
+              {pfunction.data.gapi.type === 'event'
+                ? <Thumbnail
+                    source={{ uri: '/event.png' }}
+                    style={{ height: 15, width: 15, borderRadius: 5}}
+                  />
+                : <Thumbnail
+                    source={{ uri: '/lambda.png' }}
+                    style={{ height: 15, width: 15, borderRadius: 5}}
+                  />
+              }
+              <Text style={{ paddingLeft: 10 }}>{pfunction.data.signature}</Text>
             </View>
           </Left>
         </ListItem>
@@ -82,7 +92,7 @@ export default class PclassList extends Component {
     });
 
     return (
-      <List style={{ paddingLeft: 40 }}>{pfunctions}</List>
+      <List style={{ paddingLeft: 15 }}>{pfunctions}</List>
     )
   }
 
