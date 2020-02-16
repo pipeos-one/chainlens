@@ -31,9 +31,7 @@ function WorkTree(props) {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingBottom: 5,
-        paddingLeft: 5,
-        paddingRight: 5,
+        padding: 5,
       }}>
         <Left>
           <Button small rounded style={styles.buttonStyle}>
@@ -59,9 +57,7 @@ function SearchList(props) {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingBottom: 5,
-        paddingLeft: 5,
-        paddingRight: 5,
+        padding: 5,
       }}>
         <Button small rounded style={ styles.buttonStyle }>
           <Icon name='search' />
@@ -70,7 +66,7 @@ function SearchList(props) {
         <Text>
           @{0}
         </Text>
-        <Button transparent>
+        <Button small transparent>
           <Badge info>
             <Text>2</Text>
           </Badge>

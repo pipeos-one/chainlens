@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
-  Content,
-  Right,
-  Separator,
+  Left,
   Icon,
   Button,
 } from 'native-base';
@@ -34,24 +32,31 @@ export default class SearchComponent extends Component {
 
   render() {
     return (
-      <View style={{ ...this.props.styles, flex: 1 }}>
-        <Content>
-          <SearchGeneral onQueryChange={this.onQueryChangeGeneral} />
-          <Separator bordered></Separator>
-          <SearchIO onQueryChange={this.onQueryChangeFx} />
-        </Content>
+      <View style={{
+        ...this.props.styles,
+        flex: 1,
+        flexDirection: "column",
+
+        justifyContent: "space-between",
+      }}>
+
+        <SearchGeneral onQueryChange={this.onQueryChangeGeneral} />
+
+        <SearchIO onQueryChange={this.onQueryChangeFx} />
+
         <View style={{
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "flex-end",
-          paddingBottom: 5,
-          paddingRight: 5,
+          padding: 5,
+          borderTopWidth: 1,
+          borderTopColor: '#cccccc',
         }}>
-          <Right>
+          <Left>
             <Button small rounded style={{backgroundColor: '#cccccc'}}>
               <Icon type="MaterialCommunityIcons" name='import' />
             </Button>
-          </Right>
+          </Left>
         </View>
       </View>
     )
