@@ -58,7 +58,7 @@ export default class PclassList extends Component {
         </View>
 
         <View style={{flexDirection: "row"}}>
-          <Button small rounded style={styles.buttonStyle}>
+          <Button small rounded style={styles.buttonStyle} onClick={() => this.props.onSelect(item)} >
             <Icon type="MaterialCommunityIcons" name='import' />
           </Button>
         </View>
