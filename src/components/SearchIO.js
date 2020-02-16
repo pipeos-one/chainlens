@@ -1,49 +1,60 @@
 import React, { Component } from "react";
-import { StyleSheet } from 'react-native';
-import { Content, Icon, Item, Input, ListItem, Body, Radio, Text, Left, Right } from "native-base";
-import {debounce} from '../utils.js';
+import {
+  Content,
+  View,
+  Body,
+  Item,
+  ListItem,
+  Icon,
+  Input,
+  Radio,
+  Text,
+} from "native-base";
+// import {debounce} from '../utils.js';
 
 export default class SearchIO extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: null,
+      field: 'inputs',
       text: '',
-      type: 'name',
-      valid: false,
+      valid: true,
     }
 
-    this.onValueChange = this.onValueChange.bind(this);
-    this.onCheckBoxChange = this.onCheckBoxChange.bind(this);
-    this.debouncedSearch = this.debouncedSearch.bind(this);
+    this.onChangeText = this.onChangeText.bind(this);
+    this.onFieldSelect = this.onFieldSelect.bind(this);
+    // this.debouncedSearch = this.debouncedSearch.bind(this);
   }
 
-  debouncedSearch() {
-    const self = this;
-    return (debounce(function() {
-        // this.isCalculating = true;
-        setTimeout(function () {
-            // this.isCalculating = false;
-            console.log('-- search', self.state);
-        }.bind(self), 1000);
-    }, 1000))();
-  }
+  // debouncedSearch() {
+  //   const self = this;
+  //   return (debounce(function() {
+  //       // this.isCalculating = true;
+  //       setTimeout(function () {
+  //           // this.isCalculating = false;
+  //           console.log('-- search', self.state);
+  //       }.bind(self), 1000);
+  //   }, 1000))();
+  // }
 
-  onValueChange(selected) {
-    console.log('onValueChange', selected);
-    this.setState({ selected });
+  onChangeText(text) {
+    console.log('onChangeText', text);
+    this.setState({ text });
     // const details = queryType(text);
     // this.setState({ text, ...details });
     // if (details.valid) this.debouncedSearch();
+    this.props.onQueryChange({ ...this.state, text });
   }
 
-  onCheckBoxChange(selected) {
-    console.log('onCheckBoxChange', selected);
+  onFieldSelect(field) {
+    console.log('onFieldSelect', field);
+    this.setState({ field });
+    this.props.onQueryChange({ ...this.state, field });
   }
 
   render() {
     return (
-      <Content>
+      <View>
           <Item>
             <Icon name='search'/>
             <Input
@@ -54,31 +65,27 @@ export default class SearchIO extends Component {
           </Item>
 
           <Content>
-            <ListItem>
-              <Radio selected={true} />
+            <ListItem
+              selected={this.state.field === 'inputs' ? true : false}
+              onClick={() => this.onFieldSelect('inputs')}
+            >
+              <Radio selected={this.state.field === 'inputs' ? true : false} />
               <Body>
                 <Text>input</Text>
               </Body>
             </ListItem>
-            <ListItem>
-              <Radio selected={false} />
+            <ListItem
+              selected={this.state.field === 'outputs' ? true : false}
+              onClick={() => this.onFieldSelect('outputs')}
+            >
+              <Radio selected={this.state.field === 'outputs' ? true : false} />
               <Body>
                 <Text>output</Text>
               </Body>
             </ListItem>
           </Content>
 
-        </Content>
+      </View>
     );
   }
 }
-
-
-const styles = StyleSheet.create(
-  {
-    buttonStyle: {
-      backgroundColor: '#cccccc',
-      marginLeft: 15,
-    }
-  }
-)

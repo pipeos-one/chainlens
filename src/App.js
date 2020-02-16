@@ -1,45 +1,25 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Dimensions, StyleSheet, ScrollView } from 'react-native';
-import { Container, Content, Grid, View, Col, Row, Icon, Button, Text, Badge, Footer, FooterTab, Right, Left } from 'native-base';
+import {
+  Container,
+  View,
+  Right,
+  Left,
+  Icon,
+  Button,
+  Text,
+  Badge,
+} from 'native-base';
 import PclassList from './components/PclassList.js';
-import SearchGeneral from './components/SearchGeneral.js';
-import SearchIO from './components/SearchIO.js';
-import fetch from 'unfetch';
-import useSWR from 'swr';
-import {pclassWithPfuncApi} from './utils.js';
-
-async function fetcher(apiUrl) {
-  const res = await fetch(apiUrl);
-  return await res.json();
-}
+import SearchComponent from './components/Search.js';
+import { useSearchResults } from './fetchers.js';
+import { buildWhereQueries, buildWhereFx } from './utils.js';
 
 function getPageSize(noOfPages, {width, height}) {
   console.log('--dimensions', noOfPages, {width, height});
   if (width < 700) return {minWidth: width, minHeight: height};
   return {minWidth: width / noOfPages, minHeight: height};
-}
-
-function SearchComponent(props) {
-  return (
-    <View size={100} style={props.styles}>
-      <Row><SearchGeneral/></Row>
-      <Row><SearchIO/></Row>
-      <View style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "flex-end",
-        paddingBottom: 5,
-        paddingRight: 5,
-      }}>
-        <Right>
-          <Button small rounded style={styles.buttonStyle}>
-            <Icon type="MaterialCommunityIcons" name='import' />
-          </Button>
-        </Right>
-      </View>
-    </View>
-  )
 }
 
 function WorkTree(props) {
@@ -72,7 +52,7 @@ function WorkTree(props) {
 
 function SearchList(props) {
   return (
-    <View style={{...props.styles, flex: 1}}>
+    <View style={{ ...props.styles, flex: 1 }}>
       <PclassList data={props.data}/>
 
       <View style={{
@@ -83,7 +63,7 @@ function SearchList(props) {
         paddingLeft: 5,
         paddingRight: 5,
       }}>
-        <Button small rounded style={styles.buttonStyle}>
+        <Button small rounded style={ styles.buttonStyle }>
           <Icon name='search' />
           <Text>{100}</Text>
         </Button>
@@ -105,13 +85,43 @@ class AppContent extends Component {
   constructor(props) {
     super(props);
 
-    this.state = Dimensions.get('window');
+    this.state = {
+      ...Dimensions.get('window'),
+      pclassWhere: {},
+      pfunctionWhere: {},
+      pclassiWhere: {},
+      treedata: [],
+    };
 
     this.onContentSizeChange = this.onContentSizeChange.bind(this);
+    this.onQueryChange = this.onQueryChange.bind(this);
   }
 
   onContentSizeChange() {
     this.setState(Dimensions.get('window'));
+  }
+
+  onQueryChange({ genQuery, fxQuery }) {
+    console.log('onQueryChange', genQuery, fxQuery);
+    let pclassWhere = {}, pfunctionWhere = {}, pclassiWhere = {};
+
+    if (genQuery.valid) {
+      ({ pclassWhere, pfunctionWhere, pclassiWhere } = buildWhereQueries(genQuery));
+    }
+
+    if (fxQuery.valid) {
+      pfunctionWhere = { ...pfunctionWhere, ...buildWhereFx(fxQuery) };
+    }
+
+    const isChanged = (
+      JSON.stringify(pclassWhere) !== JSON.stringify(this.state.pclassWhere)
+      || JSON.stringify(pfunctionWhere) !== JSON.stringify(this.state.pfunctionWhere)
+      || JSON.stringify(pclassiWhere) !== JSON.stringify(this.state.pclassiWhere)
+    );
+    // if (isChanged) {
+    //   this.setState({ pclassWhere, pfunctionWhere, pclassiWhere });
+    //
+    // }
   }
 
   render() {
@@ -131,7 +141,7 @@ class AppContent extends Component {
         onContentSizeChange={this.onContentSizeChange}
       >
 
-        <SearchComponent styles={pageStyles} />
+        <SearchComponent styles={pageStyles} onQueryChange={this.onQueryChange} />
 
         <SearchList data={data} styles={pageStyles} />
 
@@ -144,7 +154,7 @@ class AppContent extends Component {
 
 function App() {
   const filter = {limit: 10, skip: 0};
-  const { data, error } = useSWR(pclassWithPfuncApi(filter), fetcher)
+  const { data, error } = useSearchResults(filter);
 
   if (error) return <div>failed to load</div>
   if (!data) return <div>loading...</div>

@@ -1,6 +1,16 @@
 import React, { Component } from "react";
-import { StyleSheet, ScrollView } from 'react-native';
-import { Content, Icon, Accordion, Text, View, List, ListItem, Left, Right, Button} from "native-base";
+import { StyleSheet } from 'react-native';
+import {
+  Content,
+  View,
+  Accordion,
+  List,
+  ListItem,
+  Left,
+  Icon,
+  Text,
+  Button,
+} from "native-base";
 
 export default class PclassList extends Component {
   constructor(props) {
@@ -47,9 +57,6 @@ export default class PclassList extends Component {
         </View>
 
         <View style={{flexDirection: "row"}}>
-          <Button small rounded style={styles.buttonStyle}>
-            <Icon type="MaterialCommunityIcons" name='information' />
-          </Button>
           <Button small rounded style={styles.buttonStyle}>
             <Icon type="MaterialCommunityIcons" name='import' />
           </Button>
