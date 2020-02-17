@@ -34,6 +34,8 @@ function WorkTree(props) {
         justifyContent: "space-between",
         alignItems: "center",
         padding: 5,
+        borderTopWidth: 1,
+        borderTopColor: '#cccccc',
       }}>
         <Left>
           <Button small rounded style={styles.buttonStyle} onClick={props.onGoToSearchList}>
@@ -77,6 +79,8 @@ function SearchList(props) {
         justifyContent: "space-between",
         alignItems: "center",
         padding: 5,
+        borderTopWidth: 1,
+        borderTopColor: '#cccccc',
       }}>
         <Button small rounded style={ styles.buttonStyle } onClick={props.onGoToSearch}>
           <Icon name='search' />
