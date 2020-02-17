@@ -6,7 +6,7 @@
 // "metadata.chainids": {"inq": [1]}
 // "data.gapi.inputs": {"inq": [{"type": "address"}]}
 
-export function gapiFilter(tableName: string, filter: any = {}) {
+export function gapiFilter(tableName: string, filter: any = {}, select = '*') {
   let containsArrKey: boolean = false;
   let conditions: string[] = [];
   let filterData: string = '';
@@ -30,6 +30,28 @@ export function gapiFilter(tableName: string, filter: any = {}) {
       condition += `@> '{"${arrSubField}":${JSON.stringify(filter.where[key].inq)}}'::jsonb`;
       conditions.push(condition);
     }
+    // SELECT * FROM "public"."pclass" WHERE data->>'name'::TEXT ~* 'token';
+    if (
+      filter.where[key] instanceof Object
+      && filter.where[key].like
+    ) {
+      containsArrKey = true;
+
+      const comp = key.split('.');
+      const field = comp.shift();
+
+      let condition = `${field}`;
+      comp.forEach(objfield => {
+        condition += `->>'${objfield}'`;
+      });
+      condition += '::TEXT ~';
+
+      if (filter.where[key].options === 'i') {
+        condition += '*'
+      }
+      condition += ` '${filter.where[key].like}'`;
+      conditions.push(condition);
+    }
   });
 
   if (!containsArrKey) return;
@@ -41,7 +63,7 @@ export function gapiFilter(tableName: string, filter: any = {}) {
     filterData += ` OFFSET ${filter.skip}`;
   }
 
-  return `SELECT * FROM ${tableName} WHERE ${conditions.join(' AND ')} ${filterData};`;
+  return `SELECT ${select} FROM ${tableName} WHERE ${conditions.join(' AND ')} ${filterData};`;
 
   // .connector.execute(command, parameters, options)
 

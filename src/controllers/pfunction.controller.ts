@@ -62,7 +62,15 @@ export class PfunctionController {
   async count(
     @param.query.object('where', getWhereSchemaFor(Pfunction)) where?: Where<Pfunction>,
   ): Promise<Count> {
-    return this.pfunctionRepository.count(where);
+    const lowlevelQuery = gapiFilter('pfunction', { where }, 'COUNT(*)');
+    if (!lowlevelQuery) {
+      return this.pfunctionRepository.count(where);
+    }
+    const result = await this.pfunctionRepository.dataSource.execute(lowlevelQuery);
+    if (result && result.length > 0) {
+      return result[0];
+    }
+    return {count: 0};
   }
 
   @get('/pfunction', {

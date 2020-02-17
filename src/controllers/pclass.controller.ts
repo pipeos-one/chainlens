@@ -62,7 +62,15 @@ export class PclassController {
   async count(
     @param.query.object('where', getWhereSchemaFor(Pclass)) where?: Where<Pclass>,
   ): Promise<Count> {
-    return this.pclassRepository.count(where);
+    const lowlevelQuery = gapiFilter('pclass', { where }, 'COUNT(*)');
+    if (!lowlevelQuery) {
+      return this.pclassRepository.count(where);
+    }
+    const result = await this.pclassRepository.dataSource.execute(lowlevelQuery);
+    if (result && result.length > 0) {
+      return result[0];
+    }
+    return {count: 0};
   }
 
   @get('/pclass', {
