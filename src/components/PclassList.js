@@ -119,7 +119,7 @@ export default class PclassList extends Component {
   }
 
   render() {
-    const dataArray = this.props.data;
+    const { data: dataArray, onAddListPage } = this.props;
 
     return (
       <FlatList
@@ -130,9 +130,9 @@ export default class PclassList extends Component {
         scrollEnabled={true}
         scrollEventThrottle={300}
 
-        onEndReached={this._onEndReached}
+        onEndReached={onAddListPage ? this._onEndReached : () => {}}
         onEndReachedThreshold={0.2}
-        onScroll={this._onScroll}
+        onScroll={onAddListPage ? this._onScroll : () => {}}
 
         contentStyle={{ flex: 1, backgroundColor: '#ffffff' }}
       />

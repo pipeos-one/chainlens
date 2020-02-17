@@ -15,6 +15,7 @@ import PclassList from './components/PclassList.js';
 import SearchComponent from './components/Search.js';
 import { useSearchResults, useSearchCount } from './fetchers.js';
 import { buildWhereQueries, buildWhereFx } from './utils.js';
+import { exportToRemix, exportPclassToRemix } from './remix.js';
 
 const MIN_WIDTH = 800;
 const PAGE_LIMIT = 10;
@@ -28,7 +29,7 @@ function getPageSize(noOfPages, {width, height}) {
 function WorkTree(props) {
   return (
     <View style={{...props.styles, flex: 1}}>
-      <PclassList data={props.treedata}/>
+      <PclassList data={props.treedata} onSelect={item => exportPclassToRemix(item)}/>
 
       <View style={{
         flexDirection: "row",
@@ -44,7 +45,7 @@ function WorkTree(props) {
           </Button>
         </Left>
         <Right>
-          <Button small rounded style={styles.buttonStyle}>
+          <Button small rounded style={styles.buttonStyle} onClick={() => exportToRemix(props.treedata)}>
             <Text>{props.treedata.length}</Text>
             <Icon type="MaterialCommunityIcons" name='import' />
           </Button>
