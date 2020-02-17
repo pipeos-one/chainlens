@@ -7,8 +7,8 @@ export const buildWhereQueries = (genQuery) => {
 
   switch(genQuery.field) {
     case 'name':
-      pclassWhere['data.name'] = genQuery.text;
-      pfunctionWhere['data.name'] = genQuery.text;
+      pclassWhere['data.name'] = {like: genQuery.text, options: 'i'};
+      pfunctionWhere['data.name'] = {like: genQuery.text, options: 'i'};
       break;
     case 'address':
       pclassiWhere['data.deployment.address'] = genQuery.text;
