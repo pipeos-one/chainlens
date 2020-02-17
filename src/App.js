@@ -75,7 +75,7 @@ function SearchList(props) {
       <PclassList
         data={data}
         onSelect={props.onSelect}
-        onAddListPage={props.onAddListPage}
+        onAddListPage={() => (resultsCount >= (filter.skip + filter.limit)) ? props.onAddListPage() : () => {}}
         onPreviousPage={props.onPreviousPage}
       />
 

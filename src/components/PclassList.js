@@ -101,7 +101,7 @@ export default class PclassList extends Component {
   // }
 
   _onScroll(event) {
-    if (this.state.endWasReached && event.nativeEvent.contentOffset.y < 40) {
+    if (this.state.endWasReached && event.nativeEvent.contentOffset.y === 0) {
       this.props.onPreviousPage();
     }
   }
