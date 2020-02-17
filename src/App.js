@@ -17,6 +17,7 @@ import { useSearchResults, useSearchCount } from './fetchers.js';
 import { buildWhereQueries, buildWhereFx } from './utils.js';
 
 const MIN_WIDTH = 800;
+const PAGE_LIMIT = 10;
 
 function getPageSize(noOfPages, {width, height}) {
   console.log('--dimensions', noOfPages, {width, height});
@@ -54,9 +55,7 @@ function WorkTree(props) {
 }
 
 function SearchList(props) {
-  const { whereFilters } = props;
-  let filter = {limit: 10, skip: 0};
-
+  const { whereFilters, filter } = props;
   filter.where = whereFilters.pclassWhere;
 
   const { data, error } = useSearchResults(filter);
@@ -72,7 +71,12 @@ function SearchList(props) {
 
   return (
     <View style={{ ...props.styles, flex: 1 }}>
-      <PclassList data={data} onSelect={props.onSelect}/>
+      <PclassList
+        data={data}
+        onSelect={props.onSelect}
+        onAddListPage={props.onAddListPage}
+        onPreviousPage={props.onPreviousPage}
+      />
 
       <View style={{
         flexDirection: "row",
@@ -87,7 +91,7 @@ function SearchList(props) {
           <Text>{resultsCount}</Text>
         </Button>
         <Text>
-          @{0}
+          @{(filter.skip || 0) + 1}
         </Text>
         <Button small rounded style={ styles.buttonStyle } onClick={props.onGoToWorkTree}>
           <Text>{props.treedataLen || 0}</Text>
@@ -108,6 +112,7 @@ class AppContent extends Component {
       pclassWhere: {},
       pfunctionWhere: {},
       pclassiWhere: {},
+      filter: {skip: 0, limit: PAGE_LIMIT},
       treedata: [],
     };
 
@@ -115,6 +120,8 @@ class AppContent extends Component {
 
     this.onContentSizeChange = this.onContentSizeChange.bind(this);
     this.onQueryChange = this.onQueryChange.bind(this);
+    this.onAddListPage = this.onAddListPage.bind(this);
+    this.onPreviousPage = this.onPreviousPage.bind(this);
     this.onSelect = this.onSelect.bind(this);
     this.onGoToSearch = this.onGoToSearch.bind(this);
     this.onGoToWorkTree = this.onGoToWorkTree.bind(this);
@@ -154,6 +161,18 @@ class AppContent extends Component {
     this.onGoToSearchList();
   }
 
+  onAddListPage() {
+    let filter = this.state.filter;
+    filter.skip += PAGE_LIMIT;
+    this.setState({ filter });
+  }
+
+  onPreviousPage() {
+    let filter = this.state.filter;
+    filter.skip -= PAGE_LIMIT;
+    this.setState({ filter });
+  }
+
   onGoToSearchList() {
     this.scrollRef.current.scrollTo({x: MIN_WIDTH - 100, y: 0, animated: true});
   }
@@ -170,7 +189,7 @@ class AppContent extends Component {
     const { width, height, treedata } = this.state;
     const pageStyles = getPageSize(3, { width, height });
 
-    const { pclassWhere, pfunctionWhere, pclassiWhere } = this.state;
+    const { pclassWhere, pfunctionWhere, pclassiWhere, filter } = this.state;
     const whereFilters = { pclassWhere, pfunctionWhere, pclassiWhere };
 
     return (
@@ -189,8 +208,11 @@ class AppContent extends Component {
 
         <SearchList
           whereFilters={whereFilters}
+          filter={filter}
           styles={pageStyles}
           treedataLen={treedata.length}
+          onAddListPage={this.onAddListPage}
+          onPreviousPage={this.onPreviousPage}
           onSelect={this.onSelect}
           onGoToSearch={this.onGoToSearch}
           onGoToWorkTree={this.onGoToWorkTree}

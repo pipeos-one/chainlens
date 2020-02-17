@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { StyleSheet } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 import {
-  Content,
   View,
   Accordion,
   List,
@@ -17,22 +16,18 @@ export default class PclassList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      itemHeight: 0,
+      endWasReached: false,
+      // refreshing: false,
     }
 
     this._renderHeader = this._renderHeader.bind(this);
     this._renderContent = this._renderContent.bind(this);
-    this.addToHeight = this.addToHeight.bind(this);
-  }
 
-  addToHeight(node) {
-    // console.log('itemHeight', this.state.itemHeight, node.offsetHeight, node)
-    // console.log('current', node.current)
-    if (node && !this.state.itemHeight) {
-      this.setState({
-          itemHeight: node.offsetHeight
-      });
-    }
+    this._renderListItem = this._renderListItem.bind(this);
+
+    this._onEndReached = this._onEndReached.bind(this);
+    this._onScroll = this._onScroll.bind(this);
+    // this._onRefresh = this._onRefresh.bind(this);
   }
 
   _renderHeader(item, expanded) {
@@ -44,7 +39,6 @@ export default class PclassList extends Component {
           alignItems: "center",
           backgroundColor: "#fafafa"
         }}
-        ref={this.addToHeight}
       >
 
         <View style={{flexDirection: "row"}}>
@@ -52,7 +46,7 @@ export default class PclassList extends Component {
             ? <Icon style={{ fontSize: 18 }} name="remove-circle" />
             : <Icon style={{ fontSize: 18 }} name="add-circle" />
           }
-          <Text style={{ fontWeight: "500", paddingLeft: 10 }}>
+          <Text style={{ fontFamily: null, fontWeight: "400", paddingLeft: 10 }}>
             {item.data.name}
           </Text>
         </View>
@@ -84,7 +78,7 @@ export default class PclassList extends Component {
                     style={{ height: 15, width: 15, borderRadius: 5}}
                   />
               }
-              <Text style={{ paddingLeft: 10 }}>{pfunction.data.signature}</Text>
+              <Text style={{ fontFamily: null, paddingLeft: 10 }}>{pfunction.data.signature}</Text>
             </View>
           </Left>
         </ListItem>
@@ -98,38 +92,57 @@ export default class PclassList extends Component {
 
   _onEndReached({distanceFromEnd}) {
     console.log('_onEndReached distanceFromEnd', distanceFromEnd);
+    this.setState({ endWasReached: true });
+    this.props.onAddListPage();
   }
 
-  setCurrentReadOffset = (event) => {
-    // console.log('setCurrentReadOffset', event.nativeEvent.contentOffset.y, event);
-    let itemHeight = 100;
-    let currentOffset = Math.floor(event.nativeEvent.contentOffset.y);
-    let currentItemIndex = Math.ceil(currentOffset / itemHeight);
-    console.log('currentItemIndex', currentItemIndex);
-    // this.state.dataset.setReadOffset(currentItemIndex);
+  // _onRefresh() {
+  //   console.log('!!_onRefresh')
+  // }
+
+  _onScroll(event) {
+    if (this.state.endWasReached && event.nativeEvent.contentOffset.y < 40) {
+      this.props.onPreviousPage();
+    }
+  }
+
+  _renderListItem({ item, index, separators }) {
+    return (
+      <Accordion
+        dataArray={[item]}
+        keyExtractor={item => item._id}
+        renderHeader={this._renderHeader}
+        renderContent={this._renderContent}
+        contentStyle={{ flex: 1, backgroundColor: '#ffffff' }}
+      />
+    );
   }
 
   render() {
     const dataArray = this.props.data;
+
     return (
-      <Content
-        scrollEventThrottle={300}
-        removeClippedSubviews={true}
-        nestedScrollEnabled={true}
-        onScroll={this.setCurrentReadOffset}
-        contentContainerStyle={{height: "100%"}}
-      >
-      <Accordion
-        dataArray={dataArray}
+      <FlatList
+        data={dataArray}
         keyExtractor={item => item._id}
-        renderHeader={this._renderHeader}
-        renderContent={this._renderContent}
+        renderItem={this._renderListItem}
+
+        scrollEnabled={true}
+        scrollEventThrottle={300}
+
         onEndReached={this._onEndReached}
-        onEndReachedThreshold={0.9}
-        contentStyle={{ flex: 1 }}
+        onEndReachedThreshold={0.2}
+        onScroll={this._onScroll}
+
+        contentStyle={{ flex: 1, backgroundColor: '#ffffff' }}
       />
-      </Content>
     );
+
+    // removeClippedSubviews={true}
+    // getItemLayout
+    // nestedScrollEnabled={true}
+    // onRefresh={this._onRefresh}
+    // refreshing={this.state.refreshing}
   }
 }
 
@@ -139,6 +152,6 @@ const styles = StyleSheet.create(
     buttonStyle: {
       backgroundColor: '#cccccc',
       marginLeft: 15,
-    }
+    },
   }
 )
