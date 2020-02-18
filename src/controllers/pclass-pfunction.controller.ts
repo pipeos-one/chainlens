@@ -131,7 +131,7 @@ export class PclassPfunctionController {
     gapi = pclass.data.gapi || [];
     natspec = pclass.data.natspec || emptydoc;
 
-    for (let i=0; i < gapi.length; i++) {
+    for (let i = 0; i < gapi.length; i++) {
         let funcapi: GapiFunction = gapi[i];
         let functiondoc;
         let signature: string = getSignature(funcapi);
@@ -143,6 +143,7 @@ export class PclassPfunctionController {
         // }
         functiondoc = {
             data: {
+                name: funcapi.name,
                 signature,
                 gapi: funcapi,
                 natspec: signature ? natspec.methods[signature] : undefined,
