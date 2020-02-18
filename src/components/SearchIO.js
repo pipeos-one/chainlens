@@ -70,7 +70,7 @@ export default class SearchIO extends Component {
             >
               <Radio selected={this.state.field === 'inputs' ? true : false} />
               <Body>
-                <Text>input</Text>
+                <Text style={{ fontFamily: null }}>input</Text>
               </Body>
             </ListItem>
             <ListItem
@@ -79,7 +79,7 @@ export default class SearchIO extends Component {
             >
               <Radio selected={this.state.field === 'outputs' ? true : false} />
               <Body>
-                <Text>output</Text>
+                <Text style={{ fontFamily: null }}>output</Text>
               </Body>
             </ListItem>
           </Content>

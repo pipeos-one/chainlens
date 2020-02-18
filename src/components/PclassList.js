@@ -17,6 +17,7 @@ export default class PclassList extends Component {
     super(props);
     this.state = {
       endWasReached: false,
+      scrolled: false,
       // refreshing: false,
     }
 
@@ -101,7 +102,12 @@ export default class PclassList extends Component {
   // }
 
   _onScroll(event) {
-    if (this.state.endWasReached && event.nativeEvent.contentOffset.y === 0) {
+    console.log('contentOffset.y', event.nativeEvent.contentOffset.y)
+    if (event.nativeEvent.contentOffset.y > 300) {
+      this.setState({ scrolled: true })
+    }
+    // if (this.state.endWasReached && event.nativeEvent.contentOffset.y === 0) {
+    if (this.state.scrolled && event.nativeEvent.contentOffset.y === 0) {
       this.props.onPreviousPage();
     }
   }
