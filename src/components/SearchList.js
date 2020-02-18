@@ -9,6 +9,46 @@ import {
 import PclassList from './PclassList.js';
 import { useSearchResults, useSearchCount } from '../fetchers.js';
 
+export function SearchListCommon(props) {
+  return (
+    <View style={{ ...props.styles, flex: 1 }}>
+      <PclassList
+        data={props.data}
+        onSelect={props.onSelect}
+      />
+
+      <View style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: 5,
+        borderTopWidth: 1,
+        borderTopColor: '#cccccc',
+      }}>
+        <Button small rounded style={ styles.buttonStyle } onClick={props.onGoToSearch}>
+          <Icon name='search' />
+          <Text>{props.resultsCount}</Text>
+        </Button>
+        <View style={{flexDirection: "row", alignItems: "center"}}>
+          <Button small rounded style={ styles.buttonStyle } onClick={props.onPreviousPage}>
+            <Icon type="FontAwesome" name='caret-left' />
+          </Button>
+          <Text>
+            @{(props.filter.skip || 0) + 1}
+          </Text>
+          <Button small rounded style={ styles.buttonStyle } onClick={props.onAddListPage}>
+            <Icon type="FontAwesome" name='caret-right' />
+          </Button>
+        </View>
+        <Button small rounded style={ styles.buttonStyle } onClick={props.onGoToWorkspace}>
+          <Text>{props.treedataLen || 0}</Text>
+          <Icon type="MaterialCommunityIcons" name='import' />
+        </Button>
+      </View>
+
+    </View>
+  )
+}
 
 export function SearchListPClasses(props) {
   const { whereFilter, filter } = props;
@@ -28,36 +68,17 @@ export function SearchListPClasses(props) {
   console.log('count', resultsCount);
 
   return (
-    <View style={{ ...props.styles, flex: 1 }}>
-      <PclassList
-        data={data}
-        onSelect={props.onSelect}
-        onAddListPage={() => (resultsCount >= (filter.skip + filter.limit)) ? props.onAddListPage() : () => {}}
-        onPreviousPage={() => (filter.skip > 0) ? props.onPreviousPage() : () => {}}
-      />
-
-      <View style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: 5,
-        borderTopWidth: 1,
-        borderTopColor: '#cccccc',
-      }}>
-        <Button small rounded style={ styles.buttonStyle } onClick={props.onGoToSearch}>
-          <Icon name='search' />
-          <Text>{resultsCount}</Text>
-        </Button>
-        <Text>
-          @{(filter.skip || 0) + 1}
-        </Text>
-        <Button small rounded style={ styles.buttonStyle } onClick={props.onGoToWorkspace}>
-          <Text>{props.treedataLen || 0}</Text>
-          <Icon type="MaterialCommunityIcons" name='import' />
-        </Button>
-      </View>
-
-    </View>
+    <SearchListCommon
+      data={data}
+      resultsCount={resultsCount}
+      filter={filter}
+      styles={props.styles}
+      onGoToSearch={props.onGoToSearch}
+      onPreviousPage={props.onPreviousPage}
+      onAddListPage={props.onAddListPage}
+      onGoToWorkspace={props.onGoToWorkspace}
+      treedataLen={props.treedataLen}
+    />
   )
 }
 
@@ -94,35 +115,17 @@ export function SearchListPfunctions(props) {
   console.log('count', resultsCount);
 
   return (
-    <View style={{ ...props.styles, flex: 1 }}>
-      <PclassList
-        data={data}
-        onSelect={props.onSelect}
-        onAddListPage={() => (resultsCount >= (filter.skip + filter.limit)) ? props.onAddListPage() : () => {}}
-        onPreviousPage={props.onPreviousPage}
-      />
-
-      <View style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: 5,
-        borderTopWidth: 1,
-        borderTopColor: '#cccccc',
-      }}>
-        <Button small rounded style={ styles.buttonStyle } onClick={props.onGoToSearch}>
-          <Icon name='search' />
-          <Text>{resultsCount}</Text>
-        </Button>
-        <Text>
-          @{(filter.skip || 0) + 1}
-        </Text>
-        <Button small rounded style={ styles.buttonStyle } onClick={props.onGoToWorkspace}>
-          <Text>{props.treedataLen || 0}</Text>
-          <Icon type="MaterialCommunityIcons" name='import' />
-        </Button>
-      </View>
-    </View>
+    <SearchListCommon
+      data={data}
+      resultsCount={resultsCount}
+      filter={filter}
+      styles={props.styles}
+      onGoToSearch={props.onGoToSearch}
+      onPreviousPage={props.onPreviousPage}
+      onAddListPage={props.onAddListPage}
+      onGoToWorkspace={props.onGoToWorkspace}
+      treedataLen={props.treedataLen}
+    />
   )
 }
 
