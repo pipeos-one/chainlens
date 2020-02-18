@@ -91,11 +91,30 @@ export class PclassController {
   async find(
     @param.query.object('filter', getFilterSchemaFor(Pclass)) filter?: Filter<Pclass>,
   ): Promise<Pclass[]> {
-    const lowlevelQuery = gapiFilter('pclass', filter);
+    let lowlevelQuery;
+    filter = filter || {};
+    if (filter.include) {
+      lowlevelQuery = gapiFilter('pclass', filter, '_id');
+    } else {
+      lowlevelQuery = gapiFilter('pclass', filter);
+    }
+
     if (!lowlevelQuery) {
       return this.pclassRepository.find(filter);
     }
-    return this.pclassRepository.dataSource.execute(lowlevelQuery);
+
+    if (!filter.include) {
+      return this.pclassRepository.dataSource.execute(lowlevelQuery);
+    }
+    const items = await this.pclassRepository.dataSource.execute(lowlevelQuery);
+    let itemsInclude: Pclass[] = [];
+
+    for (let i = 0; i < items.length; i++) {
+      const newFilter = {where: {_id: items[i]._id}, include: filter.include};
+      const itemInclude: Pclass[] = await this.pclassRepository.find(newFilter);
+      itemsInclude = itemsInclude.concat(itemInclude);
+    }
+    return itemsInclude;
   }
 
   @patch('/pclass', {
