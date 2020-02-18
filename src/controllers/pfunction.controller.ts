@@ -91,11 +91,29 @@ export class PfunctionController {
   async find(
     @param.query.object('filter', getFilterSchemaFor(Pfunction)) filter?: Filter<Pfunction>,
   ): Promise<Pfunction[]> {
-    const lowlevelQuery = gapiFilter('pfunction', filter);
+    let lowlevelQuery;
+    filter = filter || {};
+    if (filter.include) {
+      lowlevelQuery = gapiFilter('pfunction', filter, '_id');
+    } else {
+      lowlevelQuery = gapiFilter('pfunction', filter);
+    }
     if (!lowlevelQuery) {
       return this.pfunctionRepository.find(filter);
     }
-    return this.pfunctionRepository.dataSource.execute(lowlevelQuery);
+
+    if (!filter.include) {
+      return this.pfunctionRepository.dataSource.execute(lowlevelQuery);
+    }
+    const pfunctions = await this.pfunctionRepository.dataSource.execute(lowlevelQuery);
+    let pfunctionsInclude: Pfunction[] = [];
+
+    for (let i = 0; i < pfunctions.length; i++) {
+      const newFilter = {where: {_id: pfunctions[i]._id}, include: filter.include};
+      const pfuncInclude: Pfunction[] = await this.pfunctionRepository.find(newFilter);
+      pfunctionsInclude = pfunctionsInclude.concat(pfuncInclude);
+    }
+    return pfunctionsInclude;
   }
 
   @patch('/pfunction', {
