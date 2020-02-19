@@ -16,11 +16,14 @@ export const pclassApi = () => `${PIPEOS_SERVER.host}${PIPEOS_SERVER.route.pclas
 export const pfunctionApi = () => `${PIPEOS_SERVER.host}${PIPEOS_SERVER.route.pfunction}`;
 
 export const pclassWithPfuncApi = (filter = {}, type = 'pclass') => {
-  let relation = {relation: 'pfunctions'};
-  if (type === 'pfunction') {
-    relation.relation = 'pclass';
+  let relations = [];
+  if (type === 'pclass') {
+    relations = [{relation: 'pfunctions'}, {relation: 'pclassInstances'}];
   }
-  filter = {...filter, include: [relation]};
+  if (type === 'pfunction') {
+    relations = [{relation: 'pclass'}];
+  }
+  filter = {...filter, include: relations};
 
   console.log('filter', filter, JSON.stringify(filter));
   return `${PIPEOS_SERVER.host}/${type}?filter=${JSON.stringify(filter)}`;

@@ -5,6 +5,7 @@ import { Container } from 'native-base';
 import SearchComponent from './components/Search.js';
 import Workspace from './components/Workspace.js';
 import { SearchListPClasses, SearchListPfunctions} from './components/SearchList.js';
+import { PclassDetails } from './components/PclassDetails.js';
 import { buildWhereQueries, buildWhereFx } from './utils.js';
 
 const MIN_WIDTH = 800;
@@ -31,6 +32,7 @@ class AppContent extends Component {
       pclassiWhere: {},
       filter: {skip: 0, limit: PAGE_LIMIT},
       treedata: [],
+      showPclassInfo: null,
     };
 
     this.scrollRef = React.createRef();
@@ -43,6 +45,7 @@ class AppContent extends Component {
     this.onGoToSearch = this.onGoToSearch.bind(this);
     this.onGoToWorkspace = this.onGoToWorkspace.bind(this);
     this.onGoToSearchList = this.onGoToSearchList.bind(this);
+    this.onInfo = this.onInfo.bind(this);
   }
 
   onContentSizeChange() {
@@ -104,13 +107,23 @@ class AppContent extends Component {
     this.scrollRef.current.scrollToEnd();
   }
 
+  onInfo(item) {
+    this.setState({ showPclassInfo: item });
+  }
+
   render() {
-    const { width, height, treedata } = this.state;
+    const {
+      width,
+      height,
+      treedata,
+      showPclassInfo,
+      pclassWhere,
+      pfunctionWhere,
+      pclassiWhere,
+      filter,
+    } = this.state;
     const pageStyles = getPageSize(3, { width, height });
-
-    const { pclassWhere, pfunctionWhere, pclassiWhere, filter } = this.state;
     const whereFilters = { pclassWhere, pfunctionWhere, pclassiWhere };
-
     const showFunctions = (Object.keys(pfunctionWhere)[0] || '').includes('data.gapi');
 
     return (
@@ -139,6 +152,7 @@ class AppContent extends Component {
             onSelect={this.onSelect}
             onGoToSearch={this.onGoToSearch}
             onGoToWorkspace={this.onGoToWorkspace}
+            onInfo={this.onInfo}
           />
           : <SearchListPClasses
             whereFilters={whereFilters}
@@ -151,15 +165,21 @@ class AppContent extends Component {
             onSelect={this.onSelect}
             onGoToSearch={this.onGoToSearch}
             onGoToWorkspace={this.onGoToWorkspace}
+            onInfo={this.onInfo}
           />
         }
-
-        <Workspace
-          treedata={treedata}
-          styles={pageStyles}
-          onGoToSearchList={this.onGoToSearchList}
-        />
-
+        {showPclassInfo
+          ? <PclassDetails
+              styles={pageStyles}
+              pclass={showPclassInfo}
+              onInfoClosed={() => this.setState({ showPclassInfo: null })}
+            />
+          : <Workspace
+              treedata={treedata}
+              styles={pageStyles}
+              onGoToSearchList={this.onGoToSearchList}
+            />
+        }
       </ScrollView>
     )
   }
