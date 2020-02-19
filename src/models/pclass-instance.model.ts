@@ -47,10 +47,10 @@ export class SolidityDeployment extends Model {
     constructorArgs?: string;  // 0x
 
     @property({
-      type: 'string',
+      type: 'number',
       required: true,
     })
-    chainid: string;
+    chainid: number;
 
     @property({
        type: 'string',
