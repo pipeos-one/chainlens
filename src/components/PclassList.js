@@ -6,6 +6,7 @@ import {
   List,
   ListItem,
   Left,
+  Right,
   Icon,
   Text,
   Button,
@@ -75,6 +76,11 @@ export default class PclassList extends Component {
               <Text style={{ fontFamily: null, paddingLeft: 10 }}>{pfunction.data.signature}</Text>
             </View>
           </Left>
+          <Right>
+            <Button small rounded style={styles.buttonStyle} onClick={() => this.props.onPfunctionRun({ pfunction, pclass: item })} >
+              <Icon type="MaterialCommunityIcons" name='play' />
+            </Button>
+          </Right>
         </ListItem>
       ));
     });

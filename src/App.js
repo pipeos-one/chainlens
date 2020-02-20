@@ -6,6 +6,7 @@ import SearchComponent from './components/Search.js';
 import Workspace from './components/Workspace.js';
 import { SearchListPClasses, SearchListPfunctions} from './components/SearchList.js';
 import { PclassDetails } from './components/PclassDetails.js';
+import { PfunctionGapi } from './components/gapi/PfunctionGapi.js';
 import { buildWhereQueries, buildWhereFx } from './utils.js';
 
 const MIN_WIDTH = 800;
@@ -33,6 +34,7 @@ class AppContent extends Component {
       filter: {skip: 0, limit: PAGE_LIMIT},
       treedata: [],
       showPclassInfo: null,
+      runPfunction: null,
     };
 
     this.scrollRef = React.createRef();
@@ -46,6 +48,7 @@ class AppContent extends Component {
     this.onGoToWorkspace = this.onGoToWorkspace.bind(this);
     this.onGoToSearchList = this.onGoToSearchList.bind(this);
     this.onInfo = this.onInfo.bind(this);
+    this.onPfunctionRun = this.onPfunctionRun.bind(this);
   }
 
   onContentSizeChange() {
@@ -111,12 +114,17 @@ class AppContent extends Component {
     this.setState({ showPclassInfo: item });
   }
 
+  onPfunctionRun(item) {
+    this.setState({ runPfunction: item });
+  }
+
   render() {
     const {
       width,
       height,
       treedata,
       showPclassInfo,
+      runPfunction,
       pclassWhere,
       pfunctionWhere,
       pclassiWhere,
@@ -153,6 +161,7 @@ class AppContent extends Component {
             onGoToSearch={this.onGoToSearch}
             onGoToWorkspace={this.onGoToWorkspace}
             onInfo={this.onInfo}
+            onPfunctionRun={this.onPfunctionRun}
           />
           : <SearchListPClasses
             whereFilters={whereFilters}
@@ -166,6 +175,7 @@ class AppContent extends Component {
             onGoToSearch={this.onGoToSearch}
             onGoToWorkspace={this.onGoToWorkspace}
             onInfo={this.onInfo}
+            onPfunctionRun={this.onPfunctionRun}
           />
         }
         {showPclassInfo
@@ -174,11 +184,19 @@ class AppContent extends Component {
               pclass={showPclassInfo}
               onInfoClosed={() => this.setState({ showPclassInfo: null })}
             />
-          : <Workspace
+          : (
+            runPfunction
+            ? <PfunctionGapi
+                styles={pageStyles}
+                item={runPfunction}
+                onInfoClosed={() => this.setState({ runPfunction: null })}
+              />
+            : <Workspace
               treedata={treedata}
               styles={pageStyles}
               onGoToSearchList={this.onGoToSearchList}
             />
+          )
         }
       </ScrollView>
     )

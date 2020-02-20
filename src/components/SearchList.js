@@ -16,6 +16,7 @@ export function SearchListCommon(props) {
         data={props.data}
         onSelect={props.onSelect}
         onInfo={props.onInfo}
+        onPfunctionRun={props.onPfunctionRun}
       />
 
       <View style={{
@@ -79,6 +80,7 @@ export function SearchListPClasses(props) {
       onAddListPage={props.onAddListPage}
       onGoToWorkspace={props.onGoToWorkspace}
       onInfo={props.onInfo}
+      onPfunctionRun={props.onPfunctionRun}
       treedataLen={props.treedataLen}
     />
   )
@@ -127,6 +129,7 @@ export function SearchListPfunctions(props) {
       onAddListPage={props.onAddListPage}
       onGoToWorkspace={props.onGoToWorkspace}
       onInfo={props.onInfo}
+      onPfunctionRun={props.onPfunctionRun}
       treedataLen={props.treedataLen}
     />
   )
