@@ -12,6 +12,7 @@ import {
   Button,
   Thumbnail,
 } from "native-base";
+import { pfunctionColor } from '../utils.js';
 
 export default class PclassList extends Component {
   constructor(props) {
@@ -60,7 +61,7 @@ export default class PclassList extends Component {
     item.pfunctions.forEach(pfunction => {
       if (!pfunction.data.name) return;
       pfunctions.push((
-        <ListItem key={pfunction._id}>
+        <ListItem key={pfunction._id} style={{ backgroundColor: pfunctionColor(pfunction.data.gapi) }}>
           <Left>
             <View style={{flexDirection: "row", alignItems: "center"}}>
               {pfunction.data.gapi.type === 'event'

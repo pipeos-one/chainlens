@@ -49,3 +49,26 @@ export function debounce(func, wait, immediate) {
         if (callNow) func.apply(context, args);
     };
 };
+
+export function pfunctionColorClass(gapi) {
+    let colorClass = '';
+    if (gapi.type === 'event') {
+        colorClass = 'event';
+    } else if (gapi.payable) {
+        colorClass = 'payable';
+    } else if (!gapi.constant) {
+        colorClass = 'nonconstant';
+    }
+    return colorClass;
+};
+
+export const colorMap = {
+    event: '#C9DEBB',
+    payable: '#CDE0F2',
+    nonconstant: '#E9DEDE',
+};
+
+export function pfunctionColor(gapi) {
+    const colorClass = pfunctionColorClass(gapi);
+    return colorMap[colorClass];
+};
