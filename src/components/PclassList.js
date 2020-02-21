@@ -60,6 +60,18 @@ export default class PclassList extends Component {
     const pfunctions = [];
     item.pfunctions.forEach(pfunction => {
       if (!pfunction.data.name) return;
+
+      let signature = pfunction.data.signature;
+      if (
+        pfunction.data.gapi.outputs
+        && pfunction.data.gapi.outputs.length > 0
+      ) {
+        signature += `->(${
+          pfunction.data.gapi.outputs
+            .map(out => out.type)
+            .join(',')
+        })`;
+      }
       pfunctions.push((
         <ListItem key={pfunction._id} style={{ backgroundColor: pfunctionColor(pfunction.data.gapi) }}>
           <Left>
@@ -74,7 +86,7 @@ export default class PclassList extends Component {
                     style={{ height: 15, width: 15, borderRadius: 5}}
                   />
               }
-              <Text style={{ fontFamily: null, paddingLeft: 10 }}>{pfunction.data.signature}</Text>
+              <Text style={{ fontFamily: null, paddingLeft: 10 }}>{signature}</Text>
             </View>
           </Left>
           <Right>
