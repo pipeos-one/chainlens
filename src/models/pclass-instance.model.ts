@@ -123,11 +123,16 @@ export class PclassInstance extends Entity {
 
   @property({
     type: 'string',
+  })
+  pclassid_?: string;
+
+  @property({
+    type: 'string',
     postgresql: {
       dataType: 'uuid',
     },
   })
-  packageid?: string;
+  ppackageid?: string;
 
   @property({
     type: 'string',

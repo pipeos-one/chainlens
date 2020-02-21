@@ -73,9 +73,9 @@ export class Pclass extends Entity {
   _id: string;
 
   @property({
-    type: 'number',
+    type: 'string',
   })
-  id?: number;
+  id?: string;
 
   @property({
     type: 'string',

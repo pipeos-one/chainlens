@@ -17,6 +17,13 @@ export class PfunctionData extends Model {
     type: 'string',
     required: true,
   })
+  signatureString: string;
+
+  // bytes4
+  @property({
+    type: 'string',
+    required: true,
+  })
   signature: string;
 
   @property({

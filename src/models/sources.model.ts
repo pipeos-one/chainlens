@@ -50,6 +50,14 @@ export class SourceData extends Model {
       dataType: "json",
     },
   })
+  sourcesTemp?: object;
+
+  @property({
+    type: 'object',
+    postgresql: {
+      dataType: "json",
+    },
+  })
   compiler: Compiler;
 
   @property({

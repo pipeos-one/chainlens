@@ -22,7 +22,7 @@ import {
   Natspec,
 } from '../models';
 import {PclassRepository} from '../repositories';
-import {getSignature} from '../utils/gapi';
+import {getSignatureString, getSignature} from '../utils/gapi';
 
 export class PclassPfunctionController {
   constructor(
@@ -135,6 +135,7 @@ export class PclassPfunctionController {
         let funcapi: GapiFunction = gapi[i];
         let functiondoc;
         let signature: string = getSignature(funcapi);
+        let signatureString: string = getSignatureString(funcapi);
         // TODO? sourceByFunctionName: any;
         // sourceByFunctionName = (<JsClass>pclass.pclass).sourceByFunctionName;
         // const sources: PFunctionSources = {};
@@ -145,8 +146,9 @@ export class PclassPfunctionController {
             data: {
                 name: funcapi.name,
                 signature,
+                signatureString,
                 gapi: funcapi,
-                natspec: signature ? natspec.methods[signature] : undefined,
+                natspec: natspec.methods[signatureString],
                 // sources,
             },
             metadata: pclass.metadata,
