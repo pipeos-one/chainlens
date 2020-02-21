@@ -20,16 +20,21 @@ export class PfunctionGapi extends Component {
   constructor(props) {
     super(props);
 
-    const { pfunction } = this.props.item;
-    const ioGapiInputs = this.ioGapiInputs(pfunction);
-
     this.state = {
-      inputs: ioGapiInputs && ioGapiInputs.components ? new Array(ioGapiInputs.components.length) : [],
+      inputs: this.initInputsState(),
       outputs: [],
     }
 
     this.onValueChange = this.onValueChange.bind(this);
     this.onRun = this.onRun.bind(this);
+  }
+
+  initInputsState() {
+    const { pfunction } = this.props.item;
+    const ioGapiInputs = this.ioGapiInputs(pfunction);
+    return ioGapiInputs && ioGapiInputs.components
+      ? new Array(ioGapiInputs.components.length)
+      : [];
   }
 
   typesig(typ) {
@@ -63,7 +68,7 @@ export class PfunctionGapi extends Component {
 
   onValueChange(value) {
     console.log('--- onValueChange', value);
-    this.setState({ input: value });
+    this.setState({ inputs: value });
   }
 
   onRun() {

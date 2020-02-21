@@ -187,6 +187,7 @@ class AppContent extends Component {
           : (
             runPfunction
             ? <PfunctionGapi
+                key={runPfunction.pfunction._id}
                 styles={pageStyles}
                 item={runPfunction}
                 onInfoClosed={() => this.setState({ runPfunction: null })}
