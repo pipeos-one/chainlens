@@ -1,18 +1,12 @@
 import React, { Component } from "react";
 import { StyleSheet } from 'react-native';
 import {
-  Content,
   View,
-  Body,
-  Card,
-  CardItem,
   Icon,
   Text,
-  Textarea,
   Input,
   Label,
   Item,
-  Button,
   Accordion,
 } from "native-base";
 
@@ -38,11 +32,11 @@ function IoUI(props) {
   console.log('encodeValue', encodeValue(props.value));
   return (
     <Input
-      bordered={'true'} rounded={'true'}
       value={encodeValue(props.value)}
       onChangeText={(text) => props.onValueChange(decodeValue(text))}
       styles={props.styles}
-      />
+      disabled={props.readonly}
+    />
   )
 }
 
@@ -63,7 +57,7 @@ export default class IoGapi extends Component {
   }
 
   getLabel(item) {
-    return `${item.name}:${item.type}`;
+    return item.label || `${item.name}:${item.type}`;
   }
 
   onOpenComponents() {
@@ -87,21 +81,23 @@ export default class IoGapi extends Component {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          backgroundColor: "#fafafa"
+          backgroundColor: "#fafafa",
+          ...this.props.styles
         }}
       >
-        <View style={{flexDirection: "row"}}>
+        <View style={{ ...this.props.styles, flexDirection: "row" }}>
           {expanded
             ? <Icon style={{ fontSize: 18 }} name="remove-circle" />
             : <Icon style={{ fontSize: 18 }} name="add-circle" />
           }
-          <Item stackedLabel style={{ width: '100%' }}>
+          <Item stackedLabel style={{ ...this.props.styles, maxWidth: this.props.styles.minWidth }}>
             <Label>{label}</Label>
             <IoUI
               item={item}
-              value={this.state.componentValues}
+              value={this.props.value}
               onValueChange={this.props.onValueChange}
               styles={this.props.styles}
+              readonly={this.props.readonly}
             />
           </Item>
         </View>
@@ -116,35 +112,39 @@ export default class IoGapi extends Component {
           key={i}
           styles={this.props.styles}
           item={subio}
-          value={this.state.componentValues[i]}
+          value={this.props.value[i]}
           onValueChange={(value) => this.onComponentsValueChange(value, i)}
+          readonly={this.props.readonly}
         />
       );
     });
   }
 
   render() {
-    const { item, styles } = this.props;
-    const label = this.getLabel(item);
+    const { item, styles, readonly } = this.props;
+    if (!item) return (<Text>---</Text>);
 
+    const label = this.getLabel(item);
     return (
-      <View style={{ flexDirection: "row", alignItems: "center"}}>
-        {item.components && item.components.length > 1
-          ? <Accordion
-              dataArray={[item]}
-              renderHeader={this._renderHeader}
-              renderContent={this._renderContent}
-              contentStyle={{ ...styles, flex: 1, backgroundColor: '#ffffff' }}
-            />
-          : <Item stackedLabel style={{ width: '100%' }}>
+      <View style={{ ...styles, flexDirection: "row", alignItems: "center"}}>
+        {!item.components || item.components.length === 0
+          ? <Item stackedLabel style={{ width: '100%' }}>
               <Label>{label}</Label>
               <IoUI
                 styles={styles}
                 item={item}
                 value={this.props.value}
                 onValueChange={this.props.onValueChange}
+                readonly={readonly}
               />
             </Item>
+          : <Accordion
+              dataArray={[item]}
+              expanded={0}
+              renderHeader={this._renderHeader}
+              renderContent={this._renderContent}
+              contentStyle={{ ...styles, flex: 1, backgroundColor: '#ffffff' }}
+            />
         }
       </View>
     );

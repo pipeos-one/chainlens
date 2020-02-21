@@ -3,44 +3,62 @@ import { StyleSheet } from 'react-native';
 import {
   Content,
   View,
-  Body,
   Card,
   CardItem,
   Icon,
   Text,
-  Textarea,
   Button,
-  Input,
-  Item,
-  Label,
-  Form,
+  H1,
+  Right,
+  Left,
 } from "native-base";
 
 import IoGapi from './IoGapi.js';
+import { pfunctionColor } from '../../utils.js';
 
 export class PfunctionGapi extends Component {
   constructor(props) {
     super(props);
 
     const { pfunction } = this.props.item;
-    this.ioGapiInputs = {
-      name: pfunction.data.signature,
-      type: 'tuple',
-      components: pfunction.data.gapi.inputs,
-    }
-    this.ioGapiOutputs = {
-      name: pfunction.data.signature,
-      type: 'tuple',
-      components: pfunction.data.gapi.outputs,
-    }
+    const ioGapiInputs = this.ioGapiInputs(pfunction);
 
     this.state = {
-      inputs: this.ioGapiInputs.components ? new Array(this.ioGapiInputs.components.length) : [],
-      outputs: null,
+      inputs: ioGapiInputs && ioGapiInputs.components ? new Array(ioGapiInputs.components.length) : [],
+      outputs: [],
     }
 
     this.onValueChange = this.onValueChange.bind(this);
     this.onRun = this.onRun.bind(this);
+  }
+
+  typesig(typ) {
+    let sig = '';
+    if (typ.name) sig += `${typ.name}:`;
+    sig += typ.type;
+    return sig;
+  }
+
+  ioGapiInputs(pfunction) {
+    const signatureInp = `(${pfunction.data.gapi.inputs.map(inp => this.typesig(inp)).join(',')})`;
+
+    return pfunction.data.gapi.inputs.length > 0 ? {
+      name: pfunction.data.signature,
+      type: 'tuple',
+      components: pfunction.data.gapi.inputs,
+      label: signatureInp,
+    } : null;
+  }
+
+  ioGapiOutputs(pfunction) {
+    const signatureOut = `(${pfunction.data.gapi.outputs.map(inp => this.typesig(inp)).join(',')})`;
+
+    return pfunction.data.gapi.outputs.length > 0 ? {
+      name: pfunction.data.signature,
+      type: 'tuple',
+      components: pfunction.data.gapi.outputs,
+      label: signatureOut,
+    } : null;
   }
 
   onValueChange(value) {
@@ -53,59 +71,69 @@ export class PfunctionGapi extends Component {
   }
 
   render() {
-    const { pclass, pfunction } = this.props.item;
+    const { pfunction } = this.props.item;
     const width = this.props.styles.minWidth - 40;
     const ioStyles = { minWidth: width, width };
 
+    const ioGapiInputs = this.ioGapiInputs(pfunction);
+    const ioGapiOutputs = this.ioGapiOutputs(pfunction);
+
     return (
-      <Content style={{...this.props.styles, flex: 1 }}>
-        <Card>
-          <CardItem header>
+      <View style={{...this.props.styles, flex: 1, width: this.props.styles.minWidth }}>
+        <CardItem style={{ backgroundColor: pfunctionColor(pfunction.data.gapi) }}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <H1 style={{ paddingRight: 20 }}>{pfunction.data.name}</H1>
+          </View>
+        </CardItem>
+        <Content>
+          <Card>
+            <CardItem header>
+              <Text>Inputs</Text>
+            </CardItem>
+            <CardItem>
+              <IoGapi
+                item={ioGapiInputs}
+                value={this.state.inputs}
+                onValueChange={this.onValueChange}
+                styles={ioStyles}
+              />
+            </CardItem>
+            <CardItem header>
+              <Text>Outputs</Text>
+            </CardItem>
+            <CardItem>
+              <IoGapi
+                item={ioGapiOutputs}
+                readonly={true}
+                value={this.state.outputs}
+                styles={ioStyles}
+              />
+            </CardItem>
+          </Card>
+        </Content>
+        <View style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: 5,
+          borderTopWidth: 1,
+          borderTopColor: '#cccccc',
+        }}>
+          <Left>
             <Button small rounded style={styles.buttonStyle} onClick={this.props.onInfoClosed} >
               <Icon type="MaterialCommunityIcons" name='close' />
             </Button>
-          </CardItem>
-          <CardItem header>
+          </Left>
+          <Right>
             <Button small rounded style={styles.buttonStyle} onClick={this.onRun} >
-              <Text>{pfunction.data.name}</Text>
               <Icon type="MaterialCommunityIcons" name='play' />
             </Button>
-          </CardItem>
-          <CardItem header>
-            <Text>Inputs</Text>
-          </CardItem>
-          <CardItem>
-            <IoGapi
-              item={this.ioGapiInputs}
-              value={this.state.inputs}
-              onValueChange={this.onValueChange}
-              styles={ioStyles}
-            />
-          </CardItem>
-          <CardItem header>
-            <Text>Outputs</Text>
-          </CardItem>
-          <CardItem>
-            <IoGapi
-              item={this.ioGapiOutputs}
-              readonly={true}
-            />
-          </CardItem>
-        </Card>
-      </Content>
+          </Right>
+        </View>
+      </View>
     );
   }
 }
-
-// <Item floatingLabel>
-//   <Label>TODO</Label>
-//   <Input
-//     bordered={'true'} rounded={'true'}
-//     placeholder='TODO'
-//     onChangeText={text => onChangeText(text)}
-//   />
-//   <Icon type="FontAwesome" name='caret-down' />
-// </Item>
 
 const styles = StyleSheet.create(
   {
