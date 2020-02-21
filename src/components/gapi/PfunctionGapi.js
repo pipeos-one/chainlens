@@ -50,7 +50,7 @@ export class PfunctionGapi extends Component {
     const signatureInp = `(${pfunction.data.gapi.inputs.map(inp => this.typesig(inp)).join(',')})`;
 
     return pfunction.data.gapi.inputs.length > 0 ? {
-      name: pfunction.data.signature,
+      name: pfunction.data.signatureString,
       type: 'tuple',
       components: pfunction.data.gapi.inputs,
       label: signatureInp,

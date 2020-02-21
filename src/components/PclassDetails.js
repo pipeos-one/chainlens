@@ -21,7 +21,7 @@ export function PclassDetails(props) {
 
   const textareaStyles = { minWidth: props.styles.minWidth - 40, minHeight: 150 };
 
-  const deployments = pclass.pclassInstances.map(pclassi => {
+  const deployments = (pclass.pclassInstances || []).map(pclassi => {
     return (
       <View key={pclassi._id} style={{flexDirection: "column"}}>
         <View style={{flexDirection: "row", alignItems: "center"}}>

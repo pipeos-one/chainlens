@@ -58,10 +58,10 @@ export default class PclassList extends Component {
 
   _renderContent(item) {
     const pfunctions = [];
-    item.pfunctions.forEach(pfunction => {
+    (item.pfunctions || []).forEach(pfunction => {
       if (!pfunction.data.name) return;
 
-      let signature = pfunction.data.signature;
+      let signature = pfunction.data.signatureString;
       if (
         pfunction.data.gapi.outputs
         && pfunction.data.gapi.outputs.length > 0
