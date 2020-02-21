@@ -14,6 +14,8 @@ import {
 } from "native-base";
 
 import IoGapi from './IoGapi.js';
+import { getWeb3 } from '../../utils/web3.js';
+import { ethers } from 'ethers';
 import { pfunctionColor } from '../../utils.js';
 
 export class PfunctionGapi extends Component {
@@ -71,8 +73,25 @@ export class PfunctionGapi extends Component {
     this.setState({ inputs: value });
   }
 
-  onRun() {
-    this.props.onRun(this.state.inputs);
+  async onRun() {
+    const { pclass, pfunction } = this.props.item;
+    const { pclassInstances } = pclass;
+
+    const web3 = await getWeb3();
+    const chain = web3.version.network;
+    const provider = new ethers.providers.Web3Provider(web3.currentProvider);
+    const signer = provider.getSigner();
+
+    console.log('this.state.inputs', this.state.inputs);
+
+    const instance = pclassInstances.find(inst => inst.data.deployment.chainid === chain || inst.data.deployment.chainid === parseInt(chain))
+
+    const contract = new ethers.Contract(instance.data.deployment.address, pclass.data.gapi, signer);
+    const result = await contract[pfunction.data.name](...this.state.inputs);
+
+    console.log('result', result);
+    const outputs = (result instanceof Array) ? result : [result];
+    this.setState({ outputs });
   }
 
   render() {
