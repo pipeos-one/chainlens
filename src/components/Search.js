@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {
+  Content,
   View,
   Left,
   Icon,
   Button,
+  Separator,
 } from 'native-base';
 import SearchGeneral from './SearchGeneral.js';
 import SearchIO from './SearchIO.js';
@@ -35,18 +37,12 @@ export default class SearchComponent extends Component {
 
   render() {
     return (
-      <View style={{
-        ...this.props.styles,
-        flex: 1,
-        flexDirection: "column",
-
-        justifyContent: "space-between",
-      }}>
-
-        <SearchGeneral onQueryChange={this.onQueryChangeGeneral} />
-
-        <SearchIO onQueryChange={this.onQueryChangeFx} />
-
+      <View style={{ ...this.props.styles, flex: 1 }}>
+        <Content>
+          <SearchGeneral onQueryChange={this.onQueryChangeGeneral} />
+          <Separator bordered></Separator>
+          <SearchIO onQueryChange={this.onQueryChangeFx} />
+        </Content>
         <View style={{
           flexDirection: "row",
           justifyContent: "space-between",
