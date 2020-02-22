@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Linking } from 'react-native';
 import {
   Content,
   View,
@@ -13,48 +13,60 @@ import {
   H3,
   Button,
 } from "native-base";
+import { getEtherscanApiContract } from '../utils/web3.js';
 
 
 export function PclassDetails(props) {
-  // TODO: show deployment on all chains
   const { pclass } = props;
 
   const textareaStyles = { minWidth: props.styles.minWidth - 40, minHeight: 150 };
 
   const deployments = (pclass.pclassInstances || []).map(pclassi => {
+    const {deployment} = pclassi.data;
+    const etherscanApi = getEtherscanApiContract(deployment.chainid, deployment.address);
     return (
       <View key={pclassi._id} style={{flexDirection: "column"}}>
+      <View>
+        <Text
+          accessibilityRole="link"
+          href={etherscanApi}
+          style={{color: 'blue'}}
+          target="_blank"
+        >
+          {etherscanApi}
+        </Text>
+      </View>
         <View style={{flexDirection: "row", alignItems: "center"}}>
           <Icon type="MaterialCommunityIcons" name='content-copy' />
           <Text style={styles.deploymentField}>Chain ID: </Text>
-          <Text style={styles.deploymentValues}> {pclassi.data.deployment.chainid}</Text>
+          <Text style={styles.deploymentValues}> {deployment.chainid}</Text>
         </View>
         <View style={{flexDirection: "row", alignItems: "center"}}>
           <Icon type="MaterialCommunityIcons" name='content-copy' />
           <Text style={styles.deploymentField}>Block: </Text>
-          <Text style={styles.deploymentValues}> {pclassi.data.deployment.block}</Text>
+          <Text style={styles.deploymentValues}> {deployment.block}</Text>
         </View>
         <View style={{flexDirection: "column" }}>
           <View style={{flexDirection: "row", alignItems: "center"}}>
             <Icon type="MaterialCommunityIcons" name='content-copy' />
             <Text style={styles.deploymentField}>Address: </Text>
           </View>
-          <Textarea style={{ ...textareaStyles, height: 40, minHeight: 40 }} disabled bordered value={pclassi.data.deployment.address}/>
+          <Textarea style={{ ...textareaStyles, height: 40, minHeight: 40 }} disabled bordered value={deployment.address}/>
         </View>
         <View style={{flexDirection: "column" }}>
           <View style={{flexDirection: "row", alignItems: "center"}}>
             <Icon type="MaterialCommunityIcons" name='content-copy' />
             <Text style={styles.deploymentField}>Transaction Hash: </Text>
           </View>
-          <Textarea style={{ ...textareaStyles, height: 40, minHeight: 40 }} disabled bordered value={pclassi.data.deployment.txhash}/>
+          <Textarea style={{ ...textareaStyles, height: 40, minHeight: 40 }} disabled bordered value={deployment.txhash}/>
         </View>
-        {pclassi.data.deployment.constructorArgs
+        {deployment.constructorArgs
           ? <View style={{flexDirection: "column" }}>
               <View style={{flexDirection: "row", alignItems: "center"}}>
                 <Icon type="MaterialCommunityIcons" name='content-copy' />
                 <Text style={styles.deploymentField}>Constructor Arguments: </Text>
               </View>
-              <Textarea style={{ ...textareaStyles, minHeight: 60 }} disabled bordered value={pclassi.data.deployment.constructorArgs}/>
+              <Textarea style={{ ...textareaStyles, minHeight: 60 }} disabled bordered value={deployment.constructorArgs}/>
             </View>
           : <></>
         }
