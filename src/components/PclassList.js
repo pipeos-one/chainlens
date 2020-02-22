@@ -24,6 +24,19 @@ export default class PclassList extends Component {
   }
 
   _renderHeader(item, expanded) {
+    const headerButtons = this.props.buttons.header.map((btn, i) => {
+      return (
+        <Button
+          small rounded
+          style={styles.buttonStyle}
+          key={i}
+          onClick={() => btn.callback(item)}
+        >
+          <Icon type={btn.icon.type} name={btn.icon.name} />
+        </Button>
+      )
+    });
+
     return (
       <View style={{
           padding: 5,
@@ -45,12 +58,7 @@ export default class PclassList extends Component {
         </View>
 
         <View style={{flexDirection: "row"}}>
-          <Button small rounded style={styles.buttonStyle} onClick={() => this.props.onInfo(item)} >
-            <Icon type="FontAwesome" name='info' />
-          </Button>
-          <Button small rounded style={styles.buttonStyle} onClick={() => this.props.onSelect(item)} >
-            <Icon type="MaterialCommunityIcons" name='import' />
-          </Button>
+          {headerButtons}
         </View>
       </View>
     );
@@ -72,6 +80,20 @@ export default class PclassList extends Component {
             .join(',')
         })`;
       }
+
+      const contentButtons = this.props.buttons.contentItem.map((btn, i) => {
+        return (
+          <Button
+            small rounded
+            style={styles.buttonStyle}
+            key={i}
+            onClick={() => btn.callback({ pfunction, pclass: item })}
+          >
+            <Icon type={btn.icon.type} name={btn.icon.name} />
+          </Button>
+        )
+      });
+
       pfunctions.push((
         <ListItem key={pfunction._id} style={{ backgroundColor: pfunctionColor(pfunction.data.gapi) }}>
           <Left>
@@ -90,9 +112,7 @@ export default class PclassList extends Component {
             </View>
           </Left>
           <Right>
-            <Button small rounded style={styles.buttonStyle} onClick={() => this.props.onPfunctionRun({ pfunction, pclass: item })} >
-              <Icon type="MaterialCommunityIcons" name='play' />
-            </Button>
+            {contentButtons}
           </Right>
         </ListItem>
       ));

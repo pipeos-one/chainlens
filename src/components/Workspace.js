@@ -14,9 +14,31 @@ import PclassList from './PclassList.js';
 
 
 export default function Workspace(props) {
+  const buttons = {
+    header: [
+      {
+        callback: props.onRemove,
+        icon: {
+          type: 'FontAwesome',
+          name: 'close',
+        }
+      },
+      {
+        callback: exportPclassToRemix,
+        icon: {
+          type: 'MaterialCommunityIcons',
+          name: 'import',
+        }
+      }
+    ],
+    contentItem: []
+  }
   return (
     <View style={{...props.styles, flex: 1}}>
-      <PclassList data={props.treedata} onSelect={item => exportPclassToRemix(item)}/>
+      <PclassList
+        data={props.treedata}
+        buttons={buttons}
+      />
 
       <View style={{
         flexDirection: "row",

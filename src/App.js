@@ -43,21 +43,29 @@ class AppContent extends Component {
     this.onQueryChange = this.onQueryChange.bind(this);
     this.onAddListPage = this.onAddListPage.bind(this);
     this.onPreviousPage = this.onPreviousPage.bind(this);
-    this.onSelect = this.onSelect.bind(this);
+    this.onWorkspaceAddItem = this.onWorkspaceAddItem.bind(this);
     this.onGoToSearch = this.onGoToSearch.bind(this);
     this.onGoToWorkspace = this.onGoToWorkspace.bind(this);
     this.onGoToSearchList = this.onGoToSearchList.bind(this);
     this.onInfo = this.onInfo.bind(this);
     this.onPfunctionRun = this.onPfunctionRun.bind(this);
+    this.onWorkspaceRemoveItem = this.onWorkspaceRemoveItem.bind(this);
   }
 
   onContentSizeChange() {
     this.setState(Dimensions.get('window'));
   }
 
-  onSelect(item) {
+  onWorkspaceAddItem(item) {
     let treedata = this.state.treedata;
     treedata.push(item);
+    this.setState({ treedata });
+  }
+
+  onWorkspaceRemoveItem(item) {
+    let treedata = this.state.treedata;
+    let index = treedata.findIndex(pclass => pclass._id === item._id);
+    treedata.splice(index, 1);
     this.setState({ treedata });
   }
 
@@ -157,7 +165,7 @@ class AppContent extends Component {
             treedataLen={treedata.length}
             onAddListPage={this.onAddListPage}
             onPreviousPage={this.onPreviousPage}
-            onSelect={this.onSelect}
+            onSelect={this.onWorkspaceAddItem}
             onGoToSearch={this.onGoToSearch}
             onGoToWorkspace={this.onGoToWorkspace}
             onInfo={this.onInfo}
@@ -171,7 +179,7 @@ class AppContent extends Component {
             treedataLen={treedata.length}
             onAddListPage={this.onAddListPage}
             onPreviousPage={this.onPreviousPage}
-            onSelect={this.onSelect}
+            onSelect={this.onWorkspaceAddItem}
             onGoToSearch={this.onGoToSearch}
             onGoToWorkspace={this.onGoToWorkspace}
             onInfo={this.onInfo}
@@ -196,6 +204,7 @@ class AppContent extends Component {
               treedata={treedata}
               styles={pageStyles}
               onGoToSearchList={this.onGoToSearchList}
+              onRemove={this.onWorkspaceRemoveItem}
             />
           )
         }

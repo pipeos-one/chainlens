@@ -14,9 +14,7 @@ export function SearchListCommon(props) {
     <View style={{ ...props.styles, flex: 1 }}>
       <PclassList
         data={props.data}
-        onSelect={props.onSelect}
-        onInfo={props.onInfo}
-        onPfunctionRun={props.onPfunctionRun}
+        buttons={props.buttons}
       />
 
       <View style={{
@@ -69,19 +67,45 @@ export function SearchListPClasses(props) {
   console.log('data', data)
   console.log('count', resultsCount);
 
+  const buttons = {
+    header: [
+      {
+        callback: props.onInfo,
+        icon: {
+          type: 'FontAwesome',
+          name: 'info',
+        }
+      },
+      {
+        callback: props.onSelect,
+        icon: {
+          type: 'MaterialCommunityIcons',
+          name: 'import',
+        }
+      }
+    ],
+    contentItem: [
+      {
+        callback: props.onPfunctionRun,
+        icon: {
+          type: 'MaterialCommunityIcons',
+          name: 'play',
+        }
+      }
+    ]
+  }
+
   return (
     <SearchListCommon
       data={data}
       resultsCount={resultsCount}
       filter={filter}
       styles={props.styles}
-      onSelect={props.onSelect}
+      buttons={buttons}
       onGoToSearch={props.onGoToSearch}
       onPreviousPage={props.onPreviousPage}
       onAddListPage={props.onAddListPage}
       onGoToWorkspace={props.onGoToWorkspace}
-      onInfo={props.onInfo}
-      onPfunctionRun={props.onPfunctionRun}
       treedataLen={props.treedataLen}
     />
   )
@@ -119,18 +143,45 @@ export function SearchListPfunctions(props) {
   console.log('data', data)
   console.log('count', resultsCount);
 
+  const buttons = {
+    header: [
+      {
+        callback: props.onInfo,
+        icon: {
+          type: 'FontAwesome',
+          name: 'info',
+        }
+      },
+      {
+        callback: props.onSelect,
+        icon: {
+          type: 'MaterialCommunityIcons',
+          name: 'import',
+        }
+      }
+    ],
+    contentItem: [
+      {
+        callback: props.onPfunctionRun,
+        icon: {
+          type: 'MaterialCommunityIcons',
+          name: 'play',
+        }
+      }
+    ]
+  }
+
   return (
     <SearchListCommon
       data={data}
       resultsCount={resultsCount}
       filter={filter}
       styles={props.styles}
+      buttons={buttons}
       onGoToSearch={props.onGoToSearch}
       onPreviousPage={props.onPreviousPage}
       onAddListPage={props.onAddListPage}
       onGoToWorkspace={props.onGoToWorkspace}
-      onInfo={props.onInfo}
-      onPfunctionRun={props.onPfunctionRun}
       treedataLen={props.treedataLen}
     />
   )
