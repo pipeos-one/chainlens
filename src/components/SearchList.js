@@ -75,6 +75,7 @@ export function SearchListPClasses(props) {
       resultsCount={resultsCount}
       filter={filter}
       styles={props.styles}
+      onSelect={props.onSelect}
       onGoToSearch={props.onGoToSearch}
       onPreviousPage={props.onPreviousPage}
       onAddListPage={props.onAddListPage}
