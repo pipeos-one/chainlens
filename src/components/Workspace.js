@@ -9,7 +9,7 @@ import {
   Text,
   Picker,
 } from 'native-base';
-import { exportToRemix, exportPclassToRemix } from '../remix.js';
+import { exportToRemix, exportPclassToRemix } from '../utils/remix.js';
 import PclassList from './PclassList.js';
 
 

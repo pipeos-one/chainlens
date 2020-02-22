@@ -1,4 +1,4 @@
-import {PIPEOS_SERVER} from './config';
+import {PIPEOS_SERVER} from '../config';
 import fetch from 'unfetch';
 import useSWR, { useSWRPages } from "swr";
 

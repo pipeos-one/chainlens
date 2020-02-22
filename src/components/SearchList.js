@@ -7,7 +7,7 @@ import {
   Text,
 } from 'native-base';
 import PclassList from './PclassList.js';
-import { useSearchResults, useSearchCount } from '../fetchers.js';
+import { useSearchResults, useSearchCount } from '../utils/fetchers.js';
 
 export function SearchListCommon(props) {
   return (

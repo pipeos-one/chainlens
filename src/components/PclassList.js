@@ -12,7 +12,7 @@ import {
   Button,
   Thumbnail,
 } from "native-base";
-import { pfunctionColor } from '../utils.js';
+import { pfunctionColor } from '../utils/utils.js';
 
 export default class PclassList extends Component {
   constructor(props) {

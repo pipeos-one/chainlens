@@ -16,7 +16,7 @@ import {
 import IoGapi from './IoGapi.js';
 import { getWeb3, getEtherscanTx, PRERECEIPT_TYPE, RECEIPT_TYPE } from '../../utils/web3.js';
 import { ethers } from 'ethers';
-import { pfunctionColor } from '../../utils.js';
+import { pfunctionColor } from '../../utils/utils.js';
 
 function defaultVals(abityp) {
   if (!abityp || !abityp.components) {

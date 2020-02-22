@@ -7,7 +7,7 @@ import Workspace from './components/Workspace.js';
 import { SearchListPClasses, SearchListPfunctions} from './components/SearchList.js';
 import { PclassDetails } from './components/PclassDetails.js';
 import { PfunctionGapi } from './components/gapi/PfunctionGapi.js';
-import { buildWhereQueries, buildWhereFx } from './utils.js';
+import { buildWhereQueries, buildWhereFx } from './utils/queries.js';
 
 const MIN_WIDTH = 800;
 const PAGE_LIMIT = 30;
