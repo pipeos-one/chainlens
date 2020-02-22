@@ -12,6 +12,7 @@ import {
   H1,
   H3,
   Button,
+  Left,
 } from "native-base";
 import { getEtherscanApiContract } from '../utils/web3.js';
 
@@ -75,68 +76,81 @@ export function PclassDetails(props) {
   });
 
   return (
-    <Content style={{...props.styles, width: '100'}}>
-      <Card>
-        <CardItem header>
+    <View style={{...props.styles, flex: 1, width: props.styles.minWidth }}>
+      <CardItem header>
+        <H1>{pclass.data.name}</H1>
+      </CardItem>
+      <Content>
+        <Card>
+          <CardItem header>
+            <H3>Deployment:</H3>
+          </CardItem>
+          <CardItem>
+            <Body>
+              {deployments}
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Body>
+              <View style={{flexDirection: "row", alignItems: "center"}}>
+                <Icon type="MaterialCommunityIcons" name='content-copy' />
+                <H3>
+                  ABI
+                </H3>
+              </View>
+              <Textarea style={textareaStyles} disabled bordered value={JSON.stringify(pclass.data.gapi)}/>
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Body>
+              <View style={{flexDirection: "row", alignItems: "center",}}>
+                <Icon type="MaterialCommunityIcons" name='content-copy' />
+                <H3>
+                  Natspec
+                </H3>
+              </View>
+              <Textarea style={textareaStyles} disabled bordered value={JSON.stringify(pclass.data.natspec)}/>
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Body>
+              <View style={{flexDirection: "row", alignItems: "center",}}>
+                <Icon type="MaterialCommunityIcons" name='content-copy' />
+                <H3>
+                  Compiler
+                </H3>
+              </View>
+              <Textarea style={textareaStyles} disabled bordered value={JSON.stringify(pclass.data.sourceByLanguage['0'].compiler)}/>
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Body>
+              <View style={{flexDirection: "row", alignItems: "center",}}>
+                <Icon type="MaterialCommunityIcons" name='content-copy' />
+                <H3>
+                  Runtime Bytecode
+                </H3>
+              </View>
+              <Textarea style={textareaStyles} disabled bordered value={pclass.data.sourceByLanguage['0'].compilerOutput.runtime.bytecode}/>
+            </Body>
+          </CardItem>
+        </Card>
+      </Content>
+      <View style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: 5,
+        borderTopWidth: 1,
+        borderTopColor: '#cccccc',
+      }}>
+        <Left>
           <Button small rounded style={styles.buttonStyle} onClick={props.onInfoClosed} >
             <Icon type="MaterialCommunityIcons" name='close' />
           </Button>
-          <H1>{pclass.data.name}</H1>
-        </CardItem>
-        <CardItem header>
-          <H3>Deployment:</H3>
-        </CardItem>
-        <CardItem>
-          <Body>
-            {deployments}
-          </Body>
-        </CardItem>
-        <CardItem>
-          <Body>
-            <View style={{flexDirection: "row", alignItems: "center"}}>
-              <Icon type="MaterialCommunityIcons" name='content-copy' />
-              <H3>
-                ABI
-              </H3>
-            </View>
-            <Textarea style={textareaStyles} disabled bordered value={JSON.stringify(pclass.data.gapi)}/>
-          </Body>
-        </CardItem>
-        <CardItem>
-          <Body>
-            <View style={{flexDirection: "row", alignItems: "center",}}>
-              <Icon type="MaterialCommunityIcons" name='content-copy' />
-              <H3>
-                Natspec
-              </H3>
-            </View>
-            <Textarea style={textareaStyles} disabled bordered value={JSON.stringify(pclass.data.natspec)}/>
-          </Body>
-        </CardItem>
-        <CardItem>
-          <Body>
-            <View style={{flexDirection: "row", alignItems: "center",}}>
-              <Icon type="MaterialCommunityIcons" name='content-copy' />
-              <H3>
-                Compiler
-              </H3>
-            </View>
-            <Textarea style={textareaStyles} disabled bordered value={JSON.stringify(pclass.data.sourceByLanguage['0'].compiler)}/>
-          </Body>
-        </CardItem>
-        <CardItem>
-          <Body>
-            <View style={{flexDirection: "row", alignItems: "center",}}>
-              <Icon type="MaterialCommunityIcons" name='content-copy' />
-              <H3>
-                Runtime Bytecode
-              </H3>
-            </View>
-            <Textarea style={textareaStyles} disabled bordered value={pclass.data.sourceByLanguage['0'].compilerOutput.runtime.bytecode}/>
-          </Body>
-        </CardItem>
-      </Card>
-    </Content>
+        </Left>
+      </View>
+    </View>
   );
 }
 
