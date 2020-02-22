@@ -51,6 +51,10 @@ export const PRERECEIPT_TYPE = {
   type: 'tuple',
   components: [
     {
+      name: 'etherscan',
+      type: 'link',
+    },
+    {
       name: 'hash',
       type: 'string',
     },
@@ -73,6 +77,10 @@ export const RECEIPT_TYPE = {
   name: 'receipt',
   type: 'tuple',
   components: [
+    {
+      name: 'etherscan',
+      type: 'link',
+    },
     {
       name: 'transactionHash',
       type: 'string',

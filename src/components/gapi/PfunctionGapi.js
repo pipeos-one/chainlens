@@ -128,6 +128,9 @@ export class PfunctionGapi extends Component {
       || pfunction.data.gapi.stateMutability === 'nonpayable'
     ) {
       outputs = PRERECEIPT_TYPE.components.map(comp => {
+        if (comp.name === 'etherscan') {
+          return getEtherscanTx(instance.data.deployment.chainid, result.hash);
+        }
         if (!result[comp.name]) return 'waiting';
         return result[comp.name];
       });
@@ -136,8 +139,15 @@ export class PfunctionGapi extends Component {
       const receipt = await result.wait(2);
       console.log('receipt', receipt);
 
-      outputs = RECEIPT_TYPE.components.map(comp => receipt[comp.name]);
+      outputs = RECEIPT_TYPE.components.map(comp => {
+        if (comp.name === 'etherscan') {
+          return getEtherscanTx(instance.data.deployment.chainid, receipt.transactionHash);
+        }
+        return receipt[comp.name];
+      });
       this.setState({ outputs });
+
+      return;
     }
 
     this.setState({ outputs });

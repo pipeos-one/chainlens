@@ -30,6 +30,19 @@ function IoUI(props) {
     encodeValue = encodeValueString;
   }
   console.log('encodeValue', encodeValue(props.value));
+  if (item.type === 'link') {
+    return (
+      <Text
+        accessibilityRole="link"
+        href={props.value}
+        style={{color: 'blue'}}
+        target="_blank"
+      >
+        {props.value}
+      </Text>
+    )
+  }
+
   return (
     <Input
       value={encodeValue(props.value)}
