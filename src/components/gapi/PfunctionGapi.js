@@ -14,9 +14,22 @@ import {
 } from "native-base";
 
 import IoGapi from './IoGapi.js';
-import { getWeb3 } from '../../utils/web3.js';
+import { getWeb3, getEtherscanTx, PRERECEIPT_TYPE, RECEIPT_TYPE } from '../../utils/web3.js';
 import { ethers } from 'ethers';
 import { pfunctionColor } from '../../utils.js';
+
+function defaultVals(abityp) {
+  if (!abityp || !abityp.components) {
+    return [];
+  }
+  let item = new Array(abityp.components.length);
+  abityp.components.forEach((comp, i) => {
+    if (comp.components) {
+      item[i] = defaultVals(comp);
+    }
+  });
+  return item;
+}
 
 export class PfunctionGapi extends Component {
   constructor(props) {
@@ -24,7 +37,7 @@ export class PfunctionGapi extends Component {
 
     this.state = {
       inputs: this.initInputsState(),
-      outputs: [],
+      outputs: this.initOutputsState(),
     }
 
     this.onValueChange = this.onValueChange.bind(this);
@@ -37,6 +50,12 @@ export class PfunctionGapi extends Component {
     return ioGapiInputs && ioGapiInputs.components
       ? new Array(ioGapiInputs.components.length)
       : [];
+  }
+
+  initOutputsState() {
+    const { pfunction } = this.props.item;
+    const ioGapiOutputs = this.ioGapiOutputs(pfunction);
+    return defaultVals(ioGapiOutputs);
   }
 
   typesig(typ) {
@@ -58,12 +77,24 @@ export class PfunctionGapi extends Component {
   }
 
   ioGapiOutputs(pfunction) {
-    const signatureOut = `(${pfunction.data.gapi.outputs.map(inp => this.typesig(inp)).join(',')})`;
+    let outputs = JSON.parse(JSON.stringify(
+      pfunction.data.gapi.outputs || []
+    ));
 
-    return pfunction.data.gapi.outputs.length > 0 ? {
-      name: pfunction.data.signature,
+    let signatureOut = `(${outputs.map(inp => this.typesig(inp)).join(',')})`;
+
+    if (
+      pfunction.data.gapi.stateMutability === 'payable'
+      || pfunction.data.gapi.stateMutability === 'nonpayable'
+    ) {
+      outputs = PRERECEIPT_TYPE.components;
+      signatureOut = 'receipt' + `(${outputs.map(inp => this.typesig(inp)).join(',')})`;
+    }
+
+    return outputs.length > 0 ? {
+      name: pfunction.data.signatureString,
       type: 'tuple',
-      components: pfunction.data.gapi.outputs,
+      components: outputs,
       label: signatureOut,
     } : null;
   }
@@ -90,7 +121,25 @@ export class PfunctionGapi extends Component {
     const result = await contract[pfunction.data.name](...this.state.inputs);
 
     console.log('result', result);
-    const outputs = (result instanceof Array) ? result : [result];
+    let outputs = (result instanceof Array) ? result : [result];
+
+    if (
+      pfunction.data.gapi.stateMutability === 'payable'
+      || pfunction.data.gapi.stateMutability === 'nonpayable'
+    ) {
+      outputs = PRERECEIPT_TYPE.components.map(comp => {
+        if (!result[comp.name]) return 'waiting';
+        return result[comp.name];
+      });
+      this.setState({ outputs });
+
+      const receipt = await result.wait(2);
+      console.log('receipt', receipt);
+
+      outputs = RECEIPT_TYPE.components.map(comp => receipt[comp.name]);
+      this.setState({ outputs });
+    }
+
     this.setState({ outputs });
   }
 

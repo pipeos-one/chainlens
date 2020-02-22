@@ -46,3 +46,48 @@ export const getEtherscanTx = (chainid, txhash) => {
   return `${getEtherscanApi(chainid)}/tx/${txhash}`;
 }
 
+export const PRERECEIPT_TYPE = {
+  name: 'receipt',
+  type: 'tuple',
+  components: [
+    {
+      name: 'hash',
+      type: 'string',
+    },
+    {
+      name: 'blockHash',
+      type: 'string',
+    },
+    {
+      name: 'blockNumber',
+      type: 'uint256',
+    },
+    {
+      name: 'confirmations',
+      type: 'uint256',
+    },
+  ]
+}
+
+export const RECEIPT_TYPE = {
+  name: 'receipt',
+  type: 'tuple',
+  components: [
+    {
+      name: 'transactionHash',
+      type: 'string',
+    },
+    {
+      name: 'blockHash',
+      type: 'string',
+    },
+    {
+      name: 'blockNumber',
+      type: 'uint256',
+    },
+    {
+      name: 'confirmations',
+      type: 'uint256',
+    },
+  ]
+}
