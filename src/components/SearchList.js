@@ -191,6 +191,16 @@ export function SearchListPfunctions(props) {
   const { data: count } = useSearchCount(filter, 'pfunction');
   const resultsCount = count ? count.count : 0;
 
+  if (error) {
+    console.error(error);
+    return <div>failed to load</div>
+  }
+  if (pfuncData instanceof Object && pfuncData.error) {
+    console.error(pfuncData.error);
+    return <div>failed to load</div>
+  }
+  if (!pfuncData) return <div>loading...</div>
+
   let indexes = {};
   let data = [];
   (pfuncData || []).forEach(pfunc => {
@@ -203,12 +213,9 @@ export function SearchListPfunctions(props) {
     } else {
       data[indexes[pclass._id]].pfunctions.push(pfunc);
     }
-    });
+  });
 
-  if (error) return <div>failed to load</div>
-  if (!data) return <div>loading...</div>
-
-  console.log('data', data)
+  console.log('data', data.length, data.slice(0, 3));
   console.log('count', resultsCount);
 
   const buttons = {

@@ -38,6 +38,7 @@ export default function Workspace(props) {
       <PclassList
         data={props.treedata}
         buttons={buttons}
+        styles={props.styles}
       />
 
       <View style={{
