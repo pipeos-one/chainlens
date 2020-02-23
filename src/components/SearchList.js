@@ -111,6 +111,73 @@ export function SearchListPClasses(props) {
   )
 }
 
+export function SearchListPClassesByPclassi(props) {
+  const { whereFilter, filter } = props;
+
+  filter.where = whereFilter;
+
+  console.log('!!!!!!!! SearchListPClassesByPclassi !!!!!!!', JSON.stringify(filter));
+
+  const { data: pclassiData, error } = useSearchResults(filter, 'pclassi');
+  const { data: count } = useSearchCount(filter, 'pclassi');
+  const resultsCount = count ? count.count : 0;
+
+  if (error) return <div>failed to load</div>
+  if (!pclassiData) return <div>loading...</div>
+
+  const data = pclassiData.map(pclassi => {
+    const pclass = pclassi.pclass;
+    pclass.pclassInstances = [pclassi];
+    return pclass;
+  });
+
+  console.log('data', data)
+  console.log('count', resultsCount);
+
+  const buttons = {
+    header: [
+      {
+        callback: props.onInfo,
+        icon: {
+          type: 'FontAwesome',
+          name: 'info',
+        }
+      },
+      {
+        callback: props.onSelect,
+        icon: {
+          type: 'MaterialCommunityIcons',
+          name: 'import',
+        }
+      }
+    ],
+    contentItem: [
+      {
+        callback: props.onPfunctionRun,
+        icon: {
+          type: 'MaterialCommunityIcons',
+          name: 'play',
+        }
+      }
+    ]
+  }
+
+  return (
+    <SearchListCommon
+      data={data}
+      resultsCount={resultsCount}
+      filter={filter}
+      styles={props.styles}
+      buttons={buttons}
+      onGoToSearch={props.onGoToSearch}
+      onPreviousPage={props.onPreviousPage}
+      onAddListPage={props.onAddListPage}
+      onGoToWorkspace={props.onGoToWorkspace}
+      treedataLen={props.treedataLen}
+    />
+  )
+}
+
 export function SearchListPfunctions(props) {
   const { whereFilter, filter } = props;
   filter.where = whereFilter;

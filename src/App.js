@@ -4,7 +4,7 @@ import { Dimensions, StyleSheet, ScrollView } from 'react-native';
 import { Container } from 'native-base';
 import SearchComponent from './components/Search.js';
 import Workspace from './components/Workspace.js';
-import { SearchListPClasses, SearchListPfunctions} from './components/SearchList.js';
+import { SearchListPClasses, SearchListPfunctions, SearchListPClassesByPclassi} from './components/SearchList.js';
 import { PclassDetails } from './components/PclassDetails.js';
 import { PfunctionGapi } from './components/gapi/PfunctionGapi.js';
 import { buildWhereQueries, buildWhereFx } from './utils/queries.js';
@@ -72,7 +72,6 @@ class AppContent extends Component {
   }
 
   onQueryChange({ genQuery, fxQuery }) {
-    console.log('onQueryChange', genQuery, fxQuery);
     let pclassWhere = {}, pfunctionWhere = {}, pclassiWhere = {};
 
     if (genQuery.valid) {
@@ -82,8 +81,9 @@ class AppContent extends Component {
     if (fxQuery.valid) {
       pfunctionWhere = { ...pfunctionWhere, ...buildWhereFx(fxQuery) };
     }
-    console.log('pclassWhere', pclassWhere);
-    console.log('pfunctionWhere', pfunctionWhere);
+    console.log('pclassiWhere', JSON.stringify(pclassiWhere));
+    console.log('pclassWhere', JSON.stringify(pclassWhere));
+    console.log('pfunctionWhere', JSON.stringify(pfunctionWhere));
     const isChanged = (
       JSON.stringify(pclassWhere) !== JSON.stringify(this.state.pclassWhere)
       || JSON.stringify(pfunctionWhere) !== JSON.stringify(this.state.pfunctionWhere)
@@ -143,9 +143,10 @@ class AppContent extends Component {
     } = this.state;
     const pageStyles = getPageSize(3, { width, height });
     const whereFilters = { pclassWhere, pfunctionWhere, pclassiWhere };
-
     const wherekey = Object.keys(pfunctionWhere)[0] || '';
     const showFunctions = wherekey.includes('data.gapi') || wherekey.includes('data.signature');
+
+    const showByPclassi = (Object.keys(pclassiWhere)[0] || '').includes('address');
 
     return (
       <ScrollView
@@ -176,20 +177,36 @@ class AppContent extends Component {
             onInfo={this.onInfo}
             onPfunctionRun={this.onPfunctionRun}
           />
-          : <SearchListPClasses
-            whereFilters={whereFilters}
-            whereFilter={pclassWhere}
-            filter={filter}
-            styles={pageStyles}
-            treedataLen={treedata.length}
-            onAddListPage={this.onAddListPage}
-            onPreviousPage={this.onPreviousPage}
-            onSelect={this.onWorkspaceAddItem}
-            onGoToSearch={this.onGoToSearch}
-            onGoToWorkspace={this.onGoToWorkspace}
-            onInfo={this.onInfo}
-            onPfunctionRun={this.onPfunctionRun}
-          />
+          : (showByPclassi
+            ? <SearchListPClassesByPclassi
+                whereFilters={whereFilters}
+                whereFilter={pclassiWhere}
+                filter={filter}
+                styles={pageStyles}
+                treedataLen={treedata.length}
+                onAddListPage={this.onAddListPage}
+                onPreviousPage={this.onPreviousPage}
+                onSelect={this.onWorkspaceAddItem}
+                onGoToSearch={this.onGoToSearch}
+                onGoToWorkspace={this.onGoToWorkspace}
+                onInfo={this.onInfo}
+                onPfunctionRun={this.onPfunctionRun}
+              />
+            : <SearchListPClasses
+              whereFilters={whereFilters}
+              whereFilter={pclassWhere}
+              filter={filter}
+              styles={pageStyles}
+              treedataLen={treedata.length}
+              onAddListPage={this.onAddListPage}
+              onPreviousPage={this.onPreviousPage}
+              onSelect={this.onWorkspaceAddItem}
+              onGoToSearch={this.onGoToSearch}
+              onGoToWorkspace={this.onGoToWorkspace}
+              onInfo={this.onInfo}
+              onPfunctionRun={this.onPfunctionRun}
+            />
+          )
         }
         {showPclassInfo
           ? <PclassDetails

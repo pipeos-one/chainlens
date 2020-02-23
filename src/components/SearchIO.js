@@ -38,7 +38,6 @@ export default class SearchIO extends Component {
   // }
 
   onChangeText(text) {
-    console.log('onChangeText', text);
     this.setState({ text });
     // const details = queryType(text);
     // this.setState({ text, ...details });
@@ -47,7 +46,6 @@ export default class SearchIO extends Component {
   }
 
   onFieldSelect(field) {
-    console.log('onFieldSelect', field);
     this.setState({ field });
     this.props.onQueryChange({ ...this.state, field });
   }

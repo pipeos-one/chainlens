@@ -34,7 +34,6 @@ export default class SearchGeneral extends Component {
   //   }, 1200)
 
   onChangeText(text) {
-    console.log('onChangeText', text);
     const details = queryField(text);
     this.setState({ text, ...details });
     // if (details.valid) this.debouncedSearch();

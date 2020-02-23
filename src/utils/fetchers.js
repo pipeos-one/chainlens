@@ -23,6 +23,15 @@ export const pclassWithPfuncApi = (filter = {}, type = 'pclass') => {
   if (type === 'pfunction') {
     relations = [{relation: 'pclass'}];
   }
+  if (type === 'pclassi') {
+    relations = [{
+      relation: 'pclass',
+      scope: {
+        include: [{relation: 'pfunctions'}],
+      },
+    }];
+  }
+
   filter = {...filter, include: relations};
 
   console.log('filter', filter, JSON.stringify(filter));
