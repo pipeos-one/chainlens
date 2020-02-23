@@ -26,12 +26,14 @@ class AppContent extends Component {
   constructor(props) {
     super(props);
 
+    this.DEFAULT_FILTER = {skip: 0, limit: PAGE_LIMIT};
+
     this.state = {
       ...Dimensions.get('window'),
       pclassWhere: {},
       pfunctionWhere: {},
       pclassiWhere: {},
-      filter: {skip: 0, limit: PAGE_LIMIT},
+      filter: Object.assign({}, this.DEFAULT_FILTER),
       treedata: [],
       showPclassInfo: null,
       runPfunction: null,
@@ -89,7 +91,8 @@ class AppContent extends Component {
     );
     console.log('isChanged', isChanged);
     if (isChanged) {
-      this.setState({ pclassWhere, pfunctionWhere, pclassiWhere });
+      const filter = Object.assign({}, this.DEFAULT_FILTER);
+      this.setState({ pclassWhere, pfunctionWhere, pclassiWhere, filter });
     }
     this.onGoToSearchList();
   }
