@@ -27,6 +27,7 @@ class AppContent extends Component {
     super(props);
 
     this.DEFAULT_FILTER = {skip: 0, limit: PAGE_LIMIT};
+    this.PAGE_NUMBER = 3;
 
     this.state = {
       ...Dimensions.get('window'),
@@ -50,6 +51,7 @@ class AppContent extends Component {
     this.onGoToWorkspace = this.onGoToWorkspace.bind(this);
     this.onGoToSearchList = this.onGoToSearchList.bind(this);
     this.onInfo = this.onInfo.bind(this);
+    this.onInfoClosed = this.onInfoClosed.bind(this);
     this.onPfunctionRun = this.onPfunctionRun.bind(this);
     this.onWorkspaceRemoveItem = this.onWorkspaceRemoveItem.bind(this);
   }
@@ -110,7 +112,9 @@ class AppContent extends Component {
   }
 
   onGoToSearchList() {
-    this.scrollRef.current.scrollTo({x: MIN_WIDTH - 100, y: 0, animated: true});
+    const {width, height} = this.state;
+    const sizes = getPageSize(this.PAGE_NUMBER, { width, height });
+    this.scrollRef.current.scrollTo({x: sizes.minWidth, y: 0, animated: true});
   }
 
   onGoToSearch() {
@@ -123,10 +127,17 @@ class AppContent extends Component {
 
   onInfo(item) {
     this.setState({ showPclassInfo: item, runPfunction: null });
+    this.onGoToWorkspace();
+  }
+
+  onInfoClosed() {
+    this.setState({ showPclassInfo: null, runPfunction: null });
+    this.onGoToSearchList();
   }
 
   onPfunctionRun(item) {
     this.setState({ runPfunction: item, showPclassInfo: null });
+    this.onGoToWorkspace();
   }
 
   render() {
@@ -141,7 +152,7 @@ class AppContent extends Component {
       pclassiWhere,
       filter,
     } = this.state;
-    const pageStyles = getPageSize(3, { width, height });
+    const pageStyles = getPageSize(this.PAGE_NUMBER, { width, height });
     const whereFilters = { pclassWhere, pfunctionWhere, pclassiWhere };
     const wherekey = Object.keys(pfunctionWhere)[0] || '';
     const showFunctions = wherekey.includes('data.gapi') || wherekey.includes('data.signature');
@@ -212,7 +223,7 @@ class AppContent extends Component {
           ? <PclassDetails
               styles={pageStyles}
               pclass={showPclassInfo}
-              onInfoClosed={() => this.setState({ showPclassInfo: null })}
+              onInfoClosed={this.onInfoClosed}
             />
           : (
             runPfunction
@@ -220,7 +231,7 @@ class AppContent extends Component {
                 key={runPfunction.pfunction._id}
                 styles={pageStyles}
                 item={runPfunction}
-                onInfoClosed={() => this.setState({ runPfunction: null })}
+                onInfoClosed={this.onInfoClosed}
               />
             : <Workspace
               treedata={treedata}
