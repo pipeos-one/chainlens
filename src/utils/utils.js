@@ -34,6 +34,8 @@ export function pfunctionColorClass(gapi) {
         colorClass = 'payable';
     } else if (!gapi.constant) {
         colorClass = 'nonconstant';
+    } else {
+      colorClass = 'constant';
     }
     return colorClass;
 };
@@ -42,6 +44,7 @@ export const colorMap = {
     event: '#C9DEBB',
     payable: '#CDE0F2',
     nonconstant: '#E9DEDE',
+    constant: 'rgb(240, 239, 245)',
 };
 
 export function pfunctionColor(gapi) {

@@ -52,7 +52,7 @@ export default class PclassList extends Component {
             ? <Icon style={{ fontSize: 18 }} name="remove-circle" />
             : <Icon style={{ fontSize: 18 }} name="add-circle" />
           }
-          <Text style={{ fontFamily: null, fontWeight: "400", paddingLeft: 10 }}>
+          <Text style={{ fontFamily: null, fontWeight: "400", paddingLeft: 10, maxWidth: this.props.styles.minWidth - 160 }}>
             {item.data.name}
           </Text>
         </View>
@@ -108,7 +108,9 @@ export default class PclassList extends Component {
                     style={{ height: 15, width: 15, borderRadius: 5}}
                   />
               }
-              <Text style={{ fontFamily: null, paddingLeft: 10 }}>{signature}</Text>
+              <Text
+                style={{ fontFamily: null, paddingLeft: 10, maxWidth: this.props.styles.minWidth - 170}}
+              >{signature}</Text>
             </View>
           </Left>
           <Right>

@@ -15,6 +15,7 @@ export function SearchListCommon(props) {
       <PclassList
         data={props.data}
         buttons={props.buttons}
+        styles={props.styles}
       />
 
       <View style={{
