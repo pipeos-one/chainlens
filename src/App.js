@@ -119,11 +119,11 @@ class AppContent extends Component {
   }
 
   onInfo(item) {
-    this.setState({ showPclassInfo: item });
+    this.setState({ showPclassInfo: item, runPfunction: null });
   }
 
   onPfunctionRun(item) {
-    this.setState({ runPfunction: item });
+    this.setState({ runPfunction: item, showPclassInfo: null });
   }
 
   render() {
