@@ -140,7 +140,9 @@ class AppContent extends Component {
     } = this.state;
     const pageStyles = getPageSize(3, { width, height });
     const whereFilters = { pclassWhere, pfunctionWhere, pclassiWhere };
-    const showFunctions = (Object.keys(pfunctionWhere)[0] || '').includes('data.gapi');
+
+    const wherekey = Object.keys(pfunctionWhere)[0] || '';
+    const showFunctions = wherekey.includes('data.gapi') || wherekey.includes('data.signature');
 
     return (
       <ScrollView

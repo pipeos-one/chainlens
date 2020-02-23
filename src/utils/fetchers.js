@@ -1,6 +1,6 @@
 import {PIPEOS_SERVER} from '../config';
 import fetch from 'unfetch';
-import useSWR, { useSWRPages } from "swr";
+import useSWR from "swr";
 
 const DEFAULT_OPTIONS = {
   revalidateOnFocus: false,
