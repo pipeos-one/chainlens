@@ -15,10 +15,12 @@ import {
   Left,
 } from "native-base";
 import { getEtherscanApiContract } from '../utils/web3.js';
+import { clipboardCopy } from '../utils/utils.js';
 
 
 export function PclassDetails(props) {
   const { pclass } = props;
+  const { data: pcdata } = pclass;
 
   const textareaStyles = { minWidth: props.styles.minWidth - 40, minHeight: 150 };
 
@@ -38,25 +40,33 @@ export function PclassDetails(props) {
         </Text>
       </View>
         <View style={{flexDirection: "row", alignItems: "center"}}>
-          <Icon type="MaterialCommunityIcons" name='content-copy' />
+          <Button transparent small onClick={() => clipboardCopy(deployment.chainid)}>
+            <Icon type="MaterialCommunityIcons" name='content-copy' style={styles.clipboardBtn} />
+          </Button>
           <Text style={styles.deploymentField}>Chain ID: </Text>
           <Text style={styles.deploymentValues}> {deployment.chainid}</Text>
         </View>
         <View style={{flexDirection: "row", alignItems: "center"}}>
-          <Icon type="MaterialCommunityIcons" name='content-copy' />
+          <Button transparent small onClick={() => clipboardCopy(deployment.block)}>
+            <Icon type="MaterialCommunityIcons" name='content-copy' style={styles.clipboardBtn} />
+          </Button>
           <Text style={styles.deploymentField}>Block: </Text>
           <Text style={styles.deploymentValues}> {deployment.block}</Text>
         </View>
         <View style={{flexDirection: "column" }}>
           <View style={{flexDirection: "row", alignItems: "center"}}>
-            <Icon type="MaterialCommunityIcons" name='content-copy' />
+            <Button transparent small onClick={() => clipboardCopy(deployment.address)}>
+              <Icon type="MaterialCommunityIcons" name='content-copy' style={styles.clipboardBtn} />
+            </Button>
             <Text style={styles.deploymentField}>Address: </Text>
           </View>
           <Textarea style={{ ...textareaStyles, height: 40, minHeight: 40 }} disabled bordered value={deployment.address}/>
         </View>
         <View style={{flexDirection: "column" }}>
           <View style={{flexDirection: "row", alignItems: "center"}}>
-            <Icon type="MaterialCommunityIcons" name='content-copy' />
+            <Button transparent small onClick={() => clipboardCopy(deployment.txhash)}>
+              <Icon type="MaterialCommunityIcons" name='content-copy' style={styles.clipboardBtn} />
+            </Button>
             <Text style={styles.deploymentField}>Transaction Hash: </Text>
           </View>
           <Textarea style={{ ...textareaStyles, height: 40, minHeight: 40 }} disabled bordered value={deployment.txhash}/>
@@ -64,7 +74,9 @@ export function PclassDetails(props) {
         {deployment.constructorArgs
           ? <View style={{flexDirection: "column" }}>
               <View style={{flexDirection: "row", alignItems: "center"}}>
-                <Icon type="MaterialCommunityIcons" name='content-copy' />
+                <Button transparent small onClick={() => clipboardCopy(deployment.constructorArgs)}>
+                  <Icon type="MaterialCommunityIcons" name='content-copy' style={styles.clipboardBtn} />
+                </Button>
                 <Text style={styles.deploymentField}>Constructor Arguments: </Text>
               </View>
               <Textarea style={{ ...textareaStyles, minHeight: 60 }} disabled bordered value={deployment.constructorArgs}/>
@@ -78,7 +90,7 @@ export function PclassDetails(props) {
   return (
     <View style={{...props.styles, flex: 1, width: props.styles.minWidth }}>
       <CardItem header>
-        <H1>{pclass.data.name}</H1>
+        <H1>{pcdata.name}</H1>
       </CardItem>
       <Content>
         <Card>
@@ -93,45 +105,53 @@ export function PclassDetails(props) {
           <CardItem>
             <Body>
               <View style={{flexDirection: "row", alignItems: "center"}}>
-                <Icon type="MaterialCommunityIcons" name='content-copy' />
+                <Button transparent small onClick={() => clipboardCopy(JSON.stringify(pcdata.gapi))}>
+                  <Icon type="MaterialCommunityIcons" name='content-copy' style={styles.clipboardBtn} />
+                </Button>
                 <H3>
                   ABI
                 </H3>
               </View>
-              <Textarea style={textareaStyles} disabled bordered value={JSON.stringify(pclass.data.gapi)}/>
+              <Textarea style={textareaStyles} disabled bordered value={JSON.stringify(pcdata.gapi)}/>
             </Body>
           </CardItem>
           <CardItem>
             <Body>
               <View style={{flexDirection: "row", alignItems: "center",}}>
-                <Icon type="MaterialCommunityIcons" name='content-copy' />
+                <Button transparent small onClick={() => clipboardCopy(JSON.stringify(pcdata.natspec))}>
+                  <Icon type="MaterialCommunityIcons" name='content-copy' style={styles.clipboardBtn} />
+                </Button>
                 <H3>
                   Natspec
                 </H3>
               </View>
-              <Textarea style={textareaStyles} disabled bordered value={JSON.stringify(pclass.data.natspec)}/>
+              <Textarea style={textareaStyles} disabled bordered value={JSON.stringify(pcdata.natspec)}/>
             </Body>
           </CardItem>
           <CardItem>
             <Body>
               <View style={{flexDirection: "row", alignItems: "center",}}>
-                <Icon type="MaterialCommunityIcons" name='content-copy' />
+                <Button transparent small onClick={() => clipboardCopy(JSON.stringify(pcdata.sourceByLanguage['0'].compiler))}>
+                  <Icon type="MaterialCommunityIcons" name='content-copy' style={styles.clipboardBtn} />
+                </Button>
                 <H3>
                   Compiler
                 </H3>
               </View>
-              <Textarea style={textareaStyles} disabled bordered value={JSON.stringify(pclass.data.sourceByLanguage['0'].compiler)}/>
+              <Textarea style={textareaStyles} disabled bordered value={JSON.stringify(pcdata.sourceByLanguage['0'].compiler)}/>
             </Body>
           </CardItem>
           <CardItem>
             <Body>
               <View style={{flexDirection: "row", alignItems: "center",}}>
-                <Icon type="MaterialCommunityIcons" name='content-copy' />
+                <Button transparent small onClick={() => clipboardCopy(pcdata.sourceByLanguage['0'].compilerOutput.runtime.bytecode)}>
+                  <Icon type="MaterialCommunityIcons" name='content-copy' style={styles.clipboardBtn} />
+                </Button>
                 <H3>
                   Runtime Bytecode
                 </H3>
               </View>
-              <Textarea style={textareaStyles} disabled bordered value={pclass.data.sourceByLanguage['0'].compilerOutput.runtime.bytecode}/>
+              <Textarea style={textareaStyles} disabled bordered value={pcdata.sourceByLanguage['0'].compilerOutput.runtime.bytecode}/>
             </Body>
           </CardItem>
         </Card>
@@ -165,6 +185,9 @@ const styles = StyleSheet.create(
     buttonStyle: {
       backgroundColor: '#cccccc',
       marginRight: 15,
+    },
+    clipboardBtn: {
+      color: '#000000',
     },
   }
 )
