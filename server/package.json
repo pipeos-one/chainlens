@@ -1,0 +1,67 @@
+{
+  "name": "pipeos-server",
+  "version": "1.0.0",
+  "description": "pipeos server",
+  "keywords": [
+    "loopback-application",
+    "loopback"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=8.9"
+  },
+  "scripts": {
+    "build": "lb-tsc",
+    "build:watch": "lb-tsc --watch",
+    "clean": "lb-clean dist *.tsbuildinfo",
+    "lint": "npm run eslint",
+    "lint:fix": "npm run eslint:fix",
+    "eslint": "lb-eslint --report-unused-disable-directives .",
+    "eslint:fix": "npm run eslint -- --fix",
+    "pretest": "npm run clean && npm run build",
+    "posttest": "npm run lint",
+    "migrate": "node ./dist/migrate",
+    "prestart": "npm run build",
+    "start": "node -r source-map-support/register .",
+    "prepublishOnly": "npm run test"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "author": "",
+  "license": "",
+  "files": [
+    "README.md",
+    "index.js",
+    "index.d.ts",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ],
+  "dependencies": {
+    "@loopback/boot": "^1.7.4",
+    "@loopback/context": "^2.1.1",
+    "@loopback/core": "^1.12.4",
+    "@loopback/openapi-v3": "^2.0.0",
+    "@loopback/repository": "^1.19.1",
+    "@loopback/rest": "^2.0.0",
+    "@loopback/rest-explorer": "^1.4.10",
+    "@loopback/service-proxy": "^1.3.17",
+    "loopback-connector-postgresql": "^3.8.3",
+    "web3-eth-abi": "^1.2.6"
+  },
+  "devDependencies": {
+    "@loopback/build": "^3.1.1",
+    "source-map-support": "^0.5.16",
+    "@loopback/testlab": "^1.10.3",
+    "@types/node": "^10.17.14",
+    "@typescript-eslint/parser": "^2.19.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.0",
+    "@loopback/eslint-config": "^5.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-eslint-plugin": "^2.2.1",
+    "eslint-plugin-mocha": "^6.2.2",
+    "typescript": "~3.7.5"
+  }
+}
