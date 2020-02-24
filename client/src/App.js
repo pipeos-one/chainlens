@@ -61,10 +61,12 @@ class AppContent extends Component {
   }
 
   getWindowDimensions() {
-    let dims = Dimensions.get('window');
-    if (dims.width === 0 || dims.height === 0) {
-      dims = document.getElementById('ChainLensRoot')
-        .getBoundingClientRect();
+    let wdims = Dimensions.get('window');
+    let rootDims = document.getElementById('ChainLensRoot').getBoundingClientRect();
+
+    const dims = {
+      width: wdims.width || rootDims.width,
+      height: wdims.height || rootDims.height,
     }
     return dims;
   }
