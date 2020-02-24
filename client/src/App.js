@@ -54,6 +54,10 @@ class AppContent extends Component {
     this.onInfoClosed = this.onInfoClosed.bind(this);
     this.onPfunctionRun = this.onPfunctionRun.bind(this);
     this.onWorkspaceRemoveItem = this.onWorkspaceRemoveItem.bind(this);
+
+    Dimensions.addEventListener('change', () => {
+      this.onContentSizeChange();
+    });
   }
 
   getWindowDimensions() {
