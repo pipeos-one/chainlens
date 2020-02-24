@@ -30,7 +30,7 @@ class AppContent extends Component {
     this.PAGE_NUMBER = 3;
 
     this.state = {
-      ...Dimensions.get('window'),
+      ...this.getWindowDimensions(),
       pclassWhere: {},
       pfunctionWhere: {},
       pclassiWhere: {},
@@ -56,8 +56,17 @@ class AppContent extends Component {
     this.onWorkspaceRemoveItem = this.onWorkspaceRemoveItem.bind(this);
   }
 
+  getWindowDimensions() {
+    let dims = Dimensions.get('window');
+    if (dims.width === 0 || dims.height === 0) {
+      dims = document.getElementById('ChainLensRoot')
+        .getBoundingClientRect();
+    }
+    return dims;
+  }
+
   onContentSizeChange() {
-    this.setState(Dimensions.get('window'));
+    this.setState(this.getWindowDimensions());
   }
 
   onWorkspaceAddItem(item) {
