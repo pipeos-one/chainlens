@@ -19,7 +19,10 @@ export async function exportPclassToRemix(pclass) {
 
   Object.keys(sourcesTemp).forEach(name => {
     // let fileName = `browser/${source.relative_path}`;
-    let fileName = `browser/${name}.sol`;
+    let fileName = `browser/${name}`;
+    if (!fileName.includes('.sol')) {
+      fileName += '.sol';
+    }
     remixClient.call(
       'fileManager',
       'setFile',
