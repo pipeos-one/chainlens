@@ -67,6 +67,7 @@ export class PgraphData extends Model {
   })
   markdown: string;
 
+  // SourceLanguage ?
   @property({
     type: 'object',
     postgresql: {
@@ -74,7 +75,6 @@ export class PgraphData extends Model {
     },
   })
   filePointer: FilePointer;
-
 
   constructor(data?: Partial<PgraphData>) {
     super(data);
@@ -122,7 +122,6 @@ export class Pgraph extends Entity {
     default: new Date(),
   })
   timestamp: string;
-
 
   constructor(data?: Partial<Pgraph>) {
     super(data);

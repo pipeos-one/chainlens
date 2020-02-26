@@ -1,4 +1,5 @@
 import {Model, model, property} from '@loopback/repository';
+import {Languages} from '../interfaces/chainlens';
 
 @model()
 export class Metadata extends Model {
@@ -26,25 +27,25 @@ export class Metadata extends Model {
 
   @property({
     type: 'array',
-    itemType: 'number',
+    itemType: 'string',
     required: true,
     default: [],
     postgresql: {
       dataType: "jsonb",
     },
   })
-  chainids: number[];
+  chainids: string[];
 
   @property({
     type: 'array',
-    itemType: 'number',
+    itemType: 'string',
     required: true,
     default: [],
     postgresql: {
       dataType: "jsonb",
     },
   })
-  languages: number[];
+  languages: Languages[];
 
   constructor(data?: Partial<Metadata>) {
     super(data);

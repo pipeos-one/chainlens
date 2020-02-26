@@ -20,6 +20,7 @@ export class PpackageData extends Model {
   })
   packageJson: object;
 
+  // File? SourceLanguage?
   @property({
     type: 'object',
     required: true,
