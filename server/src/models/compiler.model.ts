@@ -1,49 +1,5 @@
-import {Model, model, property} from '@loopback/repository';
-
-@model()
-export class Bytecode extends Model {
-    @property({
-      type: 'string',
-    })
-    bytecode: string;  // 0x...
-
-    @property({
-      type: 'object',
-      default: {},
-      postgresql: {
-        dataType: "json",
-      },
-    })
-    extra: Object;
-}
-
-// Solidity extra
-// Link References, link values
-
-@model()
-export class CompilerOutput extends Model {
-  @property({
-    type: 'object',
-    required: true,
-    postgresql: {
-      dataType: "json",
-    },
-  })
-  runtime?: Bytecode;
-
-  @property({
-    type: 'object',
-    required: true,
-    postgresql: {
-      dataType: "json",
-    },
-  })
-  compiled: Bytecode;
-
-  constructor(data?: Partial<CompilerOutput>) {
-    super(data);
-  }
-}
+import {Model, model, property, hasOne} from '@loopback/repository';
+import {File} from './file.model';
 
 @model()
 export class Compiler extends Model {
@@ -68,6 +24,7 @@ export class Compiler extends Model {
   })
   settings: object;
 
+
   constructor(data?: Partial<Compiler>) {
     super(data);
   }
@@ -85,4 +42,6 @@ export class Compiler extends Model {
 //     enabled: bool
 //     runs: number
 //   }
+//   link_references:
+//   link_values:
 // }

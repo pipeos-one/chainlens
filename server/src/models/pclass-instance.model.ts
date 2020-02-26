@@ -37,9 +37,9 @@ export class SolidityDeployment extends Model {
     txhash?: string;  // 0x
 
     @property({
-      type: 'string',
+      type: 'number',
     })
-    block?: string;  // 0x
+    block?: number;  //
 
     @property({
       type: 'string',

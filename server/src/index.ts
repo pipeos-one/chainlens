@@ -1,6 +1,7 @@
 import {PipeosServerApplication} from './application';
 import {ApplicationConfig} from '@loopback/core';
 import {SERVER_CONFIG} from './config';
+import {MultipartFormDataBodyParser} from './utils/multipartform_parser';
 
 export {PipeosServerApplication};
 
@@ -10,6 +11,7 @@ export async function main(options: ApplicationConfig = {}) {
   });
 
   const app = new PipeosServerApplication(options);
+  app.bodyParser(MultipartFormDataBodyParser);
   await app.boot();
   await app.start();
 

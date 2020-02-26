@@ -4,3 +4,5 @@ export * from './ppackage.repository';
 export * from './pclass-instance.repository';
 export * from './pclass.repository';
 export * from './pfunction.repository';
+export * from './file.repository';
+export * from './language-source.repository';

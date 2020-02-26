@@ -5,7 +5,7 @@ import {
   RestExplorerComponent,
 } from '@loopback/rest-explorer';
 import {RepositoryMixin} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
+import {RestApplication, RestBindings} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
@@ -27,6 +27,11 @@ export class PipeosServerApplication extends BootMixin(
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
+
+    this.bind(RestBindings.REQUEST_BODY_PARSER_OPTIONS).to({
+      limit: '2MB',
+      validation: {unknownFormats: ["binary"]},
+    });
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here

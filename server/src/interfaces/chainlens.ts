@@ -1,0 +1,6 @@
+export type Languages = 'javascript'
+  | 'solidity'
+  | 'solidity_bytecode_runtime'
+  | 'solidity_bytecode_compiled'
+  | 'wasm'
+  | 'rust'

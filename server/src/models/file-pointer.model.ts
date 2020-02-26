@@ -45,44 +45,11 @@ export class UriPointer extends Model {
   })
   uri: string;
 
-  constructor(data?: Partial<FilePointer>) {
-    super(data);
-  }
-}
-
-
-@model()
-export class FilePointer extends Model {
-  @property({
-    type: 'string',
-    required: true,
-  })
-  name: string;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  extension: number;
-
-  @property({
-    type: 'object',
-    required: true,
-    default: 0,
-    postgresql: {
-      dataType: "json",
-    },
-  })
-  pointer: SwarmPointer | IpfsPointer | UriPointer;
-
+  type: 'url';
 
   constructor(data?: Partial<FilePointer>) {
     super(data);
   }
 }
 
-export interface FilePointerRelations {
-  // describe navigational properties here
-}
-
-export type FilePointerWithRelations = FilePointer & FilePointerRelations;
+export type FilePointer = SwarmPointer | IpfsPointer | UriPointer;

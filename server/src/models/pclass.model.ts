@@ -1,11 +1,11 @@
-import {Entity, Model, model, property, hasMany, belongsTo} from '@loopback/repository';
-import {SourceByLanguage} from './sources.model';
+import {Entity, Model, model, property, hasMany, belongsTo, hasOne} from '@loopback/repository';
 import {Metadata} from './metadata.model';
 import {GapiFunction} from './gapi.model';
 import {Natspec} from './natspec.model';
 import {Pfunction} from './pfunction.model';
 import {PclassInstance} from './pclass-instance.model';
 import {Ppackage} from './ppackage.model';
+import {LanguageSource} from './language-source.model';
 
 @model()
 export class PclassData extends Model {
@@ -41,21 +41,10 @@ export class PclassData extends Model {
   })
   natspec: Natspec;
 
-  @property({
-    type: 'object',
-    required: true,
-    default: {},
-    postgresql: {
-      dataType: "json",
-    },
-  })
-  sourceByLanguage: SourceByLanguage;
-
   constructor(data?: Partial<PclassData>) {
     super(data);
   }
 }
-
 
 @model()
 export class Pclass extends Entity {
@@ -129,6 +118,9 @@ export class Pclass extends Entity {
 
   @belongsTo(() => Ppackage, {name: 'ppackage'})
   ppackageid?: string;
+
+  @hasMany(() => LanguageSource, {keyTo: 'pclassid'})
+  sources: LanguageSource[];
 
   constructor(data?: Partial<Pclass>) {
     super(data);

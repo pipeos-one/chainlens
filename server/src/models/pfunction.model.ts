@@ -1,6 +1,6 @@
 import {Entity, Model, model, property, belongsTo} from '@loopback/repository';
 import {Metadata} from './metadata.model';
-import {SourceByLanguage} from './sources.model';
+// import {SourceByLanguage} from './sources.model';
 import {GapiFunction} from './gapi.model';
 import {NatspecMethod} from './natspec.model';
 import {Pclass} from './pclass.model';
@@ -45,14 +45,14 @@ export class PfunctionData extends Model {
   })
   natspec: NatspecMethod;
 
-  @property({
-    type: 'object',
-    default: {},
-    postgresql: {
-      dataType: "json",
-    },
-  })
-  sourceByLanguage?: SourceByLanguage;
+  // @property({
+  //   type: 'object',
+  //   default: {},
+  //   postgresql: {
+  //     dataType: "json",
+  //   },
+  // })
+  // sourceByLanguage?: SourceByLanguage;
 
   constructor(data?: Partial<PfunctionData>) {
     super(data);
@@ -118,6 +118,9 @@ export class Pfunction extends Entity {
 
   @belongsTo(() => Pclass, {name: 'pclass'})
   pclassid: string;
+
+  // @hasMany(() => LanguageSource, {keyTo: 'pclassid'})
+  // sources: LanguageSource[];
 
   constructor(data?: Partial<Pfunction>) {
     super(data);
