@@ -24,14 +24,6 @@ import {File} from '../models';
 import {FileRepository} from '../repositories';
 import {buildFileFromUpload} from '../utils/file';
 
-// const newFileUploadModelSchema: any = getUploadModelSchema(
-//   getModelSchemaRef(File, {
-//     title: 'NewFile',
-//     exclude: ['_id'],
-//   }),
-//   'NewFile',
-// )
-
 export class FileController {
   constructor(
     @repository(FileRepository)
@@ -51,12 +43,6 @@ export class FileController {
     @requestBody({
       content: {
         'multipart/form-data': {
-          // schema: {
-          //   type: 'object',
-          //   properties: newFileUploadModelSchema.properties,
-          //   // required: newFileUploadModelSchema.required,
-          //   // additionalProperties: newFileUploadModelSchema.additionalProperties,
-          // },
           schema: {
             type: 'object',
             properties: {
@@ -74,27 +60,8 @@ export class FileController {
     })
     body: any,
   ): Promise<File> {
-    console.log('-- body.files: ', body.files);
-    console.log('-- body.fields: ', body.fields);
     const upload: any = body.files[0];
     const file: any = buildFileFromUpload(upload, body.fields);
-
-    // const sep: string[] = upload.originalname.split('.');
-    //
-    // // TODO: get extension from mimetype->extension map
-    // if (sep.length < 2) {
-    //   throw new Error('Uploaded file name does not contain an extension')
-    // }
-    // const extension = sep[sep.length - 1];
-    //
-    // const file: any = Object.assign({}, body.fields, {
-    //   name: upload.originalname,
-    //   extension,
-    //   encoding: upload.encoding,
-    //   mimetype: upload.mimetype,
-    //   size: upload.size,
-    //   source: upload.buffer.toString('hex'),
-    // });
 
     return this.fileRepository.create(file);
   }

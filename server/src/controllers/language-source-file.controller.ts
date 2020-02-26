@@ -20,14 +20,7 @@ import {
   File,
 } from '../models';
 import {LanguageSourceRepository} from '../repositories';
-
-import {getUploadModelSchema} from '../utils/upload_schema';
 import {buildFileFromUpload} from '../utils/file';
-
-const newFileUploadModelSchema: any = getUploadModelSchema(getModelSchemaRef(File, {
-  title: 'NewFile',
-  exclude: ['_id'],
-}), 'NewFile')
 
 export class LanguageSourceFileController {
   constructor(
