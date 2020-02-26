@@ -12,14 +12,14 @@ export class FileRepository extends DefaultCrudRepository<
 
   public readonly subfiles: HasManyRepositoryFactory<File, typeof File.prototype._id>;
 
-  public readonly source: BelongsToAccessor<LanguageSource, typeof File.prototype._id>;
+  public readonly languageSource: BelongsToAccessor<LanguageSource, typeof File.prototype._id>;
 
   constructor(
     @inject('datasources.yugabyte') dataSource: YugabyteDataSource, @repository.getter('FileRepository') protected fileRepositoryGetter: Getter<FileRepository>, @repository.getter('LanguageSourceRepository') protected languageSourceRepositoryGetter: Getter<LanguageSourceRepository>,
   ) {
     super(File, dataSource);
-    this.source = this.createBelongsToAccessorFor('source', languageSourceRepositoryGetter,);
-    this.registerInclusionResolver('source', this.source.inclusionResolver);
+    this.languageSource = this.createBelongsToAccessorFor('languageSource', languageSourceRepositoryGetter,);
+    this.registerInclusionResolver('languageSource', this.languageSource.inclusionResolver);
     this.subfiles = this.createHasManyRepositoryFactoryFor('subfiles', fileRepositoryGetter,);
     this.registerInclusionResolver('subfiles', this.subfiles.inclusionResolver);
   }

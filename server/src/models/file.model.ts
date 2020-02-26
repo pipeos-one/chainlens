@@ -79,7 +79,7 @@ export class File extends Entity {
   @hasMany(() => File, {keyTo: '_id'})
   subfiles: File[];
 
-  @belongsTo(() => LanguageSource, {name: 'source'})
+  @belongsTo(() => LanguageSource, {name: 'languageSource'})
   sourceid?: string;
 
   constructor(data?: Partial<File>) {
