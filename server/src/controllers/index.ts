@@ -15,3 +15,5 @@ export * from './file.controller';
 export * from './language-source-file.controller';
 export * from './pclass-language-source.controller';
 export * from './language-source.controller';
+export * from './language-source-pclass.controller';
+export * from './file-language-source.controller';

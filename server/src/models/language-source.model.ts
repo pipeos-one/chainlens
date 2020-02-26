@@ -1,7 +1,8 @@
-import {Entity, model, property, hasOne} from '@loopback/repository';
+import {Entity, model, property, hasOne, belongsTo} from '@loopback/repository';
 import {File} from './file.model';
 import {Compiler} from './compiler.model';
 import {Languages} from '../interfaces/chainlens';
+import {Pclass} from './pclass.model';
 
 @model()
 export class LanguageSource extends Entity {
@@ -17,15 +18,6 @@ export class LanguageSource extends Entity {
     },
   })
   _id: string;
-
-  @property({
-    type: 'string',
-    postgresql: {
-      dataType: 'uuid',
-    },
-  })
-  pclassid?: string;
-
   @property({
     type: 'string',
     postgresql: {
@@ -65,6 +57,9 @@ export class LanguageSource extends Entity {
   // If multiple files, this should be a folder
   @hasOne(() => File, {keyTo: 'sourceid'})
   file: File;
+
+  @belongsTo(() => Pclass, {name: 'pclass'})
+  pclassid?: string;
 
   constructor(data?: Partial<LanguageSource>) {
     super(data);

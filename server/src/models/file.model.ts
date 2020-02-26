@@ -1,5 +1,6 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Entity, model, property, hasMany, belongsTo} from '@loopback/repository';
 import {FilePointer} from './file-pointer.model';
+import {LanguageSource} from './language-source.model';
 
 @model()
 export class File extends Entity {
@@ -23,15 +24,6 @@ export class File extends Entity {
     },
   })
   parentid?: string;
-
-  @property({
-    type: 'string',
-    postgresql: {
-      dataType: "uuid",
-    },
-  })
-  sourceid?: string;
-
   @property({
     type: 'string',
     required: true,
@@ -86,6 +78,9 @@ export class File extends Entity {
 
   @hasMany(() => File, {keyTo: '_id'})
   subfiles: File[];
+
+  @belongsTo(() => LanguageSource, {name: 'source'})
+  sourceid?: string;
 
   constructor(data?: Partial<File>) {
     super(data);
