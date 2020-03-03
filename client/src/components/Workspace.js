@@ -35,7 +35,7 @@ export default class Workspace extends Component {
     if (selected === 'remix') {
       exportToRemix(this.props.treedata)
     } else {
-      exportToPlugin(this.props.treedata, 'pipe');
+      exportToPlugin(this.props.treedata, 'pipeline');
     }
   }
 
