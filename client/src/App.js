@@ -8,6 +8,7 @@ import { SearchListPClasses, SearchListPfunctions, SearchListPClassesByPclassi} 
 import { PclassDetails } from './components/PclassDetails.js';
 import { PfunctionGapi } from './components/gapi/PfunctionGapi.js';
 import { buildWhereQueries, buildWhereFx } from './utils/queries.js';
+import { getWeb3, CHAIN_NAMES } from './utils/web3.js';
 
 const MIN_WIDTH = 800;
 const PAGE_LIMIT = 30;
@@ -38,6 +39,7 @@ class AppContent extends Component {
       treedata: [],
       showPclassInfo: null,
       runPfunction: null,
+      chainid: null,
     };
 
     this.scrollRef = React.createRef();
@@ -58,6 +60,13 @@ class AppContent extends Component {
     Dimensions.addEventListener('change', () => {
       this.onContentSizeChange();
     });
+
+    this.setWeb3();
+  }
+
+  async setWeb3() {
+    this.web3 = await getWeb3();
+    this.setState({ chainid: parseInt(this.web3.version.network)});
   }
 
   getWindowDimensions() {
@@ -98,6 +107,7 @@ class AppContent extends Component {
     if (fxQuery.valid) {
       pfunctionWhere = { ...pfunctionWhere, ...buildWhereFx(fxQuery) };
     }
+
     console.log('pclassiWhere', JSON.stringify(pclassiWhere));
     console.log('pclassWhere', JSON.stringify(pclassWhere));
     console.log('pfunctionWhere', JSON.stringify(pfunctionWhere));
@@ -166,6 +176,7 @@ class AppContent extends Component {
       pfunctionWhere,
       pclassiWhere,
       filter,
+      chainid,
     } = this.state;
     const pageStyles = getPageSize(this.PAGE_NUMBER, { width, height });
     const whereFilters = { pclassWhere, pfunctionWhere, pclassiWhere };
@@ -173,6 +184,12 @@ class AppContent extends Component {
     const showFunctions = wherekey.includes('data.gapi') || wherekey.includes('data.signature');
 
     const showByPclassi = (Object.keys(pclassiWhere)[0] || '').includes('address');
+
+    if (chainid) {
+      pclassWhere["metadata.chainids"] = {"inq":[chainid]};
+      pfunctionWhere["metadata.chainids"] = {"inq":[chainid]};
+      pclassiWhere["data.deployment.chainid"] = chainid;
+    }
 
     return (
       <ScrollView
@@ -186,7 +203,11 @@ class AppContent extends Component {
         onContentSizeChange={this.onContentSizeChange}
       >
 
-        <SearchComponent styles={pageStyles} onQueryChange={this.onQueryChange} />
+        <SearchComponent
+          styles={pageStyles}
+          chain={{ id: chainid, name: CHAIN_NAMES[chainid] }}
+          onQueryChange={this.onQueryChange}
+        />
 
         {showFunctions
           ? <SearchListPfunctions

@@ -6,6 +6,7 @@ import {
   Icon,
   Button,
   Separator,
+  Text,
 } from 'native-base';
 import SearchGeneral from './SearchGeneral.js';
 import SearchIO from './SearchIO.js';
@@ -61,6 +62,7 @@ export default class SearchComponent extends Component {
               <Icon type="MaterialCommunityIcons" name='import' />
             </Button>
           </Left>
+          <Text>Network: {this.props.chain.name}</Text>
         </View>
       </View>
     )

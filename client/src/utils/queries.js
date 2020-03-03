@@ -25,6 +25,9 @@ export const buildWhereQueries = (genQuery) => {
 
 export const buildWhereFx = (fxQuery) => {
   let pfunctionWhere = {};
+
+  if (!fxQuery.text) return pfunctionWhere;
+
   pfunctionWhere[`data.gapi.${fxQuery.field}`] = {
     inq:[{ type: fxQuery.text }]
   }
