@@ -29,13 +29,14 @@ export default class Workspace extends Component {
     this.setState({ selected: value });
   }
 
-  exportTo() {
+  exportTo(pclass) {
     const selected = this.state.selected;
+    const data = pclass ? [pclass] : this.props.treedata;
 
     if (selected === 'remix') {
-      exportToRemix(this.props.treedata)
+      exportToRemix(data)
     } else {
-      exportToPlugin(this.props.treedata, 'pipeline');
+      exportToPlugin(data, 'pipeline');
     }
   }
 
@@ -51,7 +52,7 @@ export default class Workspace extends Component {
           }
         },
         {
-          callback: exportPclassToRemix,
+          callback: this.exportTo,
           icon: {
             type: 'MaterialCommunityIcons',
             name: 'import',
