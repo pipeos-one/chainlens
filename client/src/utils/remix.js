@@ -10,6 +10,21 @@ export async function exportToRemix(pclasses) {
   });
 }
 
+export async function exportToPlugin(pclasses = [], pluginName) {
+  if (!(pclasses instanceof Array)) {
+    pclasses = [pclasses];
+  }
+  try {
+    remixClient.call(
+      pluginName,
+      'loadChainLensWorkspace',
+      pclasses,
+    );
+  } catch (e) {
+    console.error('exportToPlugin failed', pluginName, e);
+  }
+}
+
 export async function exportPclassToRemix(pclass) {
   console.log('sourceByLanguage', pclass.data.sourceByLanguage)
   if (!pclass.data.sourceByLanguage || !pclass.data.sourceByLanguage['0']) return;

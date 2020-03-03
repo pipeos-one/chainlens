@@ -37,7 +37,6 @@ export class PgraphData extends Model {
 
   @property({
     type: 'object',
-    required: true,
     postgresql: {
       dataType: "json",
     },
@@ -88,7 +87,6 @@ export class Pgraph extends Entity {
 
   @property({
     type: 'date',
-    required: true,
     default: new Date(),
   })
   timestamp: string;
