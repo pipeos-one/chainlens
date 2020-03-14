@@ -1,7 +1,7 @@
 import {Entity, Model, model, property} from '@loopback/repository';
 import {Metadata} from './metadata.model';
 import {FilePointer} from './file-pointer.model';
-
+import {GapiFunction} from './gapi.model';
 
 @model()
 export class PgraphData extends Model {
@@ -10,6 +10,21 @@ export class PgraphData extends Model {
     required: true,
   })
   name: string;
+
+  @property({
+    type: 'number',
+  })
+  onchainid: number;
+
+  @property({
+    type: 'number',
+  })
+  chainid: number;
+
+  @property({
+    type: 'string',
+  })
+  interpreter: string;
 
   @property({
     type: 'object',
@@ -28,6 +43,23 @@ export class PgraphData extends Model {
     },
   })
   runnablePgraph: object;
+
+  @property({
+    type: 'object',
+    postgresql: {
+      dataType: "json",
+    },
+  })
+  onchainPgraph?: object;
+
+  @property({
+    type: 'object',
+    required: true,
+    postgresql: {
+      dataType: "jsonb",
+    },
+  })
+  gapi: GapiFunction;
 
   @property({
     type: 'string',
