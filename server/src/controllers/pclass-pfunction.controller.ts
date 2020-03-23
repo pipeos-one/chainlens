@@ -122,8 +122,8 @@ export class PclassPfunctionController {
   async createFunctionsFromPClass(
     @param.path.string('id') id: typeof Pclass.prototype._id,
   ): Promise<Count> {
-    let pclass: Pclass = await this.pclassRepository.findById(id);
     let count: Count = {count: 0};
+    let pclass: Pclass = await this.pclassRepository.findById(id);
 
     let gapi: GapiFunction[], natspec: Natspec;
     let emptydoc = {methods: {}};
@@ -131,8 +131,22 @@ export class PclassPfunctionController {
     gapi = pclass.data.gapi || [];
     natspec = pclass.data.natspec || emptydoc;
 
+    const existCount = await this.pclassRepository.pfunctions(id).find();
+    if (existCount.length === gapi.length) {
+      count.count = existCount.length;
+      return count;
+    }
+
     for (let i = 0; i < gapi.length; i++) {
         let funcapi: GapiFunction = gapi[i];
+
+        const exists = await this.pclassRepository.pfunctions(id).find(
+          JSON.parse(JSON.stringify({where: {'data.name': funcapi.name}}))
+        );
+        if (exists && exists.length > 0) {
+          continue;
+        }
+
         let functiondoc;
         let signature: string = getSignature(funcapi);
         let signatureString: string = getSignatureString(funcapi);
