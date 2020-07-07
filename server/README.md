@@ -1,1 +1,9 @@
-# pipeos-server
+# ChainLens Server
+
+
+```bash
+yarn
+
+yarn start
+yarn build
+```
