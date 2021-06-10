@@ -10,6 +10,7 @@ export * from './pclass-pfunction.controller';
 export * from './pclass-pclass-instance.controller';
 export * from './pclass-ppackage.controller';
 export * from './ppackage-pclass.controller';
+export * from './pclass-pfunction-pclassi.controller';
 export * from './file-file.controller';
 export * from './file.controller';
 export * from './language-source-file.controller';

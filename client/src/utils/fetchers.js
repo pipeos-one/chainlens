@@ -18,10 +18,21 @@ export const pfunctionApi = () => `${PIPEOS_SERVER.host}${PIPEOS_SERVER.route.pf
 export const pclassWithPfuncApi = (filter = {}, type = 'pclass') => {
   let relations = [];
   if (type === 'pclass') {
-    relations = [{relation: 'pfunctions'}, {relation: 'pclassInstances'}];
+    relations = [
+      {relation: 'pfunctions'},
+      {relation: 'pclassInstances'},
+      // TODO: this should be gotten on demand
+      // {relation: 'sources', scope: {include: [{relation: 'file'}]}}
+      {relation: 'sources'},
+    ];
   }
   if (type === 'pfunction') {
-    relations = [{relation: 'pclass'}];
+    relations = [{
+      relation: 'pclass',
+      // scope: {
+      //   include: [{relation: 'pclassInstances'}],
+      // },
+    }];
   }
   if (type === 'pclassi') {
     relations = [{

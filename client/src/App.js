@@ -185,11 +185,11 @@ class AppContent extends Component {
 
     const showByPclassi = (Object.keys(pclassiWhere)[0] || '').includes('address');
 
-    if (chainid) {
-      pclassWhere["metadata.chainids"] = {"inq":[chainid]};
-      pfunctionWhere["metadata.chainids"] = {"inq":[chainid]};
-      pclassiWhere["data.deployment.chainid"] = chainid;
-    }
+    // if (chainid) {
+    //   pclassWhere["metadata.chainids"] = {"inq":[chainid]};
+    //   pfunctionWhere["metadata.chainids"] = {"inq":[chainid]};
+    //   pclassiWhere["data.deployment.chainid"] = chainid;
+    // }
 
     return (
       <ScrollView

@@ -153,16 +153,23 @@ export class FileController {
     @param.path.string('id') id: string,
   ) {
     const file = await this.fileRepository.findById(id);
+
     if (!file) {
       this.response
         .status(404)
         .end('Not found')
     } else {
+      const hexsource: string = file.source.toString();
+      const source = Buffer.from(hexsource, 'hex');
+
       this.response
         .status(200)
         .contentType(file.mimetype)
         .attachment(file.name)
-        .send(file.source)
+
+      this.response.setHeader('Content-Disposition', 'binary');
+      this.response.setHeader('Content-Transfer-Encoding', 'binary');
+      this.response.send(source)
     }
   }
 

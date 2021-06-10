@@ -23,6 +23,7 @@ module.exports = override(
     path.resolve('node_modules/react-native-web'),
     path.resolve('node_modules/react-native-tab-view'),
     path.resolve('node_modules/static-container'),
+    path.resolve('node_modules/roboto-fontface'),
   ]),
   addBabelPlugins(
     "@babel/plugin-proposal-class-properties"

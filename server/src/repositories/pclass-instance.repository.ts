@@ -12,11 +12,14 @@ export class PclassInstanceRepository extends DefaultCrudRepository<
 
   public readonly pclass: BelongsToAccessor<Pclass, typeof PclassInstance.prototype._id>;
 
+  // public readonly pclassInternal: Promise<PclassRepository>;
+
   constructor(
     @inject('datasources.yugabyte') dataSource: YugabyteDataSource, @repository.getter('PclassRepository') protected pclassRepositoryGetter: Getter<PclassRepository>,
   ) {
     super(PclassInstance, dataSource);
     this.pclass = this.createBelongsToAccessorFor('pclass', pclassRepositoryGetter,);
     this.registerInclusionResolver('pclass', this.pclass.inclusionResolver);
+    // this.pclassInternal = pclassRepositoryGetter();
   }
 }

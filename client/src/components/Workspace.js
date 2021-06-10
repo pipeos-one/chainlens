@@ -9,7 +9,7 @@ import {
   Text,
   Picker,
 } from 'native-base';
-import { exportToRemix, exportPclassToRemix, exportToPlugin } from '../utils/remix.js';
+import { exportToRemix, exportToPlugin } from '../utils/remix.js';
 import PclassList from './PclassList.js';
 
 
@@ -36,7 +36,7 @@ export default class Workspace extends Component {
     if (selected === 'remix') {
       exportToRemix(data)
     } else {
-      exportToPlugin(data, 'pipeline');
+      exportToPlugin(data, 'pipe');
     }
   }
 

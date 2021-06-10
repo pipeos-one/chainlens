@@ -10,7 +10,11 @@ import {
   Accordion,
 } from "native-base";
 
-const nonStringTypes = ['int', 'float', 'tuple', 'boolean'];
+const rustTypeSizes = [8, 16, 32, 64];
+
+const nonStringTypes = ['int', 'float', 'tuple', 'boolean']
+  .concat(rustTypeSizes.map(size => `i${size}`))
+  .concat(rustTypeSizes.map(size => `u${size}`));
 const checkNonString = itemType => nonStringTypes.find(typ => itemType.includes(typ));
 const decodeValueString = value => value || '';
 const encodeValueString = value => value || '';

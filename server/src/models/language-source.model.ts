@@ -18,6 +18,7 @@ export class LanguageSource extends Entity {
     },
   })
   _id: string;
+
   @property({
     type: 'string',
     postgresql: {
@@ -53,6 +54,14 @@ export class LanguageSource extends Entity {
     },
   })
   extra?: Object;
+
+  @property({
+    type: 'string',
+    postgresql: {
+      dataType: 'uuid',
+    },
+  })
+  fileid?: string;
 
   // If multiple files, this should be a folder
   @hasOne(() => File, {keyTo: 'sourceid'})

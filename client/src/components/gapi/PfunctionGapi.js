@@ -42,6 +42,7 @@ export class PfunctionGapi extends Component {
 
     this.onValueChange = this.onValueChange.bind(this);
     this.onRun = this.onRun.bind(this);
+    this.onRunWasm = this.onRunWasm.bind(this);
   }
 
   initInputsState() {
@@ -102,6 +103,59 @@ export class PfunctionGapi extends Component {
   onValueChange(value) {
     console.log('--- onValueChange', value);
     this.setState({ inputs: value });
+  }
+
+  async onRunWasm() {
+    const { pclass, pfunction } = this.props.item;
+    console.log('pclass', pclass);
+    console.log('pfunction', pfunction);
+
+    // const fileid = "b7ed694e-c1fd-4461-9525-9bda9774bf2a";
+    // const fileid = "b59c2eb4-1bb9-4819-b880-026ca7eee5fc";
+
+    const fileid = pclass.sources[0].fileid;
+
+    const url = `http://192.168.1.140:3000/file/${fileid}/source`;
+
+    // const download = await fetch(url);
+    // console.log(download);
+
+    const wasmmodule = await WebAssembly.instantiateStreaming(fetch(url));
+
+
+    // const hex = await download.text();
+    // const buffer = Buffer.from(hex, 'hex');
+    // const wasmmodule = await WebAssembly.instantiate(buffer);
+
+    // const buffer = await download.arrayBuffer();
+    // console.log('buffer', buffer);
+
+
+    // const urlWasm = 'http://192.168.1.140:8081/sums/pkg/sums_bg.wasm';
+    // const urlJs = 'http://192.168.1.140:8081/sums/pkg/sums.js';
+
+    // const jsdownload = await fetch(urlJs);
+    // const jsfile = jsdownload.text();
+
+
+    // const url = 'http://192.168.1.140:8081/sums/pkg/sums_bg.wasm';
+    // const wasmmodule = await WebAssembly.instantiateStreaming(fetch(url));
+    // console.log(wasmmodule.instance.exports.sum_u32(3,4))
+
+    // const wasmmodule = await import('http://192.168.1.140:8081/sums');
+
+    // const wasmmodule = await WebAssembly.instantiateStreaming(download.body);
+    // const wasmmodule = await WebAssembly.instantiateStreaming(download);
+    // const wasmmodule = await WebAssembly.instantiateStreaming(fetch(url));
+
+    console.log('wasmmodule', wasmmodule, wasmmodule.instance.exports)
+    console.log(pfunction.data.gapi.name, this.state.inputs)
+    const result = await wasmmodule.instance.exports[pfunction.data.gapi.name](...this.state.inputs);
+    console.log('result', result);
+
+    let outputs = (result instanceof Array) ? result : [result];
+
+    this.setState({ outputs });
   }
 
   async onRun() {
@@ -208,7 +262,7 @@ export class PfunctionGapi extends Component {
             </Button>
           </Left>
           <Right>
-            <Button small rounded style={styles.buttonStyle} onClick={this.onRun} >
+            <Button small rounded style={styles.buttonStyle} onClick={this.onRunWasm} >
               <Icon type="MaterialCommunityIcons" name='play' />
             </Button>
           </Right>

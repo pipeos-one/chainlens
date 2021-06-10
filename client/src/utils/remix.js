@@ -2,11 +2,14 @@ import {createIframeClient} from '@remixproject/plugin';
 
 const remixClient = createIframeClient();
 
-export async function exportToRemix(pclasses) {
+export async function exportToRemix(pclasses = [], pluginName = 'remix') {
   await remixClient.onload();
   console.log('exportToRemix', pclasses)
+  if (!(pclasses instanceof Array)) {
+    pclasses = [pclasses];
+  }
   pclasses.forEach(pclass => {
-    exportPclassToRemix(pclass);
+    exportPclassToRemix(pclass, pluginName);
   });
 }
 
@@ -38,6 +41,7 @@ export async function exportPclassToRemix(pclass) {
     if (!fileName.includes('.sol')) {
       fileName += '.sol';
     }
+
     remixClient.call(
       'fileManager',
       'setFile',

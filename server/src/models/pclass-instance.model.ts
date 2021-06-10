@@ -1,6 +1,5 @@
 import {Entity, Model, model, property, belongsTo} from '@loopback/repository';
 import {Metadata} from './metadata.model';
-import {Compiler, CompilerOutput} from './compiler.model';
 import {Pclass} from './pclass.model';
 
 @model()
@@ -68,39 +67,6 @@ export class SolidityDeployment extends Model {
     bip122_uri?: string;
 }
 
-
-@model()
-export class PclassInstanceData extends Model {
-  @property({
-    type: 'object',
-    postgresql: {
-      dataType: "json",
-    },
-  })
-  compiler: Compiler;
-
-  @property({
-    type: 'object',
-    postgresql: {
-      dataType: "json",
-    },
-  })
-  compilerOutput: CompilerOutput;
-
-  @property({
-    type: 'object',
-    postgresql: {
-      dataType: "json",
-    },
-  })
-  deployment: SolidityDeployment | OApiDeployment;
-
-  constructor(data?: Partial<PclassInstanceData>) {
-    super(data);
-  }
-}
-
-
 @model()
 export class PclassInstance extends Entity {
   @property({
@@ -150,7 +116,7 @@ export class PclassInstance extends Entity {
       dataType: "json",
     },
   })
-  data: PclassInstanceData;
+  data: SolidityDeployment | OApiDeployment;
 
   @property({
     type: 'object',

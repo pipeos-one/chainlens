@@ -165,4 +165,42 @@ export class PclassPfunctionController {
 
     return count;
   }
+
+  @get('/pclasses/pfunctions/build', {
+    responses: {
+      '200': {
+        description: 'Pclass.Pfunction PATCH success count',
+        content: {'application/json': {schema: CountSchema}},
+      },
+    },
+  })
+  async createFunctionsFromPClasses(
+    @param.query.object('filter') filter?: Filter<Pclass>,
+  ): Promise<Count> {
+    let count: Count = {count: 0};
+
+    filter = filter || {};
+    filter.fields = {_id: true};
+
+    // TODO: find pclasses with no pfunctions
+    // filter.include = {
+    //   relation: 'pfunctions',
+    //   scope: {
+    //     fields: ['_id']
+    //   },
+    //   where: {orderId: 5},
+    // }
+
+    const pclasses = await this.pclassRepository.find(filter);
+    for (let i = 0; i < pclasses.length; i++) {
+      const pclass = pclasses[i];
+      const pfuncCount = await this.pclassRepository.pfunctions(pclass._id).find({fields: {_id: true}});
+      if (pfuncCount.length === 0) {
+        const pcount = await this.createFunctionsFromPClass(pclass._id);
+        count.count += pcount.count;
+      }
+    }
+
+    return count;
+  }
 }

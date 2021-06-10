@@ -8,5 +8,6 @@ export * from './pclass.model';
 export * from './pclass-instance.model';
 export * from './ppackage.model';
 export * from './pgraph.model';
+export * from './pclass-solidity-classic.model';
 export * from './language-source.model';
 export * from './file.model';
