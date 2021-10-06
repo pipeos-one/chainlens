@@ -1,26 +1,23 @@
-export const getWeb3 = async () => {
-    let web3Instance;
+import {ethers} from 'ethers';
+
+export const getWeb3 = async (networkName = 'ropsten') => {
+    let provider, signer;
     if (window.ethereum) {
-        // eslint-disable-next-line
-        web3Instance = new Web3(ethereum);
         try {
-            // eslint-disable-next-line
-            await ethereum.enable();
+            await window.ethereum.enable();
+            provider = new ethers.providers.Web3Provider(window.ethereum);
+            signer = provider.getSigner();
         } catch (error) {
             console.log('User rejected dApp connection');
+            provider = ethers.getDefaultProvider(networkName);
         }
     }
-
-    if (!web3Instance && window.web3) {
-        // eslint-disable-next-line
-        web3Instance = new Web3(web3.currentProvider);
-    }
-
-    if (!web3Instance) {
+    else {
         console.log('Non-Ethereum browser detected. Consider trying MetaMask!');
-        return null;
+        provider = ethers.getDefaultProvider(networkName);
     }
-    return web3Instance;
+    window.provider = provider;
+    return {provider, signer};
 };
 
 export const CHAIN_NAMES = {

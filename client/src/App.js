@@ -66,7 +66,8 @@ class AppContent extends Component {
 
   async setWeb3() {
     this.web3 = await getWeb3();
-    this.setState({ chainid: parseInt(this.web3.version.network)});
+    const network = await this.web3.provider.getNetwork();
+    this.setState({ chainid: parseInt(network.chainId)});
   }
 
   getWindowDimensions() {

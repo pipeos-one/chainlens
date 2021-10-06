@@ -109,9 +109,9 @@ export class PfunctionGapi extends Component {
     const { pclassInstances } = pclass;
 
     const web3 = await getWeb3();
-    const chain = web3.version.network;
-    const provider = new ethers.providers.Web3Provider(web3.currentProvider);
-    const signer = provider.getSigner();
+    const provider = web3.provider;
+    const signer = web3.signer;
+    const chain = (await provider.getNetwork()).chainId;
 
     console.log('this.state.inputs', this.state.inputs);
 
