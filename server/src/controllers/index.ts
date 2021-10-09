@@ -10,3 +10,4 @@ export * from './pclass-pfunction.controller';
 export * from './pclass-pclass-instance.controller';
 export * from './pclass-ppackage.controller';
 export * from './ppackage-pclass.controller';
+export * from './type-instance.controller';

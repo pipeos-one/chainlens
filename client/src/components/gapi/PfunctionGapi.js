@@ -117,8 +117,19 @@ export class PfunctionGapi extends Component {
 
     const instance = pclassInstances.find(inst => inst.data.deployment.chainid === chain || inst.data.deployment.chainid === parseInt(chain))
 
-    const contract = new ethers.Contract(instance.data.deployment.address, pclass.data.gapi, signer);
-    const result = await contract[pfunction.data.name](...this.state.inputs);
+    let result;
+
+    if (this.props.onRun) {
+      result = await this.props.onRun(ethers, provider, signer, instance.data.deployment.address, pfunction, this.state.inputs)
+    } else {
+      const contract = new ethers.Contract(instance.data.deployment.address, pclass.data.gapi, signer);
+      result = await contract[pfunction.data.name](...this.state.inputs, {
+        gasPrice: 21000000000,
+        gasLimit: 1000000,
+      });
+    }
+
+    if (!result) return;
 
     console.log('result', result);
     let outputs = (result instanceof Array) ? result : [result];
@@ -145,12 +156,13 @@ export class PfunctionGapi extends Component {
         }
         return receipt[comp.name];
       });
-      this.setState({ outputs });
-
-      return;
     }
 
     this.setState({ outputs });
+
+    if (this.props.onAfterRun) {
+      this.props.onAfterRun();
+    }
   }
 
   render() {

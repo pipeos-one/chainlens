@@ -1,0 +1,276 @@
+{
+  "data": {
+    "name": "dTypeInterpreter",
+    "license": "None",
+    "gapi": [
+      {
+        "type": "function",
+        "name": "byte",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [],
+        "outputs": [
+          {"name": "byte", "type": "bytes1"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "uint",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "size", "type": "uint24"}
+        ],
+        "outputs": [
+          {"name": "uint", "type": "uint"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "int",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "size", "type": "uint24"}
+        ],
+        "outputs": [
+          {"name": "int", "type": "int"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "new",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "type_id", "type": "bytes4"}
+        ],
+        "outputs": [
+          {"name": "newtype", "type": "T"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "identity",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "type", "type": "T"}
+        ],
+        "outputs": [
+          {"name": "type", "type": "T"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "contig",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "count", "type": "uint32"},
+          {"name": "to_repeat", "type": "T"}
+        ],
+        "outputs": [
+          {"name": "result", "type": "T"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "concat2",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "item1", "type": "T"},
+          {"name": "item2", "type": "T"}
+        ],
+        "outputs": [
+          {"name": "result", "type": "T"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "concat3",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "item1", "type": "T"},
+          {"name": "item2", "type": "T"},
+          {"name": "item3", "type": "T"}
+        ],
+        "outputs": [
+          {"name": "result", "type": "T"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "sum",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "a", "type": "uint32"},
+          {"name": "b", "type": "uint32"}
+        ],
+        "outputs": [
+          {"name": "c", "type": "uint32"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "sub",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "a", "type": "uint32"},
+          {"name": "b", "type": "uint32"}
+        ],
+        "outputs": [
+          {"name": "c", "type": "uint32"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "prod",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "a", "type": "uint32"},
+          {"name": "b", "type": "uint32"}
+        ],
+        "outputs": [
+          {"name": "c", "type": "uint32"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "div",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "a", "type": "uint32"},
+          {"name": "b", "type": "uint32"}
+        ],
+        "outputs": [
+          {"name": "c", "type": "uint32"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "map",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "signature", "type": "bytes4"},
+          {"name": "array", "type": "array"}
+        ],
+        "outputs": [
+          {"name": "array", "type": "array"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "ureduce",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "signature", "type": "bytes4"},
+          {"name": "array", "type": "array"},
+          {"name": "accumulator", "type": "uint32"}
+        ],
+        "outputs": [
+          {"name": "accumulator", "type": "uint32"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "curry1",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "signature", "type": "bytes4"},
+          {"name": "arg1", "type": "T"}
+        ],
+        "outputs": [
+          {"name": "virtual_sig", "type": "bytes4"}
+        ]
+      },
+      {
+        "type": "function",
+        "name": "getTypeSignature",
+        "stateMutability": "pure",
+        "constant": true,
+        "payable": false,
+        "inputs": [
+          {"name": "type", "type": "T"}
+        ],
+        "outputs": [
+          {"name": "signature", "type": "bytes4"}
+        ]
+      }
+    ],
+    "sourceByLanguage": {
+      "0": {
+        "sourcesTemp": {
+          "dTypeInterpreter": "",
+          "compiler": {}
+        }
+      }
+    }
+  },
+  "metadata": {
+    "chainids": [3],
+    "categories": ["solidity"]
+  },
+  "extra": {},
+  "timestamp": "2020-02-22T10:14:22.000Z"
+}
+
+
+[
+  {
+    "data": {
+      "compiler": {
+        "name": "solc",
+        "version": "v0.5.8+commit.23d335f2",
+        "settings": {
+        "evmVersion": "default evmVersion\n",
+        "libraries": null,
+        "optimizer": {
+        "enabled": "true",
+        "runs": 200
+      }
+      }
+      },
+      "compilerOutput": {},
+      "deployment": {
+      "address": "0x4FDC110B666f4f1AECb12df272C964b34B28Db05",
+      "txhash": "0xf5f06a6546f15f54363bb8ff4077b135263c6e5838618fb33db609119c997fad",
+      "block": 7306154,
+      "constructorArgs": null,
+      "chainid": 3
+      }
+    },
+    "metadata": {
+      "categories": [
+        "solidity"
+      ]
+    },
+    "extra": {},
+    "timestamp": "2020-02-22T10:18:00.000Z",
+    "pclassid": "cc09e21e-c7ab-46ce-a459-4ad5ddadfbe5"
+  }
+]

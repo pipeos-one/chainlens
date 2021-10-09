@@ -10,6 +10,7 @@ import {
 } from 'native-base';
 import SearchGeneral from './SearchGeneral.js';
 import SearchIO from './SearchIO.js';
+import SearchdType from './SearchdType.js';
 
 export default class SearchComponent extends Component {
   constructor(props) {
@@ -17,10 +18,12 @@ export default class SearchComponent extends Component {
     this.state = {
       genQuery: { text: '', field: 'name' },
       fxQuery: { text: '', field: 'inputs' },
+      dtQuery: { text: '', field: 'dtype' },
     }
 
     this.onQueryChangeGeneral = this.onQueryChangeGeneral.bind(this);
     this.onQueryChangeFx = this.onQueryChangeFx.bind(this);
+    this.onQueryChangedType = this.onQueryChangedType.bind(this);
     this.onSearch = this.onSearch.bind(this);
   }
 
@@ -30,6 +33,10 @@ export default class SearchComponent extends Component {
 
   onQueryChangeFx(fxQuery) {
     this.setState({ fxQuery });
+  }
+
+  onQueryChangedType(dtQuery) {
+    this.setState({ dtQuery });
   }
 
   onSearch() {
@@ -43,6 +50,7 @@ export default class SearchComponent extends Component {
           <SearchGeneral onQueryChange={this.onQueryChangeGeneral} />
           <Separator bordered></Separator>
           <SearchIO onQueryChange={this.onQueryChangeFx} />
+          <SearchdType onQueryChange={this.onQueryChangedType} />
         </Content>
         <View style={{
           flexDirection: "row",

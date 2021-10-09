@@ -262,6 +262,149 @@ export function SearchListPfunctions(props) {
   )
 }
 
+export function SearchListdTypes(props) {
+  const { whereFilter, filter } = props;
+
+  filter.where = whereFilter;
+
+  console.log('!!!!!!!! SearchListdTypes !!!!!!!')
+
+  let { data, error } = useSearchResults(filter, 'dtype');
+  const { data: count } = useSearchCount(filter, 'dtype');
+  const resultsCount = count ? count.count : 0;
+
+  if (error) return <div>failed to load</div>
+  if (!data) return <div>loading...</div>
+
+  console.log('dtype data', data)
+  console.log('dtype count', resultsCount);
+
+  data = data.map(item => {
+    const it = JSON.parse(JSON.stringify(item))
+    if (!it.data.abstractIdentifier) {
+      it.data.name = '* ' + it.data.name;
+    }
+    return it;
+  })
+
+  const buttons = {
+    header: [
+      {
+        callback: props.onAddType,
+        icon: {
+          type: 'FontAwesome',
+          name: 'plus',
+        }
+      },
+      {
+        callback: props.onAddValue,
+        icon: {
+          type: 'MaterialCommunityIcons',
+          name: 'database-plus',
+        }
+      },
+      {
+        callback: props.onShowValues,
+        icon: {
+          type: 'MaterialCommunityIcons',
+          name: 'database',
+        }
+      },
+      {
+        callback: props.onInfo,
+        icon: {
+          type: 'FontAwesome',
+          name: 'info',
+        }
+      },
+      {
+        callback: props.onSelect,
+        icon: {
+          type: 'MaterialCommunityIcons',
+          name: 'import',
+        }
+      }
+    ],
+    contentItem: [
+      {
+        callback: props.onPfunctionRun,
+        icon: {
+          type: 'MaterialCommunityIcons',
+          name: 'play',
+        }
+      }
+    ]
+  }
+
+  return (
+    <SearchListCommon
+      data={data}
+      resultsCount={resultsCount}
+      filter={filter}
+      styles={props.styles}
+      buttons={buttons}
+      onGoToSearch={props.onGoToSearch}
+      onPreviousPage={props.onPreviousPage}
+      onAddListPage={props.onAddListPage}
+      onGoToWorkspace={props.onGoToWorkspace}
+      treedataLen={props.treedataLen}
+    />
+  )
+}
+
+export function SearchListdTypeValues(props) {
+  const { whereFilter, filter } = props;
+
+  filter.where = whereFilter;
+  delete filter.include;
+
+  console.log('!!!!!!!! SearchListdTypeValues !!!!!!!')
+
+  let { data, error } = useSearchResults(filter, 'dtypei');
+  const { data: count } = useSearchCount(filter, 'dtypei');
+  const resultsCount = count ? count.count : 0;
+
+  if (error) return <div>failed to load</div>
+  if (!data) return <div>loading...</div>
+
+  console.log('dtypei data', data)
+  console.log('dtypei count', resultsCount);
+
+  data = data.map(item => {
+    const it = JSON.parse(JSON.stringify(item))
+    it.data = it;
+    it.data.name = it.dtype_name + ': ' + it.value;
+    return it;
+  })
+
+  const buttons = {
+    header: [
+      {
+        callback: props.onSelect,
+        icon: {
+          type: 'MaterialCommunityIcons',
+          name: 'import',
+        }
+      }
+    ],
+  }
+
+  return (
+    <SearchListCommon
+      data={data}
+      resultsCount={resultsCount}
+      filter={filter}
+      styles={props.styles}
+      buttons={buttons}
+      onGoToSearch={props.onGoToSearch}
+      onPreviousPage={props.onPreviousPage}
+      onAddListPage={props.onAddListPage}
+      onGoToWorkspace={props.onGoToWorkspace}
+      treedataLen={props.treedataLen}
+    />
+  )
+}
+
 const styles = StyleSheet.create(
   {
     buttonStyle: {

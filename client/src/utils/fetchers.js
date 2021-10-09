@@ -15,6 +15,10 @@ export const pclassApi = () => `${PIPEOS_SERVER.host}${PIPEOS_SERVER.route.pclas
 
 export const pfunctionApi = () => `${PIPEOS_SERVER.host}${PIPEOS_SERVER.route.pfunction}`;
 
+export const dtypeApi = `${PIPEOS_SERVER.host}${PIPEOS_SERVER.route.dtype}`;
+
+export const dtypeiApi = `${PIPEOS_SERVER.host}${PIPEOS_SERVER.route.dtypei}`;
+
 export const pclassWithPfuncApi = (filter = {}, type = 'pclass') => {
   let relations = [];
   if (type === 'pclass') {
@@ -34,7 +38,7 @@ export const pclassWithPfuncApi = (filter = {}, type = 'pclass') => {
 
   filter = {...filter, include: relations};
 
-  console.log('filter', filter, JSON.stringify(filter));
+  console.log('filter', type, filter, JSON.stringify(filter));
   return `${PIPEOS_SERVER.host}/${type}?filter=${JSON.stringify(filter)}`;
 }
 
@@ -55,4 +59,28 @@ export function useSearchResults(filter, type = 'pclass') {
 
 export function useSearchCount(filter, type = 'pclass') {
   return useSWR(pclassCount(filter, type), fetcher, DEFAULT_OPTIONS)
+}
+
+export const insertType = async data => {
+  console.log('insertType', dtypeApi, data)
+  const res = await fetch(dtypeApi, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  })
+  return await res.json();
+}
+
+export const insertTypeValue = async data => {
+  console.log('insertTypeValue', dtypeiApi, data)
+  const res = await fetch(dtypeiApi, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  })
+  return await res.json();
 }

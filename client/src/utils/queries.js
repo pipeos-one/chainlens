@@ -2,9 +2,10 @@ export const buildWhereQueries = (genQuery) => {
   let pclassWhere = {};
   let pfunctionWhere = {};
   let pclassiWhere = {};
+  let dtypeWhere = {};
 
   if (!genQuery.text) return { pclassWhere, pfunctionWhere, pclassiWhere };
-
+  console.log('genQuery', genQuery)
   switch(genQuery.field) {
     case 'name':
       pclassWhere['data.name'] = {like: genQuery.text, options: 'i'};
@@ -16,11 +17,15 @@ export const buildWhereQueries = (genQuery) => {
     case 'signature':
       pfunctionWhere['data.signature'] = genQuery.text;
       break;
+    case 'dtype':
+      dtypeWhere['data.identifier'] = genQuery.text;
+      break;
     default:
       console.error('Invalid search parameters: ', genQuery);
       break;
   }
-  return { pclassWhere, pfunctionWhere, pclassiWhere };
+  console.log('buildWhereQueries dtypeWhere', JSON.stringify(dtypeWhere));
+  return { pclassWhere, pfunctionWhere, pclassiWhere, dtypeWhere };
 }
 
 export const buildWhereFx = (fxQuery) => {

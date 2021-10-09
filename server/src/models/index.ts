@@ -8,3 +8,4 @@ export * from './pclass.model';
 export * from './pclass-instance.model';
 export * from './ppackage.model';
 export * from './pgraph.model';
+export * from './type-instance.model';

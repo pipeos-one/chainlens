@@ -19,6 +19,7 @@ import {
 } from '@loopback/rest';
 import {Dtype} from '../models';
 import {DtypeRepository} from '../repositories';
+import {gapiFilter} from '../utils/filter';
 
 export class DtypeController {
   constructor(
@@ -61,7 +62,17 @@ export class DtypeController {
   async count(
     @param.query.object('where', getWhereSchemaFor(Dtype)) where?: Where<Dtype>,
   ): Promise<Count> {
-    return this.dtypeRepository.count(where);
+    // return this.dtypeRepository.count(where);
+
+    const lowlevelQuery = gapiFilter('dtype', { where }, 'COUNT(*)');
+    if (!lowlevelQuery) {
+      return this.dtypeRepository.count(where);
+    }
+    const result = await this.dtypeRepository.dataSource.execute(lowlevelQuery);
+    if (result && result.length > 0) {
+      return result[0];
+    }
+    return {count: 0};
   }
 
   @get('/dtype', {
@@ -82,7 +93,32 @@ export class DtypeController {
   async find(
     @param.query.object('filter', getFilterSchemaFor(Dtype)) filter?: Filter<Dtype>,
   ): Promise<Dtype[]> {
-    return this.dtypeRepository.find(filter);
+    // return this.dtypeRepository.find(filter);
+
+    let lowlevelQuery;
+    filter = filter || {};
+    if (filter.include) {
+      lowlevelQuery = gapiFilter('dtype', filter, '_id');
+    } else {
+      lowlevelQuery = gapiFilter('dtype', filter);
+    }
+
+    if (!lowlevelQuery) {
+      return this.dtypeRepository.find(filter);
+    }
+
+    if (!filter.include) {
+      return this.dtypeRepository.dataSource.execute(lowlevelQuery);
+    }
+    const items = await this.dtypeRepository.dataSource.execute(lowlevelQuery);
+    let itemsInclude: Dtype[] = [];
+
+    for (let i = 0; i < items.length; i++) {
+      const newFilter = {where: {_id: items[i]._id}, include: filter.include};
+      const itemInclude: Dtype[] = await this.dtypeRepository.find(newFilter);
+      itemsInclude = itemsInclude.concat(itemInclude);
+    }
+    return itemsInclude;
   }
 
   @patch('/dtype', {

@@ -1,5 +1,5 @@
 import {Model, model, property} from '@loopback/repository';
-import {DtypeComponent} from './dtype-component.model';
+// import {DtypeComponent} from './dtype-component.model';
 
 @model()
 export class DtypeData extends Model {
@@ -13,57 +13,44 @@ export class DtypeData extends Model {
     type: 'string',
     required: true,
   })
-  identifier: string;  // encoded name
+  identifier: string;  // type_id
 
   @property({
-    type: 'number',
-    required: true,
+    type: 'string',
+    // required: true,
   })
-  typeChoice: number;
+  abstractIdentifier: string;  // abstract type id
 
-  @property({
-    type: 'boolean',
-    required: true,
-  })
-  hasSlotSize: boolean;
+  // @property({
+  //   type: 'array',
+  //   itemType: 'object',
+  //   // required: true,
+  //   default: [],
+  //   postgresql: {
+  //     dataType: "jsonb",
+  //   },
+  // })
+  // steps: dTypeStep[];
 
+  // entire insert input
   @property({
-    type: 'array',
-    itemType: 'object',
+    type: 'string',
     required: true,
-    default: [],
-    postgresql: {
-      dataType: "jsonb",
-    },
   })
-  inputs: DtypeComponent[];
+  input: string; // hex inputs
 
+  // instantiation json
+  // abi format with needed arguments
   @property({
-    type: 'array',
-    itemType: 'object',
+    type: 'object',
     required: true,
-    default: [],
-    postgresql: {
-      dataType: "jsonb",
-    },
   })
-  optionals: DtypeComponent[];
-
-  @property({
-    type: 'array',
-    itemType: 'object',
-    required: true,
-    default: [],
-    postgresql: {
-      dataType: "jsonb",
-    },
-  })
-  outputs: DtypeComponent[];
+  inputArgs: object; // hex inputs
 
   @property({
     type: 'array',
     itemType: 'string',
-    required: true,
+    // required: true,
     default: [],
   })
   synsets: string[];  // bytes32[]
