@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet } from 'react-native';
+// import { StyleSheet } from 'react-native';
 import {
   View,
   Icon,
@@ -164,10 +164,10 @@ export default class IoGapi extends Component {
   }
 }
 
-const styles = StyleSheet.create(
-  {
-    buttonStyle: {
-      backgroundColor: '#cccccc',
-    },
-  }
-)
+// const styles = StyleSheet.create(
+//   {
+//     buttonStyle: {
+//       backgroundColor: '#cccccc',
+//     },
+//   }
+// )
