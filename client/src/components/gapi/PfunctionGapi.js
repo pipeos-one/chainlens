@@ -88,7 +88,7 @@ export class PfunctionGapi extends Component {
       || pfunction.data.gapi.stateMutability === 'nonpayable'
     ) {
       outputs = PRERECEIPT_TYPE.components;
-      signatureOut = 'receipt' + `(${outputs.map(inp => this.typesig(inp)).join(',')})`;
+      signatureOut = `receipt(${outputs.map(inp => this.typesig(inp)).join(',')})`;
     }
 
     return outputs.length > 0 ? {
