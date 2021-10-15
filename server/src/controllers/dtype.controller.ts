@@ -2,6 +2,7 @@ import {
   Count,
   CountSchema,
   Filter,
+  FilterExcludingWhere,
   repository,
   Where,
 } from '@loopback/repository';
@@ -9,13 +10,12 @@ import {
   post,
   param,
   get,
-  getFilterSchemaFor,
   getModelSchemaRef,
-  getWhereSchemaFor,
   patch,
   put,
   del,
   requestBody,
+  response,
 } from '@loopback/rest';
 import {Dtype} from '../models';
 import {DtypeRepository} from '../repositories';
@@ -26,13 +26,10 @@ export class DtypeController {
     public dtypeRepository : DtypeRepository,
   ) {}
 
-  @post('/dtype', {
-    responses: {
-      '200': {
-        description: 'Dtype model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Dtype)}},
-      },
-    },
+  @post('/dtype')
+  @response(200, {
+    description: 'Dtype model instance',
+    content: {'application/json': {schema: getModelSchemaRef(Dtype)}},
   })
   async create(
     @requestBody({
@@ -50,48 +47,39 @@ export class DtypeController {
     return this.dtypeRepository.create(dtype);
   }
 
-  @get('/dtype/count', {
-    responses: {
-      '200': {
-        description: 'Dtype model count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
+  @get('/dtype/count')
+  @response(200, {
+    description: 'Dtype model count',
+    content: {'application/json': {schema: CountSchema}},
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(Dtype)) where?: Where<Dtype>,
+    @param.where(Dtype) where?: Where<Dtype>,
   ): Promise<Count> {
     return this.dtypeRepository.count(where);
   }
 
-  @get('/dtype', {
-    responses: {
-      '200': {
-        description: 'Array of Dtype model instances',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'array',
-              items: getModelSchemaRef(Dtype, {includeRelations: true}),
-            },
-          },
+  @get('/dtype')
+  @response(200, {
+    description: 'Array of Dtype model instances',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: getModelSchemaRef(Dtype, {includeRelations: true}),
         },
       },
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(Dtype)) filter?: Filter<Dtype>,
+    @param.filter(Dtype) filter?: Filter<Dtype>,
   ): Promise<Dtype[]> {
     return this.dtypeRepository.find(filter);
   }
 
-  @patch('/dtype', {
-    responses: {
-      '200': {
-        description: 'Dtype PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
+  @patch('/dtype')
+  @response(200, {
+    description: 'Dtype PATCH success count',
+    content: {'application/json': {schema: CountSchema}},
   })
   async updateAll(
     @requestBody({
@@ -102,36 +90,30 @@ export class DtypeController {
       },
     })
     dtype: Dtype,
-    @param.query.object('where', getWhereSchemaFor(Dtype)) where?: Where<Dtype>,
+    @param.where(Dtype) where?: Where<Dtype>,
   ): Promise<Count> {
     return this.dtypeRepository.updateAll(dtype, where);
   }
 
-  @get('/dtype/{id}', {
-    responses: {
-      '200': {
-        description: 'Dtype model instance',
-        content: {
-          'application/json': {
-            schema: getModelSchemaRef(Dtype, {includeRelations: true}),
-          },
-        },
+  @get('/dtype/{id}')
+  @response(200, {
+    description: 'Dtype model instance',
+    content: {
+      'application/json': {
+        schema: getModelSchemaRef(Dtype, {includeRelations: true}),
       },
     },
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.query.object('filter', getFilterSchemaFor(Dtype)) filter?: Filter<Dtype>
+    @param.filter(Dtype, {exclude: 'where'}) filter?: FilterExcludingWhere<Dtype>
   ): Promise<Dtype> {
     return this.dtypeRepository.findById(id, filter);
   }
 
-  @patch('/dtype/{id}', {
-    responses: {
-      '204': {
-        description: 'Dtype PATCH success',
-      },
-    },
+  @patch('/dtype/{id}')
+  @response(204, {
+    description: 'Dtype PATCH success',
   })
   async updateById(
     @param.path.string('id') id: string,
@@ -147,12 +129,9 @@ export class DtypeController {
     await this.dtypeRepository.updateById(id, dtype);
   }
 
-  @put('/dtype/{id}', {
-    responses: {
-      '204': {
-        description: 'Dtype PUT success',
-      },
-    },
+  @put('/dtype/{id}')
+  @response(204, {
+    description: 'Dtype PUT success',
   })
   async replaceById(
     @param.path.string('id') id: string,
@@ -161,12 +140,9 @@ export class DtypeController {
     await this.dtypeRepository.replaceById(id, dtype);
   }
 
-  @del('/dtype/{id}', {
-    responses: {
-      '204': {
-        description: 'Dtype DELETE success',
-      },
-    },
+  @del('/dtype/{id}')
+  @response(204, {
+    description: 'Dtype DELETE success',
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.dtypeRepository.deleteById(id);

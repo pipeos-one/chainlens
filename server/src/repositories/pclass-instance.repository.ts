@@ -1,7 +1,7 @@
-import {DefaultCrudRepository, repository, BelongsToAccessor} from '@loopback/repository';
-import {PclassInstance, PclassInstanceRelations, Pclass} from '../models';
-import {YugabyteDataSource} from '../datasources';
 import {inject, Getter} from '@loopback/core';
+import {DefaultCrudRepository, repository, BelongsToAccessor} from '@loopback/repository';
+import {YugabyteDataSource} from '../datasources';
+import {PclassInstance, PclassInstanceRelations, Pclass} from '../models';
 import {PclassRepository} from './pclass.repository';
 
 export class PclassInstanceRepository extends DefaultCrudRepository<

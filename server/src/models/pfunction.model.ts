@@ -1,8 +1,8 @@
 import {Entity, Model, model, property, belongsTo} from '@loopback/repository';
-import {Metadata} from './metadata.model';
-import {SourceByLanguage} from './sources.model';
 import {GapiFunction} from './gapi.model';
+import {Metadata} from './metadata.model';
 import {NatspecMethod} from './natspec.model';
+import {SourceByLanguage} from './sources.model';
 import {Pclass} from './pclass.model';
 
 @model()

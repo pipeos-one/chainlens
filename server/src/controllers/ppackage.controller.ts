@@ -2,6 +2,7 @@ import {
   Count,
   CountSchema,
   Filter,
+  FilterExcludingWhere,
   repository,
   Where,
 } from '@loopback/repository';
@@ -9,13 +10,12 @@ import {
   post,
   param,
   get,
-  getFilterSchemaFor,
   getModelSchemaRef,
-  getWhereSchemaFor,
   patch,
   put,
   del,
   requestBody,
+  response,
 } from '@loopback/rest';
 import {Ppackage} from '../models';
 import {PpackageRepository} from '../repositories';
@@ -26,13 +26,10 @@ export class PpackageController {
     public ppackageRepository : PpackageRepository,
   ) {}
 
-  @post('/ppackage', {
-    responses: {
-      '200': {
-        description: 'Ppackage model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Ppackage)}},
-      },
-    },
+  @post('/ppackage')
+  @response(200, {
+    description: 'Ppackage model instance',
+    content: {'application/json': {schema: getModelSchemaRef(Ppackage)}},
   })
   async create(
     @requestBody({
@@ -50,48 +47,39 @@ export class PpackageController {
     return this.ppackageRepository.create(ppackage);
   }
 
-  @get('/ppackage/count', {
-    responses: {
-      '200': {
-        description: 'Ppackage model count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
+  @get('/ppackage/count')
+  @response(200, {
+    description: 'Ppackage model count',
+    content: {'application/json': {schema: CountSchema}},
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(Ppackage)) where?: Where<Ppackage>,
+    @param.where(Ppackage) where?: Where<Ppackage>,
   ): Promise<Count> {
     return this.ppackageRepository.count(where);
   }
 
-  @get('/ppackage', {
-    responses: {
-      '200': {
-        description: 'Array of Ppackage model instances',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'array',
-              items: getModelSchemaRef(Ppackage, {includeRelations: true}),
-            },
-          },
+  @get('/ppackage')
+  @response(200, {
+    description: 'Array of Ppackage model instances',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: getModelSchemaRef(Ppackage, {includeRelations: true}),
         },
       },
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(Ppackage)) filter?: Filter<Ppackage>,
+    @param.filter(Ppackage) filter?: Filter<Ppackage>,
   ): Promise<Ppackage[]> {
     return this.ppackageRepository.find(filter);
   }
 
-  @patch('/ppackage', {
-    responses: {
-      '200': {
-        description: 'Ppackage PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
+  @patch('/ppackage')
+  @response(200, {
+    description: 'Ppackage PATCH success count',
+    content: {'application/json': {schema: CountSchema}},
   })
   async updateAll(
     @requestBody({
@@ -102,36 +90,30 @@ export class PpackageController {
       },
     })
     ppackage: Ppackage,
-    @param.query.object('where', getWhereSchemaFor(Ppackage)) where?: Where<Ppackage>,
+    @param.where(Ppackage) where?: Where<Ppackage>,
   ): Promise<Count> {
     return this.ppackageRepository.updateAll(ppackage, where);
   }
 
-  @get('/ppackage/{id}', {
-    responses: {
-      '200': {
-        description: 'Ppackage model instance',
-        content: {
-          'application/json': {
-            schema: getModelSchemaRef(Ppackage, {includeRelations: true}),
-          },
-        },
+  @get('/ppackage/{id}')
+  @response(200, {
+    description: 'Ppackage model instance',
+    content: {
+      'application/json': {
+        schema: getModelSchemaRef(Ppackage, {includeRelations: true}),
       },
     },
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.query.object('filter', getFilterSchemaFor(Ppackage)) filter?: Filter<Ppackage>
+    @param.filter(Ppackage, {exclude: 'where'}) filter?: FilterExcludingWhere<Ppackage>
   ): Promise<Ppackage> {
     return this.ppackageRepository.findById(id, filter);
   }
 
-  @patch('/ppackage/{id}', {
-    responses: {
-      '204': {
-        description: 'Ppackage PATCH success',
-      },
-    },
+  @patch('/ppackage/{id}')
+  @response(204, {
+    description: 'Ppackage PATCH success',
   })
   async updateById(
     @param.path.string('id') id: string,
@@ -147,12 +129,9 @@ export class PpackageController {
     await this.ppackageRepository.updateById(id, ppackage);
   }
 
-  @put('/ppackage/{id}', {
-    responses: {
-      '204': {
-        description: 'Ppackage PUT success',
-      },
-    },
+  @put('/ppackage/{id}')
+  @response(204, {
+    description: 'Ppackage PUT success',
   })
   async replaceById(
     @param.path.string('id') id: string,
@@ -161,12 +140,9 @@ export class PpackageController {
     await this.ppackageRepository.replaceById(id, ppackage);
   }
 
-  @del('/ppackage/{id}', {
-    responses: {
-      '204': {
-        description: 'Ppackage DELETE success',
-      },
-    },
+  @del('/ppackage/{id}')
+  @response(204, {
+    description: 'Ppackage DELETE success',
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.ppackageRepository.deleteById(id);

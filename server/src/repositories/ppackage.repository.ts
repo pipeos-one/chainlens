@@ -1,7 +1,7 @@
-import {DefaultCrudRepository, repository, HasManyRepositoryFactory} from '@loopback/repository';
-import {Ppackage, PpackageRelations, Pclass} from '../models';
-import {YugabyteDataSource} from '../datasources';
 import {inject, Getter} from '@loopback/core';
+import {DefaultCrudRepository, repository, HasManyRepositoryFactory} from '@loopback/repository';
+import {YugabyteDataSource} from '../datasources';
+import {Ppackage, PpackageRelations, Pclass} from '../models';
 import {PclassRepository} from './pclass.repository';
 
 export class PpackageRepository extends DefaultCrudRepository<

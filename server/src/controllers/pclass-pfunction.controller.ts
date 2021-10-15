@@ -3,7 +3,7 @@ import {
   CountSchema,
   Filter,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -13,16 +13,15 @@ import {
   param,
   patch,
   post,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {
-  Pclass,
-  Pfunction,
   GapiFunction,
-  Natspec,
+  Natspec, Pclass,
+  Pfunction
 } from '../models';
 import {PclassRepository} from '../repositories';
-import {getSignatureString, getSignature} from '../utils/gapi';
+import {getSignature, getSignatureString} from '../utils/gapi';
 
 export class PclassPfunctionController {
   constructor(
@@ -122,14 +121,12 @@ export class PclassPfunctionController {
   async createFunctionsFromPClass(
     @param.path.string('id') id: typeof Pclass.prototype._id,
   ): Promise<Count> {
-    let count: Count = {count: 0};
-    let pclass: Pclass = await this.pclassRepository.findById(id);
+    const count: Count = {count: 0};
+    const pclass: Pclass = await this.pclassRepository.findById(id);
 
-    let gapi: GapiFunction[], natspec: Natspec;
-    let emptydoc = {methods: {}};
-
-    gapi = pclass.data.gapi || [];
-    natspec = pclass.data.natspec || emptydoc;
+    const emptydoc = {methods: {}};
+    const gapi: GapiFunction[] = pclass.data.gapi || [];
+    const natspec: Natspec = pclass.data.natspec || emptydoc;
 
     const existCount = await this.pclassRepository.pfunctions(id).find();
     if (existCount.length === gapi.length) {
@@ -137,46 +134,46 @@ export class PclassPfunctionController {
       return count;
     }
 
-    for (let i = 0; i < gapi.length; i++) {
-        let funcapi: GapiFunction = gapi[i];
+    for (const funcapi of gapi) {
+      // const funcapi: GapiFunction = gapi[i];
 
-        const exists = await this.pclassRepository.pfunctions(id).find(
-          JSON.parse(JSON.stringify({where: {'data.name': funcapi.name}}))
-        );
-        if (exists && exists.length > 0) {
-          continue;
-        }
+      const exists = await this.pclassRepository.pfunctions(id).find(
+        JSON.parse(JSON.stringify({where: {'data.name': funcapi.name}}))
+      );
+      if (exists && exists.length > 0) {
+        continue;
+      }
 
-        let functiondoc;
-        let signature: string = getSignature(funcapi);
-        let signatureString: string = getSignatureString(funcapi);
-        // TODO? sourceByFunctionName: any;
-        // sourceByFunctionName = (<JsClass>pclass.pclass).sourceByFunctionName;
-        // const sources: PFunctionSources = {};
-        // if (sourceByFunctionName) {
-        //   sources[pclass.type] = sourceByFunctionName[funcapi.name];
-        // }
-        functiondoc = {
-            data: {
-                name: funcapi.name,
-                signature,
-                signatureString,
-                gapi: funcapi,
-                natspec: natspec.methods[signatureString],
-                // sources,
-            },
-            metadata: pclass.metadata,
-            timestamp: pclass.timestamp,
-        }
-        let pfunction = await this.pclassRepository.pfunctions(id).create(functiondoc);
+      const signature: string = getSignature(funcapi);
+      const signatureString: string = getSignatureString(funcapi);
+      // TODO? sourceByFunctionName: any;
+      // sourceByFunctionName = (<JsClass>pclass.pclass).sourceByFunctionName;
+      // const sources: PFunctionSources = {};
+      // if (sourceByFunctionName) {
+      //   sources[pclass.type] = sourceByFunctionName[funcapi.name];
+      // }
+      const functiondoc = {
+        data: {
+          name: funcapi.name,
+          signature,
+          signatureString,
+          gapi: funcapi,
+          natspec: natspec.methods[signatureString],
+          // sources,
+        },
+        metadata: pclass.metadata,
+        timestamp: pclass.timestamp,
+      }
+      const pfunction = await this.pclassRepository.pfunctions(id).create(functiondoc);
 
-        const created = await this.pclassRepository.pfunctions(id).find({where: {_id: pfunction._id}});
-        if (!created || created.length === 0) {
-            throw new Error(`Function ${functiondoc.data.gapi}was not created.`)
-        };
-        count.count += 1;
+      const created = await this.pclassRepository.pfunctions(id).find({where: {_id: pfunction._id}});
+      if (!created || created.length === 0) {
+        throw new Error(`Function ${functiondoc.data.gapi}was not created.`)
+      };
+      count.count += 1;
     };
 
     return count;
   }
 }
+

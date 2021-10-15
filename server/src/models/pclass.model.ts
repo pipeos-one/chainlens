@@ -1,10 +1,10 @@
 import {Entity, Model, model, property, hasMany, belongsTo} from '@loopback/repository';
-import {SourceByLanguage} from './sources.model';
-import {Metadata} from './metadata.model';
 import {GapiFunction} from './gapi.model';
+import {Metadata} from './metadata.model';
 import {Natspec} from './natspec.model';
-import {Pfunction} from './pfunction.model';
+import {SourceByLanguage} from './sources.model';
 import {PclassInstance} from './pclass-instance.model';
+import {Pfunction} from './pfunction.model';
 import {Ppackage} from './ppackage.model';
 
 @model()
@@ -120,12 +120,11 @@ export class Pclass extends Entity {
     default: new Date(),
   })
   timestamp: string;
+  @hasMany(() => PclassInstance, {keyTo: 'pclassid'})
+  pclassInstances: PclassInstance[];
 
   @hasMany(() => Pfunction, {keyTo: 'pclassid'})
   pfunctions: Pfunction[];
-
-  @hasMany(() => PclassInstance, {keyTo: 'pclassid'})
-  pclassInstances: PclassInstance[];
 
   @belongsTo(() => Ppackage, {name: 'ppackage'})
   ppackageid?: string;

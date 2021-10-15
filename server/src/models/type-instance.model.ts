@@ -1,9 +1,8 @@
 import {Entity, model, property} from '@loopback/repository';
-import {DtypeData} from './dtype-data.model';
-import {Metadata} from './metadata.model';
 
+// TODO: same data. model
 @model()
-export class Dtype extends Entity {
+export class TypeInstance extends Entity {
   @property({
     type: 'string',
     id: true,
@@ -18,47 +17,51 @@ export class Dtype extends Entity {
   _id: string;
 
   @property({
+    type: 'number',
+    required: true,
+  })
+  index: number;
+
+  @property({
     type: 'string',
-    // required: true,
+    required: true,
     postgresql: {
       dataType: 'uuid',
     },
   })
-  pclassid: string;
+  dtype_id: string;
 
   @property({
-    type: 'object',
+    type: 'string',
     required: true,
-    postgresql: {
-      dataType: "json",
-    },
   })
-  data: DtypeData;
+  dtype_identifier: string;  // 11000003
 
   @property({
-    type: 'date',
-    required: true,
-    default: new Date(),
+    type: 'string',
   })
-  timestamp: string;
+  dtype_name?: string;
 
   @property({
-    type: 'object',
+    type: 'string',
     required: true,
-    default: {},
-    postgresql: {
-      dataType: "jsonb",
-    },
   })
-  metadata: Metadata;
+  value: string;
 
-  constructor(data?: Partial<Dtype>) {
+  @property({
+    type: 'string',
+    required: true,
+  })
+  valueHex: string;
+
+
+  constructor(data?: Partial<TypeInstance>) {
     super(data);
   }
 }
 
-export interface DtypeRelations {
+export interface TypeInstanceRelations {
   // describe navigational properties here
 }
 
-export type DtypeWithRelations = Dtype & DtypeRelations;
+export type TypeInstanceWithRelations = TypeInstance & TypeInstanceRelations;

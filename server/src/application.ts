@@ -10,7 +10,9 @@ import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
 
-export class PipeosServerApplication extends BootMixin(
+export {ApplicationConfig};
+
+export class ChainlensApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
 ) {
   constructor(options: ApplicationConfig = {}) {
@@ -23,7 +25,7 @@ export class PipeosServerApplication extends BootMixin(
     this.static('/', path.join(__dirname, '../public'));
 
     // Customize @loopback/rest-explorer configuration here
-    this.bind(RestExplorerBindings.CONFIG).to({
+    this.configure(RestExplorerBindings.COMPONENT).to({
       path: '/explorer',
     });
     this.component(RestExplorerComponent);

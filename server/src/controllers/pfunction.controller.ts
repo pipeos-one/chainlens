@@ -2,20 +2,14 @@ import {
   Count,
   CountSchema,
   Filter,
+  FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getFilterSchemaFor,
-  getModelSchemaRef,
-  getWhereSchemaFor,
-  patch,
-  put,
-  del,
-  requestBody,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {Pfunction} from '../models';
 import {PfunctionRepository} from '../repositories';
@@ -24,16 +18,13 @@ import {gapiFilter} from '../utils/filter';
 export class PfunctionController {
   constructor(
     @repository(PfunctionRepository)
-    public pfunctionRepository : PfunctionRepository,
-  ) {}
+    public pfunctionRepository: PfunctionRepository,
+  ) { }
 
-  @post('/pfunction', {
-    responses: {
-      '200': {
-        description: 'Pfunction model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Pfunction)}},
-      },
-    },
+  @post('/pfunction')
+  @response(200, {
+    description: 'Pfunction model instance',
+    content: {'application/json': {schema: getModelSchemaRef(Pfunction)}},
   })
   async create(
     @requestBody({
@@ -51,18 +42,15 @@ export class PfunctionController {
     return this.pfunctionRepository.create(pfunction);
   }
 
-  @get('/pfunction/count', {
-    responses: {
-      '200': {
-        description: 'Pfunction model count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
+  @get('/pfunction/count')
+  @response(200, {
+    description: 'Pfunction model count',
+    content: {'application/json': {schema: CountSchema}},
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(Pfunction)) where?: Where<Pfunction>,
+    @param.where(Pfunction) where?: Where<Pfunction>,
   ): Promise<Count> {
-    const lowlevelQuery = gapiFilter('pfunction', { where }, 'COUNT(*)');
+    const lowlevelQuery = gapiFilter('pfunction', {where}, 'COUNT(*)');
     if (!lowlevelQuery) {
       return this.pfunctionRepository.count(where);
     }
@@ -73,26 +61,23 @@ export class PfunctionController {
     return {count: 0};
   }
 
-  @get('/pfunction', {
-    responses: {
-      '200': {
-        description: 'Array of Pfunction model instances',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'array',
-              items: getModelSchemaRef(Pfunction, {includeRelations: true}),
-            },
-          },
+  @get('/pfunction')
+  @response(200, {
+    description: 'Array of Pfunction model instances',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: getModelSchemaRef(Pfunction, {includeRelations: true}),
         },
       },
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(Pfunction)) filter?: Filter<Pfunction>,
+    @param.filter(Pfunction) filter?: Filter<Pfunction>,
   ): Promise<Pfunction[]> {
     let lowlevelQuery;
-    filter = filter || {};
+    filter = filter ?? {};
     if (filter.include) {
       lowlevelQuery = gapiFilter('pfunction', filter, '_id');
     } else {
@@ -108,21 +93,18 @@ export class PfunctionController {
     const pfunctions = await this.pfunctionRepository.dataSource.execute(lowlevelQuery);
     let pfunctionsInclude: Pfunction[] = [];
 
-    for (let i = 0; i < pfunctions.length; i++) {
-      const newFilter = {where: {_id: pfunctions[i]._id}, include: filter.include};
+    for (const pfunction of pfunctions) {
+      const newFilter = {where: {_id: pfunction._id}, include: filter.include};
       const pfuncInclude: Pfunction[] = await this.pfunctionRepository.find(newFilter);
       pfunctionsInclude = pfunctionsInclude.concat(pfuncInclude);
     }
     return pfunctionsInclude;
   }
 
-  @patch('/pfunction', {
-    responses: {
-      '200': {
-        description: 'Pfunction PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
+  @patch('/pfunction')
+  @response(200, {
+    description: 'Pfunction PATCH success count',
+    content: {'application/json': {schema: CountSchema}},
   })
   async updateAll(
     @requestBody({
@@ -133,36 +115,30 @@ export class PfunctionController {
       },
     })
     pfunction: Pfunction,
-    @param.query.object('where', getWhereSchemaFor(Pfunction)) where?: Where<Pfunction>,
+    @param.where(Pfunction) where?: Where<Pfunction>,
   ): Promise<Count> {
     return this.pfunctionRepository.updateAll(pfunction, where);
   }
 
-  @get('/pfunction/{id}', {
-    responses: {
-      '200': {
-        description: 'Pfunction model instance',
-        content: {
-          'application/json': {
-            schema: getModelSchemaRef(Pfunction, {includeRelations: true}),
-          },
-        },
+  @get('/pfunction/{id}')
+  @response(200, {
+    description: 'Pfunction model instance',
+    content: {
+      'application/json': {
+        schema: getModelSchemaRef(Pfunction, {includeRelations: true}),
       },
     },
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.query.object('filter', getFilterSchemaFor(Pfunction)) filter?: Filter<Pfunction>
+    @param.filter(Pfunction, {exclude: 'where'}) filter?: FilterExcludingWhere<Pfunction>
   ): Promise<Pfunction> {
     return this.pfunctionRepository.findById(id, filter);
   }
 
-  @patch('/pfunction/{id}', {
-    responses: {
-      '204': {
-        description: 'Pfunction PATCH success',
-      },
-    },
+  @patch('/pfunction/{id}')
+  @response(204, {
+    description: 'Pfunction PATCH success',
   })
   async updateById(
     @param.path.string('id') id: string,
@@ -178,12 +154,9 @@ export class PfunctionController {
     await this.pfunctionRepository.updateById(id, pfunction);
   }
 
-  @put('/pfunction/{id}', {
-    responses: {
-      '204': {
-        description: 'Pfunction PUT success',
-      },
-    },
+  @put('/pfunction/{id}')
+  @response(204, {
+    description: 'Pfunction PUT success',
   })
   async replaceById(
     @param.path.string('id') id: string,
@@ -192,12 +165,9 @@ export class PfunctionController {
     await this.pfunctionRepository.replaceById(id, pfunction);
   }
 
-  @del('/pfunction/{id}', {
-    responses: {
-      '204': {
-        description: 'Pfunction DELETE success',
-      },
-    },
+  @del('/pfunction/{id}')
+  @response(204, {
+    description: 'Pfunction DELETE success',
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.pfunctionRepository.deleteById(id);

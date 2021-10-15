@@ -1,10 +1,10 @@
-import {PipeosServerApplication} from './application';
+import {ChainlensApplication} from './application';
 
 export async function migrate(args: string[]) {
   const existingSchema = args.includes('--rebuild') ? 'drop' : 'alter';
   console.log('Migrating schemas (%s existing schema)', existingSchema);
 
-  const app = new PipeosServerApplication();
+  const app = new ChainlensApplication();
   await app.boot();
   await app.migrateSchema({existingSchema});
 

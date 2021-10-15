@@ -1,6 +1,6 @@
 import {Entity, Model, model, property, hasMany} from '@loopback/repository';
-import {Metadata} from './metadata.model';
 import {FilePointer} from './file-pointer.model';
+import {Metadata} from './metadata.model';
 import {Pclass} from './pclass.model';
 
 @model()

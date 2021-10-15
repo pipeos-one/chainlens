@@ -1,9 +1,9 @@
 import {Client} from '@loopback/testlab';
-import {PipeosServerApplication} from '../..';
+import {ChainlensApplication} from '../..';
 import {setupApplication} from './test-helper';
 
 describe('HomePage', () => {
-  let app: PipeosServerApplication;
+  let app: ChainlensApplication;
   let client: Client;
 
   before('setupApplication', async () => {

@@ -1,71 +1,71 @@
 import {Entity, Model, model, property, belongsTo} from '@loopback/repository';
-import {Metadata} from './metadata.model';
 import {Compiler, CompilerOutput} from './compiler.model';
+import {Metadata} from './metadata.model';
 import {Pclass} from './pclass.model';
 
 @model()
 export class OApiDeployment extends Model {
-    @property({
-      type: 'string',
-      required: true,
-    })
-    host: string;
+  @property({
+    type: 'string',
+    required: true,
+  })
+  host: string;
 
-    @property({
-      type: 'string',
-      required: true,
-    })
-    basePath: string;
+  @property({
+    type: 'string',
+    required: true,
+  })
+  basePath: string;
 
-    @property({
-      type: 'string',
-    })
-    oapiid?: string;
+  @property({
+    type: 'string',
+  })
+  oapiid?: string;
 }
 
 @model()
 export class SolidityDeployment extends Model {
-    @property({
-      type: 'string',
-      required: true,
-    })
-    address: string;
+  @property({
+    type: 'string',
+    required: true,
+  })
+  address: string;
 
-    @property({
-      type: 'string',
-    })
-    txhash?: string;  // 0x
+  @property({
+    type: 'string',
+  })
+  txhash?: string;  // 0x
 
-    @property({
-      type: 'string',
-    })
-    block?: string;  // 0x
+  @property({
+    type: 'string',
+  })
+  block?: string;  // 0x
 
-    @property({
-      type: 'string',
-    })
-    constructorArgs?: string;  // 0x
+  @property({
+    type: 'string',
+  })
+  constructorArgs?: string;  // 0x
 
-    @property({
-      type: 'number',
-      required: true,
-    })
-    chainid: number;
+  @property({
+    type: 'number',
+    required: true,
+  })
+  chainid: number;
 
-    @property({
-       type: 'string',
-    })
-    genesis_hash?: string;
+  @property({
+    type: 'string',
+  })
+  genesis_hash?: string;
 
-    @property({
-       type: 'string',
-    })
-    block_hash?: string;
+  @property({
+    type: 'string',
+  })
+  block_hash?: string;
 
-    @property({
-       type: 'string',
-    })
-    bip122_uri?: string;
+  @property({
+    type: 'string',
+  })
+  bip122_uri?: string;
 }
 
 

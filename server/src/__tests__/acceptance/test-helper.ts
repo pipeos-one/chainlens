@@ -1,4 +1,4 @@
-import {PipeosServerApplication} from '../..';
+import {ChainlensApplication} from '../..';
 import {
   createRestAppClient,
   givenHttpServerConfig,
@@ -14,7 +14,7 @@ export async function setupApplication(): Promise<AppWithClient> {
     // port: +process.env.PORT,
   });
 
-  const app = new PipeosServerApplication({
+  const app = new ChainlensApplication({
     rest: restConfig,
   });
 
@@ -27,6 +27,6 @@ export async function setupApplication(): Promise<AppWithClient> {
 }
 
 export interface AppWithClient {
-  app: PipeosServerApplication;
+  app: ChainlensApplication;
   client: Client;
 }
